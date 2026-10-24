@@ -38,16 +38,19 @@ npm run preview
 ## GitHub Pages
 
 Репозиторий: https://github.com/nadinfolc-debug/proekt_NP.AI  
-Адрес сайта: https://nadinfolc-debug.github.io/proekt_NP.AI/
+Сайт: https://nadinfolc-debug.github.io/proekt_NP.AI/
 
-Если открывается **белый экран**, Pages отдаёт исходники, а не сборку. Исправьте один раз:
+В репозитории лежит **исходный код на TypeScript/React** (`src/`). Браузер его не открывает напрямую. На Pages нужна **сборка** (HTML + JS) — она в папке `docs/` и публикуется workflow.
 
-1. Откройте https://github.com/nadinfolc-debug/proekt_NP.AI/settings/pages  
-2. **Build and deployment → Source** выберите **GitHub Actions**  
-   (или Branch: `gh-pages` / `/ (root)`)  
-3. Сохраните и обновите сайт (Ctrl+F5)
+Если белый экран — Pages сейчас смотрит в корень репозитория. Сделайте так:
 
-После пуша в `main` workflow собирает сайт (`npm run build:gh`) и публикует его.
+1. https://github.com/nadinfolc-debug/proekt_NP.AI/settings/pages  
+2. Source: **Deploy from a branch**  
+3. Branch: **main**, Folder: **/docs** → Save  
+   (или Source: **GitHub Actions**)  
+4. Обновите сайт: Ctrl+F5
+
+Локально собрать в `docs/`: `npm run build:gh` и скопировать содержимое `dist` в `docs`.
 
 ## Где менять тексты
 
