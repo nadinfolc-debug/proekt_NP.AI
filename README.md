@@ -37,11 +37,17 @@ npm run preview
 
 ## GitHub Pages
 
-Репозиторий: https://github.com/nadinfolc-debug/proekt_NP.AI
+Репозиторий: https://github.com/nadinfolc-debug/proekt_NP.AI  
+Адрес сайта: https://nadinfolc-debug.github.io/proekt_NP.AI/
 
-После пуша в `main` workflow `Deploy GitHub Pages` собирает сайт (`npm run build:gh`) и публикует его. В настройках репозитория → **Pages** → Source: **GitHub Actions**.
+Если открывается **белый экран**, Pages отдаёт исходники, а не сборку. Исправьте один раз:
 
-Адрес: https://nadinfolc-debug.github.io/proekt_NP.AI/
+1. Откройте https://github.com/nadinfolc-debug/proekt_NP.AI/settings/pages  
+2. **Build and deployment → Source** выберите **GitHub Actions**  
+   (или Branch: `gh-pages` / `/ (root)`)  
+3. Сохраните и обновите сайт (Ctrl+F5)
+
+После пуша в `main` workflow собирает сайт (`npm run build:gh`) и публикует его.
 
 ## Где менять тексты
 
