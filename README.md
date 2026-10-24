@@ -35,6 +35,14 @@ npm run preview
 
 Готовый сайт — папка `dist`. Её можно отдать на статический хостинг. Для адресов вроде `/projects/slug` хостинг должен отдавать `index.html`. В проекте уже есть `public/_redirects` для Netlify и копия `404.html` для части других хостингов.
 
+## GitHub Pages
+
+Репозиторий: https://github.com/nadinfolc-debug/proekt_NP.AI
+
+После пуша в `main` workflow `Deploy GitHub Pages` собирает сайт (`npm run build:gh`) и публикует его. В настройках репозитория → **Pages** → Source: **GitHub Actions**.
+
+Адрес: https://nadinfolc-debug.github.io/proekt_NP.AI/
+
 ## Где менять тексты
 
 - Услуги, процесс, вопросы, заголовки главной: `src/data/site.ts`
