@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { AdminPage } from "./pages/AdminPage";
 import { FaqPage } from "./pages/FaqPage";
 import { HomePage } from "./pages/HomePage";
+import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import { ProjectsPage, VideosRedirect } from "./pages/ProjectsPage";
@@ -27,16 +29,17 @@ function ScrollManager() {
   return null;
 }
 
-const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, "") || undefined;
+function Shell() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
 
-export function App() {
   return (
-    <BrowserRouter basename={routerBasename}>
+    <>
       <ScrollManager />
       <a className="skip" href="#main">
         К содержанию
       </a>
-      <Header />
+      {isAdmin ? null : <Header />}
       <main id="main">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -44,10 +47,23 @@ export function App() {
           <Route path="/projects/:slug" element={<ProjectPage />} />
           <Route path="/videos" element={<VideosRedirect />} />
           <Route path="/faq" element={<FaqPage />} />
+          <Route path="/privacy" element={<LegalPage kind="privacy" />} />
+          <Route path="/offer" element={<LegalPage kind="offer" />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      <Footer />
+      {isAdmin ? null : <Footer />}
+    </>
+  );
+}
+
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, "") || undefined;
+
+export function App() {
+  return (
+    <BrowserRouter basename={routerBasename}>
+      <Shell />
     </BrowserRouter>
   );
 }

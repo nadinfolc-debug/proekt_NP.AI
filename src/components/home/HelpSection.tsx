@@ -13,12 +13,25 @@ export function HelpSection() {
 
         <ScrollReveal as="ol" className="help-menu" stagger={100}>
           {helpBlocks.map((block) => (
-            <li className="help-item" key={block.n}>
+            <li
+              className={["help-item", block.flagship ? "is-flagship" : ""].filter(Boolean).join(" ")}
+              key={block.n}
+            >
               <p className="help-n" aria-hidden="true">
                 {block.n}
               </p>
-              <h3>{block.title}</h3>
-              <p>{block.text}</p>
+              <h3>
+                {block.flagship ? <span className="help-flag">Флагман</span> : null}
+                {block.title}
+              </h3>
+              <p>
+                <span className="help-label">Что входит</span>
+                {block.includes}
+              </p>
+              <p>
+                <span className="help-label">Для кого</span>
+                {block.audience}
+              </p>
             </li>
           ))}
         </ScrollReveal>

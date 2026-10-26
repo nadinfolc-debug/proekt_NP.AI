@@ -82,11 +82,11 @@ export function Hero() {
             className="hero-type-title"
             text={[...heroCopy.typed]}
             typingSpeed={75}
-            pauseDuration={2200}
+            pauseDuration={1800}
             deletingSpeed={35}
-            deleteMode="backspace"
+            deleteMode="vanish"
             typeEffect="fade"
-            mistakes={0.55}
+            mistakes={0}
             cursorStyle="bar"
             cursorGlide
             showCursor

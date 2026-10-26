@@ -83,9 +83,9 @@ export function Header() {
         </Link>
         <nav className="nav-desktop" aria-label="Разделы">
           {navItems.map((item) => {
+            const hash = item.href.includes("#") ? item.href.slice(item.href.indexOf("#")) : "";
             const current =
-              (item.href.startsWith("/projects") && location.pathname.startsWith("/projects")) ||
-              (item.href === "/faq" && location.pathname === "/faq");
+              location.pathname === "/" && hash && location.hash === hash;
             return (
               <Link
                 key={item.href}

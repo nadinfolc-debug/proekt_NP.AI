@@ -101,7 +101,7 @@ export type TextTypeProps = {
   initialDelay?: number;
   pauseDuration?: number;
   deletingSpeed?: number;
-  deleteMode?: "backspace" | "select";
+  deleteMode?: "backspace" | "select" | "vanish";
   loop?: boolean;
   className?: string;
   showCursor?: boolean;
@@ -325,8 +325,11 @@ export default function TextType({
         wait(pauseDuration, () => setIsDeleting(true));
       }
     } else if (shown > 0) {
-      if (reduceMotion) {
-        wait(0, () => setCount(0));
+      if (reduceMotion || deleteMode === "vanish") {
+        wait(deleteMode === "vanish" && !reduceMotion ? 280 : 0, () => {
+          setSelected(0);
+          setCount(0);
+        });
       } else if (deleteMode === "select") {
         if (selected < shown) {
           wait(deletingSpeed, () => setSelected(selected + 1));

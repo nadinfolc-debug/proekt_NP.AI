@@ -1,4 +1,5 @@
 import { CtaBand } from "../components/CtaBand";
+import { AboutSection } from "../components/home/AboutSection";
 import { HelpSection } from "../components/home/HelpSection";
 import { Hero } from "../components/home/Hero";
 import { PortfolioHandGallery } from "../components/PortfolioHandGallery";
@@ -18,7 +19,7 @@ export function HomePage() {
       </div>
 
       <div className="flow-slot flow-slot-works">
-        <section className="section media-band flow-panel flow-works" id="works" aria-label="Работы">
+        <section className="section media-band flow-panel flow-works" id="works" aria-label="Портфолио">
           <div className="container">
             <ScrollReveal>
               <PortfolioHandGallery />
@@ -29,6 +30,10 @@ export function HomePage() {
 
       <div className="flow-slot flow-slot-help">
         <HelpSection />
+      </div>
+
+      <div className="flow-slot flow-slot-about">
+        <AboutSection />
       </div>
 
       <div className="flow-slot flow-slot-cta">

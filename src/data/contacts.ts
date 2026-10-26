@@ -6,7 +6,8 @@ export const contacts = {
 } as const;
 
 export const navItems = [
-  { href: "/projects", label: "Работы" },
-  { href: "/#help", label: "Чем могу помочь" },
-  { href: "/faq", label: "Вопросы" },
+  { href: "/#works", label: "Портфолио" },
+  { href: "/#help", label: "Услуги" },
+  { href: "/#about", label: "О себе" },
+  { href: "/#contacts", label: "Обсудить проект" },
 ] as const;
