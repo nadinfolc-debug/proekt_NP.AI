@@ -646,11 +646,29 @@ section[id] {
   color: var(--media-text);
 }
 
+.header.is-over-hero .logo-sub {
+  color: color-mix(in srgb, var(--media-text) 72%, transparent);
+}
+
+.header.is-over-hero .menu-toggle {
+  border-color: color-mix(in srgb, var(--media-text) 42%, transparent);
+  color: var(--media-text);
+}
+
 .header.is-solid {
   background: color-mix(in srgb, var(--bg) 92%, transparent);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(12px);
   color: var(--text);
+}
+
+.header.is-solid .logo-sub {
+  color: var(--muted);
+}
+
+.header.is-solid .menu-toggle {
+  border-color: var(--line);
+  color: inherit;
 }
 
 .header-bar {
@@ -2112,9 +2130,9 @@ section[id] {
     --hero-pos: center 30%;
     --hero-zoom: 1;
     --hero-origin: center 30%;
-    /* Larger band on phone; still wider than cover nose-crop */
+    /* Keep size; center vertically to cut empty bands above/below */
     --hero-mobile-media-w: 168%;
-    --hero-mobile-media-top: 34%;
+    --hero-mobile-media-top: 46%;
     padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
   }
 
@@ -2182,8 +2200,8 @@ section[id] {
   }
 
   .hero-content {
-    /* Pull copy up so headline slightly overlaps the video band */
-    margin-top: -28px;
+    /* Pull copy up so headline slightly overlaps the centered video */
+    margin-top: -40px;
     padding-top: 0;
   }
 
@@ -2224,12 +2242,12 @@ section[id] {
     --hero-zoom: 1;
     --hero-origin: center 28%;
     --hero-mobile-media-w: 178%;
-    --hero-mobile-media-top: 32%;
+    --hero-mobile-media-top: 44%;
   }
 
   .hero-content {
     padding-right: 8px;
-    margin-top: -36px;
+    margin-top: -48px;
   }
 
   .hero h1,
