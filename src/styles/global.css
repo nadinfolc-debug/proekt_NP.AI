@@ -2112,10 +2112,10 @@ section[id] {
     --hero-pos: center 30%;
     --hero-zoom: 1;
     --hero-origin: center 30%;
-    /* ~112%: almost full source width — no nose/eyes-only phone crop */
-    --hero-mobile-media-w: 112%;
-    --hero-mobile-media-top: 40%;
-    padding-bottom: max(28px, env(safe-area-inset-bottom, 0px));
+    /* Larger band on phone; still wider than cover nose-crop */
+    --hero-mobile-media-w: 168%;
+    --hero-mobile-media-top: 34%;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
   }
 
   .hero .hero-media {
@@ -2181,22 +2181,36 @@ section[id] {
     }
   }
 
+  .hero-content {
+    /* Pull copy up so headline slightly overlaps the video band */
+    margin-top: -28px;
+    padding-top: 0;
+  }
+
   .hero h1,
   .hero-type-title {
-    font-size: clamp(26px, 7.2vw, 36px);
-    max-width: 12em;
+    font-size: clamp(20px, 5.4vw, 26px);
+    max-width: 16em;
+    line-height: 1.12;
+    text-shadow: 0 1px 18px rgba(18, 19, 22, 0.55);
   }
 
   .hero .lead {
-    font-size: 15px;
-    max-width: 28em;
+    font-size: 13px;
+    max-width: 32em;
+    margin-top: 10px;
+    text-shadow: 0 1px 14px rgba(18, 19, 22, 0.5);
+  }
+
+  .hero-link {
+    margin-top: 16px;
   }
 
   .hero-pause {
     right: 12px;
     bottom: max(16px, env(safe-area-inset-bottom, 0px));
     padding: 0 12px;
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
@@ -2209,16 +2223,26 @@ section[id] {
     --hero-pos: center 28%;
     --hero-zoom: 1;
     --hero-origin: center 28%;
-    --hero-mobile-media-w: 105%;
-    --hero-mobile-media-top: 38%;
+    --hero-mobile-media-w: 178%;
+    --hero-mobile-media-top: 32%;
   }
 
   .hero-content {
     padding-right: 8px;
+    margin-top: -36px;
+  }
+
+  .hero h1,
+  .hero-type-title {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .hero .lead {
+    font-size: 12.5px;
   }
 
   .hero-link {
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .hand-gallery {
