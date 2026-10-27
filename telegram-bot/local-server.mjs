@@ -47,7 +47,7 @@ function cors(res) {
 
 function sendJson(res, status, data) {
   cors(res);
-  res.writeHead(status, { "Content-Type": "application/json" });
+  res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(data));
 }
 
@@ -56,6 +56,27 @@ function escapeHtml(value) {
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+/** Cyrillic labels via \u escapes — same as worker.js */
+const T = {
+  title:
+    "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u0441 \u0441\u0430\u0439\u0442\u0430",
+  name: "\u0418\u043c\u044f",
+  contact: "\u0421\u0432\u044f\u0437\u044c",
+  task: "\u0417\u0430\u0434\u0430\u0447\u0430",
+};
+
+function buildMessage(name, contact, task) {
+  return [
+    `<b>${T.title}</b>`,
+    "",
+    `<b>${T.name}:</b> ${escapeHtml(name)}`,
+    `<b>${T.contact}:</b> ${escapeHtml(contact)}`,
+    "",
+    `<b>${T.task}:</b>`,
+    escapeHtml(task),
+  ].join("\n");
 }
 
 async function readBody(req) {
@@ -105,19 +126,11 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  const text = [
-    "<b>Новая заявка с сайта</b>",
-    "",
-    `<b>Имя:</b> ${escapeHtml(name)}`,
-    `<b>Связь:</b> ${escapeHtml(contact)}`,
-    "",
-    "<b>Задача:</b>",
-    escapeHtml(task),
-  ].join("\n");
+  const text = buildMessage(name, contact, task);
 
   const tgResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify({
       chat_id: CHAT_ID,
       text,

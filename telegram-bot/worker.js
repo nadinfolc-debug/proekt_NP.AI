@@ -1,10 +1,12 @@
 /**
- * Cloudflare Worker: принимает заявки с сайта и шлёт их админу в Telegram.
+ * Cloudflare Worker: site form -> Telegram admin alert.
  *
  * Secrets (wrangler secret put ...):
- *   BOT_TOKEN  — токен от @BotFather
- *   CHAT_ID    — ваш числовой chat_id
- *   SECRET     — общий секрет с сайтом (тот же, что VITE_NOTIFY_SECRET)
+ *   BOT_TOKEN  — token from @BotFather
+ *   CHAT_ID    — numeric chat id
+ *   SECRET     — shared with VITE_NOTIFY_SECRET
+ *
+ * Message labels use \u escapes so Cyrillic survives any deploy encoding.
  */
 
 const corsHeaders = {
@@ -13,10 +15,22 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, X-Notify-Secret",
 };
 
+/** Cyrillic labels (UTF-16 escapes — encoding-safe). */
+const T = {
+  title:
+    "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u0441 \u0441\u0430\u0439\u0442\u0430",
+  name: "\u0418\u043c\u044f",
+  contact: "\u0421\u0432\u044f\u0437\u044c",
+  task: "\u0417\u0430\u0434\u0430\u0447\u0430",
+};
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json", ...corsHeaders },
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...corsHeaders,
+    },
   });
 }
 
@@ -25,6 +39,18 @@ function escapeHtml(value) {
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+function buildMessage(name, contact, task) {
+  return [
+    `<b>${T.title}</b>`,
+    "",
+    `<b>${T.name}:</b> ${escapeHtml(name)}`,
+    `<b>${T.contact}:</b> ${escapeHtml(contact)}`,
+    "",
+    `<b>${T.task}:</b>`,
+    escapeHtml(task),
+  ].join("\n");
 }
 
 export default {
@@ -62,20 +88,12 @@ export default {
       return json({ ok: false, error: "Missing fields" }, 400);
     }
 
-    const text = [
-      "<b>Новая заявка с сайта</b>",
-      "",
-      `<b>Имя:</b> ${escapeHtml(name)}`,
-      `<b>Связь:</b> ${escapeHtml(contact)}`,
-      "",
-      "<b>Задача:</b>",
-      escapeHtml(task),
-    ].join("\n");
+    const text = buildMessage(name, contact, task);
 
     const telegramUrl = `https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`;
     const tgResponse = await fetch(telegramUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json; charset=utf-8" },
       body: JSON.stringify({
         chat_id: env.CHAT_ID,
         text,
