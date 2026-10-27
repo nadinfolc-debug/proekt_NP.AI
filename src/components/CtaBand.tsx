@@ -63,8 +63,8 @@ export function CtaBand({
             <div className="cta-receipt" role="status">
               <p className="cta-sent">
                 {status === "ok"
-                  ? "Заявка отправлена. Я свяжусь с вами."
-                  : "Заявка сохранена на этом устройстве. Уведомление в Telegram пока не настроено на сайте."}
+                  ? "Заявка отправлена. Я свяжусь с вами в Telegram."
+                  : "Заявка принята. Если сообщение в Telegram не пришло — напишите мне напрямую, уведомление могло не дойти."}
               </p>
               {receipt ? (
                 <dl className="cta-receipt-list">

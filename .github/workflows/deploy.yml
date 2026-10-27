@@ -1,19 +1,14 @@
-name: Deploy GitHub Pages
+name: Check site build
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
-# Skip when only docs/ changed by a previous deploy commit
 concurrency:
-  group: pages
+  group: build-check
   cancel-in-progress: true
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 jobs:
   build:
@@ -25,23 +20,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build:gh
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - name: Publish gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
-          force_orphan: true
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Build for GitHub Pages
+        env:
+          VITE_NOTIFY_URL: ${{ secrets.VITE_NOTIFY_URL }}
+          VITE_NOTIFY_SECRET: ${{ secrets.VITE_NOTIFY_SECRET }}
+        run: npm run build:gh
