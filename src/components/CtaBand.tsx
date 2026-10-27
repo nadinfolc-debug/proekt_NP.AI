@@ -5,7 +5,7 @@ import { notifyAdmin } from "../lib/notify";
 import { addApplication } from "../lib/store";
 import { ScrollReveal } from "./ScrollReveal";
 
-type SubmitStatus = "idle" | "sending" | "ok" | "saved";
+type SubmitStatus = "idle" | "sending" | "done";
 
 export function CtaBand({
   showFaqLink: _showFaqLink = true,
@@ -35,14 +35,14 @@ export function CtaBand({
     setReceipt(null);
 
     addApplication(payload);
-    const notified = await notifyAdmin(payload);
+    await notifyAdmin(payload);
 
     setReceipt(payload);
     setName("");
     setContact("");
     setTask("");
     setAgree(false);
-    setStatus(notified ? "ok" : "saved");
+    setStatus("done");
   };
 
   const resetForm = () => {
@@ -59,13 +59,9 @@ export function CtaBand({
             <p>{ctaCopy.text}</p>
           </div>
 
-          {status === "ok" || status === "saved" ? (
+          {status === "done" ? (
             <div className="cta-receipt" role="status">
-              <p className="cta-sent">
-                {status === "ok"
-                  ? "Заявка отправлена. Я свяжусь с вами в Telegram."
-                  : "Заявка принята. Если сообщение в Telegram не пришло — напишите мне напрямую, уведомление могло не дойти."}
-              </p>
+              <p className="cta-sent">Заявка отправлена. Я свяжусь с вами.</p>
               {receipt ? (
                 <dl className="cta-receipt-list">
                   <div>
