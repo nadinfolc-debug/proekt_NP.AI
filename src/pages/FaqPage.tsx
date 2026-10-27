@@ -25,7 +25,7 @@ export function FaqPage() {
     <article className="page">
       <Seo
         title="Вопросы и ответы — NP.AI Prikolota"
-        description="Как устроена работа NP.AI Prikolota: форматы, старт, сроки, правки и использование материалов. Можно написать о задаче в Telegram."
+        description="Как устроена работа NP.AI Prikolota: форматы, старт, сроки, правки и использование материалов. Можно написать о задаче через форму на сайте."
         jsonLd={jsonLd}
       />
       <div className="container faq-page">

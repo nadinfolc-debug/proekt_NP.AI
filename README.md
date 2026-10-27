@@ -55,15 +55,14 @@ npm run preview
 ## Где менять тексты
 
 - Услуги, процесс, вопросы, заголовки главной: `src/data/site.ts`
-- Telegram и ВКонтакте: `src/data/contacts.ts`
+- Навигация: `src/data/contacts.ts`
 - Проекты: `src/data/projects.ts`
 - Сравнение «исходник / сцена»: `src/data/compare.ts`
 - Цвета и шрифт: `src/styles/tokens.css`
 
-Контакты сейчас:
+Связь с клиентами — через форму «Обсудить проект» на сайте. Заявки смотрите в `/admin`.
 
-- https://t.me/NP_AI_N
-- https://vk.ru/np_ai_portfolio
+Уведомления о заявках в Telegram: папка `telegram-bot/` и инструкция `telegram-bot/README.md`.
 
 ## Как подставить свои материалы
 

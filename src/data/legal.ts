@@ -1,7 +1,7 @@
 export const legalMeta = {
   brand: "NP.AI Prikolota",
   operator: "Надежда (NP.AI Prikolota)",
-  contact: "https://t.me/NP_AI_N",
+  contact: "через форму «Обсудить проект» на сайте",
   emailPlaceholder: "укажите email для связи",
   updatedAt: "26 октября 2026",
 } as const;

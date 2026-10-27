@@ -49,7 +49,7 @@ export const ctaCopy = {
     },
     contact: {
       label: "Для связи",
-      placeholder: "Имя в ТГ или ссылку на другую соцсеть",
+      placeholder: "Удобный способ связи или ссылка на соцсеть",
     },
     task: {
       label: "Опиши задачу",

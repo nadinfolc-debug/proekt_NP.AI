@@ -5,6 +5,9 @@ dist
 .env
 .env.*
 !.env.drafts
+!.env.example
 .vite
 proekt_NP.AI
+telegram-bot/.wrangler
+telegram-bot/node_modules
 

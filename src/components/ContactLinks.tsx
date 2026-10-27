@@ -1,41 +1,17 @@
-import { contacts } from "../data/contacts";
-
-type Tone = "write" | "discuss";
-
-const labels: Record<Tone, { telegram: string; vk: string }> = {
-  write: {
-    telegram: "Обсудить в Telegram",
-    vk: "Написать во ВКонтакте",
-  },
-  discuss: {
-    telegram: "Обсудить в Telegram",
-    vk: "Написать во ВКонтакте",
-  },
-};
+import { Link } from "react-router-dom";
 
 export function ContactLinks({
-  tone = "write",
-  accent = "telegram",
+  label = "Обсудить проект",
 }: {
-  tone?: Tone;
+  tone?: "write" | "discuss";
   accent?: "telegram" | "none";
+  label?: string;
 }) {
-  const text = labels[tone];
   return (
     <div className="contact-links">
-      <a
-        className={accent === "telegram" ? "button button-accent" : "button"}
-        href={contacts.telegram}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {text.telegram}
-        <span className="visually-hidden">, откроется в новой вкладке</span>
-      </a>
-      <a className="button" href={contacts.vk} target="_blank" rel="noopener noreferrer">
-        {text.vk}
-        <span className="visually-hidden">, откроется в новой вкладке</span>
-      </a>
+      <Link className="button button-accent" to="/#contacts">
+        {label}
+      </Link>
     </div>
   );
 }

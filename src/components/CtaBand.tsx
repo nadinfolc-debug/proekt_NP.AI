@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { contacts } from "../data/contacts";
 import { ctaCopy } from "../data/site";
+import { notifyAdmin } from "../lib/notify";
 import { addApplication } from "../lib/store";
 import { ScrollReveal } from "./ScrollReveal";
 
@@ -15,30 +15,25 @@ export function CtaBand({
   const [task, setTask] = useState("");
   const [agree, setAgree] = useState(false);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!agree) return;
+    if (!agree || sending) return;
 
-    addApplication({
+    const payload = {
       name: name.trim(),
       contact: contact.trim(),
       task: task.trim(),
-    });
+    };
 
-    const message = [
-      "Здравствуйте! Хочу обсудить проект.",
-      "",
-      `Имя: ${name.trim()}`,
-      `Для связи: ${contact.trim()}`,
-      "",
-      "Задача:",
-      task.trim(),
-    ].join("\n");
+    setSending(true);
+    setSent(false);
 
-    const url = `${contacts.telegram}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    addApplication(payload);
+    await notifyAdmin(payload);
 
+    setSending(false);
     setName("");
     setContact("");
     setTask("");
@@ -108,10 +103,10 @@ export function CtaBand({
               </span>
             </label>
 
-            <button className="button button-accent" type="submit">
-              {ctaCopy.submit}
+            <button className="button button-accent" type="submit" disabled={sending}>
+              {sending ? "Отправка…" : ctaCopy.submit}
             </button>
-            {sent ? <p className="cta-sent">Заявка сохранена. Можно продолжить в мессенджере.</p> : null}
+            {sent ? <p className="cta-sent">Заявка отправлена. Я свяжусь с вами.</p> : null}
           </form>
         </ScrollReveal>
       </div>

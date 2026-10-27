@@ -1,0 +1,14 @@
+{
+  "name": "npai-telegram-notify",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret:bot": "wrangler secret put BOT_TOKEN",
+    "secret:chat": "wrangler secret put CHAT_ID",
+    "secret:key": "wrangler secret put SECRET"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}
