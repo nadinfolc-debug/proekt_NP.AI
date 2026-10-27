@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import {
+  ADMIN_LOGIN,
   ADMIN_PASSWORD,
   deleteApplication,
   deleteProduct,
@@ -28,6 +29,7 @@ const emptyProduct = {
 
 export function AdminPage() {
   const [authed, setAuthed] = useState(isAdminAuthed());
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [tab, setTab] = useState<Tab>("apps");
@@ -62,11 +64,12 @@ export function AdminPage() {
 
   const onLogin = (event: FormEvent) => {
     event.preventDefault();
-    if (!loginAdmin(password)) {
-      setError("Неверный пароль");
+    if (!loginAdmin(login, password)) {
+      setError("Неверный логин или пароль");
       return;
     }
     setError("");
+    setLogin("");
     setPassword("");
     setAuthed(true);
   };
@@ -99,6 +102,17 @@ export function AdminPage() {
           <p className="lead">Вход только для владельца сайта.</p>
           <form className="admin-login" onSubmit={onLogin}>
             <label className="cta-field">
+              <span className="cta-field-label">Логин</span>
+              <input
+                type="email"
+                value={login}
+                onChange={(event) => setLogin(event.target.value)}
+                required
+                autoComplete="username"
+                placeholder="nadin@admin.com"
+              />
+            </label>
+            <label className="cta-field">
               <span className="cta-field-label">Пароль</span>
               <input
                 type="password"
@@ -114,7 +128,11 @@ export function AdminPage() {
             </button>
           </form>
           <p className="admin-hint">
-            Пароль по умолчанию: <code>{ADMIN_PASSWORD}</code>. Смените через{" "}
+            Логин: <code>{ADMIN_LOGIN}</code>
+            <br />
+            Пароль по умолчанию: <code>{ADMIN_PASSWORD}</code>
+            <br />
+            Сменить можно через <code>VITE_ADMIN_LOGIN</code> и{" "}
             <code>VITE_ADMIN_PASSWORD</code> в <code>.env</code>.
           </p>
           <p className="legal-back">

@@ -171,15 +171,17 @@ export function deleteProduct(id: string) {
   );
 }
 
-/** Change via VITE_ADMIN_PASSWORD in .env if needed. Default for first setup. */
+/** Change via .env: VITE_ADMIN_LOGIN / VITE_ADMIN_PASSWORD */
+export const ADMIN_LOGIN = (import.meta.env.VITE_ADMIN_LOGIN || "nadin@admin.com").toLowerCase();
 export const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "npai2026";
 
 export function isAdminAuthed() {
   return sessionStorage.getItem(AUTH_KEY) === "1";
 }
 
-export function loginAdmin(password: string) {
-  if (password !== ADMIN_PASSWORD) return false;
+export function loginAdmin(login: string, password: string) {
+  const normalized = login.trim().toLowerCase();
+  if (normalized !== ADMIN_LOGIN || password !== ADMIN_PASSWORD) return false;
   sessionStorage.setItem(AUTH_KEY, "1");
   return true;
 }
