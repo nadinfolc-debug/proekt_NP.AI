@@ -1761,13 +1761,65 @@ section[id] {
 }
 
 @media (max-width: 980px) {
-  .nav-desktop,
+  :root {
+    /* Logo row + nav links row */
+    --header: 84px;
+  }
+
+  .header {
+    height: auto;
+    min-height: var(--header);
+    padding-block: 4px 6px;
+    align-items: stretch;
+  }
+
+  .header-bar {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 12px;
+    row-gap: 0;
+  }
+
   .header-contacts {
     display: none;
   }
 
+  /* Keep section links visible on phones (not only behind «Меню») */
+  .nav-desktop {
+    display: flex;
+    order: 3;
+    flex: 1 1 100%;
+    margin-left: 0;
+    gap: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-desktop::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-desktop a {
+    flex: 0 0 auto;
+    padding: 0 11px;
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .nav-desktop a:first-child {
+    padding-left: 0;
+  }
+
+  .nav-desktop a:last-child {
+    padding-right: 0;
+  }
+
   .menu-toggle {
-    display: inline-flex;
+    display: none;
   }
 }
 
