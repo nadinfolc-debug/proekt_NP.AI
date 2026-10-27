@@ -21,6 +21,16 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        // Always open the homepage from the top — ignore leftover #contacts etc.
+        if (location.hash) {
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+        window.scrollTo(0, 0);
+      })();
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -30,8 +40,8 @@
         "knowsLanguage": "ru"
       }
     </script>
-    <script type="module" crossorigin src="/proekt_NP.AI/assets/index-CJI7nJS_.js"></script>
-    <link rel="stylesheet" crossorigin href="/proekt_NP.AI/assets/index-CLMgo8UT.css">
+    <script type="module" crossorigin src="/proekt_NP.AI/assets/index-nJmxRoIQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/proekt_NP.AI/assets/index-gmIef77T.css">
   </head>
   <body>
     <div id="root"></div>

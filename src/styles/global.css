@@ -5,7 +5,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header) + 12px);
   background: var(--bg);
 }
@@ -353,17 +352,17 @@ p {
 
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translate3d(0, var(--motion-lift), 0);
   transition:
-    opacity 0.7s ease-out,
-    transform 0.7s ease-out;
+    opacity var(--motion-duration) var(--ease-out-expo),
+    transform var(--motion-duration) var(--ease-out-expo);
   transition-delay: var(--sr-delay, 0ms);
   will-change: opacity, transform;
 }
 
 .scroll-reveal.is-in {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .scroll-reveal-stagger {
@@ -375,28 +374,24 @@ p {
 
 .scroll-reveal-stagger .scroll-reveal-item {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translate3d(0, var(--motion-lift), 0);
   transition:
-    opacity 0.7s ease-out,
-    transform 0.7s ease-out;
+    opacity var(--motion-duration) var(--ease-out-expo),
+    transform var(--motion-duration) var(--ease-out-expo);
   transition-delay: var(--sr-delay, 0ms);
   will-change: opacity, transform;
 }
 
 .scroll-reveal-stagger.is-in .scroll-reveal-item {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 @media (max-width: 700px) {
-  .scroll-reveal {
-    transform: translateY(16px);
-    transition-duration: 0.55s;
-  }
-
+  .scroll-reveal,
   .scroll-reveal-stagger .scroll-reveal-item {
-    transform: translateY(16px);
-    transition-duration: 0.55s;
+    --motion-lift: 22px;
+    --motion-duration: 0.7s;
   }
 }
 
@@ -478,14 +473,27 @@ section[id] {
   text-align: center;
   letter-spacing: -0.02em;
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+    background 0.35s var(--ease-out-expo),
+    border-color 0.35s var(--ease-out-expo),
+    color 0.35s var(--ease-out-expo),
+    transform 0.45s var(--ease-out-expo),
+    box-shadow 0.45s var(--ease-out-expo);
 }
 
-.button:hover {
-  border-color: var(--accent-strong);
-  color: var(--accent-strong);
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    border-color: var(--accent-strong);
+    color: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+
+  .button-accent:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: #f8f7f4;
+    box-shadow: 0 14px 32px color-mix(in srgb, var(--accent-strong) 28%, transparent);
+  }
 }
 
 .button-accent {
@@ -495,10 +503,9 @@ section[id] {
   font-weight: 650;
 }
 
-.button-accent:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: #f8f7f4;
+.button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .cta-band {
@@ -869,11 +876,18 @@ section[id] {
   text-decoration: none;
   border-bottom: 1px solid color-mix(in srgb, var(--media-accent) 70%, currentColor);
   color: var(--media-text);
+  transition:
+    color 0.35s var(--ease-out-expo),
+    border-color 0.35s var(--ease-out-expo),
+    transform 0.45s var(--ease-out-expo);
 }
 
-.hero-link:hover {
-  color: var(--media-accent-hover);
-  border-bottom-color: var(--media-accent-hover);
+@media (hover: hover) and (pointer: fine) {
+  .hero-link:hover {
+    color: var(--media-accent-hover);
+    border-bottom-color: var(--media-accent-hover);
+    transform: translateY(-1px);
+  }
 }
 
 .hero-note {
@@ -929,14 +943,22 @@ section[id] {
   background: var(--surface);
   color: inherit;
   text-decoration: none;
+  transition:
+    border-color 0.4s var(--ease-out-expo),
+    transform 0.45s var(--ease-out-expo),
+    box-shadow 0.45s var(--ease-out-expo);
 }
 
 .panel-web {
   background: var(--bg-deep);
 }
 
-.panel:hover {
-  border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .panel:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
 }
 
 .panel-preview {
@@ -1429,6 +1451,15 @@ section[id] {
   gap: 14px;
   color: inherit;
   text-decoration: none;
+  transition:
+    transform 0.45s var(--ease-out-expo),
+    box-shadow 0.45s var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-card a:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .work-cover {
@@ -1793,8 +1824,24 @@ section[id] {
 
 .help-item {
   min-width: 0;
-  padding-top: 20px;
+  padding: 20px 12px 12px;
+  margin: 0 -12px;
   border-top: 1px solid var(--line);
+  border-radius: 0 0 14px 14px;
+  transition:
+    transform 0.45s var(--ease-out-expo),
+    box-shadow 0.45s var(--ease-out-expo),
+    background 0.45s var(--ease-out-expo),
+    border-color 0.4s var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .help-item:hover {
+    transform: translateY(-4px);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    box-shadow: 0 14px 30px color-mix(in srgb, var(--ink) 8%, transparent);
+    border-top-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  }
 }
 
 .help-n {
@@ -2054,20 +2101,84 @@ section[id] {
       linear-gradient(180deg, transparent 42%, rgba(18, 19, 22, 0.88));
   }
 
-  /* Mobile hero: no extra zoom — eyes must fit in the close-up */
+  /*
+    Mobile hero: portrait viewport + landscape video + object-fit:cover
+    collapses to a nose-only strip. Desktop framing above stays unchanged.
+
+    Size media by width (height:auto) so face/eyes stay in frame after clip.
+    Soft poster fill behind letterbox.
+  */
   .hero {
-    --hero-pos: center 42%;
+    --hero-pos: center 30%;
     --hero-zoom: 1;
-    --hero-origin: center center;
+    --hero-origin: center 30%;
+    /* ~112%: almost full source width — no nose/eyes-only phone crop */
+    --hero-mobile-media-w: 112%;
+    --hero-mobile-media-top: 40%;
     padding-bottom: max(28px, env(safe-area-inset-bottom, 0px));
   }
 
-  .hero-media picture,
-  .hero-media > video {
+  .hero .hero-media {
+    background: var(--bg-deep, #121316);
+  }
+
+  /* Soft full-bleed fill in the letterbox bands */
+  .hero .hero-media picture {
     inset: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    transform: scale(1.2);
+    filter: blur(32px) brightness(0.5) saturate(1.1);
+    transform-origin: center var(--hero-origin);
+  }
+
+  .hero .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--hero-pos);
+    transform: none;
+  }
+
+  /*
+    height:auto keeps 16:9 (no cover nose-strip). Narrower than cover-scale
+    width ⇒ after clip a larger share of the source is visible (zoom out).
+  */
+  .hero .hero-media > video {
+    inset: auto;
+    left: 50%;
+    top: var(--hero-mobile-media-top);
+    width: var(--hero-mobile-media-w);
+    max-width: none;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    object-position: center center;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    filter: none;
+    z-index: 1;
+  }
+
+  /* Prefer-reduced-motion: no video — show sharp poster with same framing */
+  @media (prefers-reduced-motion: reduce) {
+    .hero .hero-media picture {
+      inset: auto;
+      left: 50%;
+      top: var(--hero-mobile-media-top);
+      width: var(--hero-mobile-media-w);
+      height: auto;
+      aspect-ratio: 16 / 9;
+      filter: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero .hero-media img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+    }
   }
 
   .hero h1,
@@ -2095,9 +2206,11 @@ section[id] {
   }
 
   .hero {
-    --hero-pos: center 40%;
+    --hero-pos: center 28%;
     --hero-zoom: 1;
-    --hero-origin: center center;
+    --hero-origin: center 28%;
+    --hero-mobile-media-w: 105%;
+    --hero-mobile-media-top: 38%;
   }
 
   .hero-content {
