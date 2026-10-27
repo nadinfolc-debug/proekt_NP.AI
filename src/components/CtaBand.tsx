@@ -5,6 +5,8 @@ import { notifyAdmin } from "../lib/notify";
 import { addApplication } from "../lib/store";
 import { ScrollReveal } from "./ScrollReveal";
 
+type SubmitStatus = "idle" | "sending" | "ok" | "saved";
+
 export function CtaBand({
   showFaqLink: _showFaqLink = true,
 }: {
@@ -14,12 +16,14 @@ export function CtaBand({
   const [contact, setContact] = useState("");
   const [task, setTask] = useState("");
   const [agree, setAgree] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [receipt, setReceipt] = useState<{ name: string; contact: string; task: string } | null>(
+    null,
+  );
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!agree || sending) return;
+    if (!agree || status === "sending") return;
 
     const payload = {
       name: name.trim(),
@@ -27,18 +31,23 @@ export function CtaBand({
       task: task.trim(),
     };
 
-    setSending(true);
-    setSent(false);
+    setStatus("sending");
+    setReceipt(null);
 
     addApplication(payload);
-    await notifyAdmin(payload);
+    const notified = await notifyAdmin(payload);
 
-    setSending(false);
+    setReceipt(payload);
     setName("");
     setContact("");
     setTask("");
     setAgree(false);
-    setSent(true);
+    setStatus(notified ? "ok" : "saved");
+  };
+
+  const resetForm = () => {
+    setStatus("idle");
+    setReceipt(null);
   };
 
   return (
@@ -50,64 +59,96 @@ export function CtaBand({
             <p>{ctaCopy.text}</p>
           </div>
 
-          <form className="cta-form" onSubmit={onSubmit}>
-            <label className="cta-field">
-              <span className="cta-field-label">{ctaCopy.fields.name.label}</span>
-              <input
-                type="text"
-                name="name"
-                autoComplete="name"
-                required
-                placeholder={ctaCopy.fields.name.placeholder}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              />
-            </label>
+          {status === "ok" || status === "saved" ? (
+            <div className="cta-receipt" role="status">
+              <p className="cta-sent">
+                {status === "ok"
+                  ? "Заявка отправлена. Я свяжусь с вами."
+                  : "Заявка сохранена на этом устройстве. Уведомление в Telegram пока не настроено на сайте."}
+              </p>
+              {receipt ? (
+                <dl className="cta-receipt-list">
+                  <div>
+                    <dt>Имя</dt>
+                    <dd>{receipt.name}</dd>
+                  </div>
+                  <div>
+                    <dt>Связь</dt>
+                    <dd>{receipt.contact}</dd>
+                  </div>
+                  <div>
+                    <dt>Задача</dt>
+                    <dd>{receipt.task}</dd>
+                  </div>
+                </dl>
+              ) : null}
+              <button className="button button-ghost" type="button" onClick={resetForm}>
+                Отправить ещё одну
+              </button>
+            </div>
+          ) : (
+            <form className="cta-form" onSubmit={onSubmit}>
+              <label className="cta-field">
+                <span className="cta-field-label">{ctaCopy.fields.name.label}</span>
+                <input
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  required
+                  placeholder={ctaCopy.fields.name.placeholder}
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  disabled={status === "sending"}
+                />
+              </label>
 
-            <label className="cta-field">
-              <span className="cta-field-label">{ctaCopy.fields.contact.label}</span>
-              <input
-                type="text"
-                name="contact"
-                autoComplete="username"
-                required
-                placeholder={ctaCopy.fields.contact.placeholder}
-                value={contact}
-                onChange={(event) => setContact(event.target.value)}
-              />
-            </label>
+              <label className="cta-field">
+                <span className="cta-field-label">{ctaCopy.fields.contact.label}</span>
+                <input
+                  type="text"
+                  name="contact"
+                  autoComplete="username"
+                  required
+                  placeholder={ctaCopy.fields.contact.placeholder}
+                  value={contact}
+                  onChange={(event) => setContact(event.target.value)}
+                  disabled={status === "sending"}
+                />
+              </label>
 
-            <label className="cta-field">
-              <span className="cta-field-label">{ctaCopy.fields.task.label}</span>
-              <textarea
-                name="task"
-                rows={5}
-                required
-                placeholder={ctaCopy.fields.task.placeholder}
-                value={task}
-                onChange={(event) => setTask(event.target.value)}
-              />
-            </label>
+              <label className="cta-field">
+                <span className="cta-field-label">{ctaCopy.fields.task.label}</span>
+                <textarea
+                  name="task"
+                  rows={5}
+                  required
+                  placeholder={ctaCopy.fields.task.placeholder}
+                  value={task}
+                  onChange={(event) => setTask(event.target.value)}
+                  disabled={status === "sending"}
+                />
+              </label>
 
-            <label className="cta-agree">
-              <input
-                type="checkbox"
-                checked={agree}
-                onChange={(event) => setAgree(event.target.checked)}
-                required
-              />
-              <span>
-                Согласен с{" "}
-                <Link to="/privacy">политикой конфиденциальности</Link> и{" "}
-                <Link to="/offer">офертой</Link>
-              </span>
-            </label>
+              <label className="cta-agree">
+                <input
+                  type="checkbox"
+                  checked={agree}
+                  onChange={(event) => setAgree(event.target.checked)}
+                  required
+                  disabled={status === "sending"}
+                />
+                <span>
+                  Согласен с{" "}
+                  <Link to="/privacy">политикой конфиденциальности</Link> и{" "}
+                  <Link to="/offer">офертой</Link>
+                </span>
+              </label>
 
-            <button className="button button-accent" type="submit" disabled={sending}>
-              {sending ? "Отправка…" : ctaCopy.submit}
-            </button>
-            {sent ? <p className="cta-sent">Заявка отправлена. Я свяжусь с вами.</p> : null}
-          </form>
+              <button className="button button-accent" type="submit" disabled={status === "sending"}>
+                {status === "sending" ? "Отправка…" : ctaCopy.submit}
+              </button>
+            </form>
+          )}
         </ScrollReveal>
       </div>
     </section>

@@ -2541,6 +2541,37 @@ section[id] {
   text-underline-offset: 2px;
 }
 
+.cta-receipt {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 520px);
+}
+
+.cta-receipt-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.cta-receipt-list > div {
+  display: grid;
+  gap: 4px;
+}
+
+.cta-receipt-list dt {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cta-receipt-list dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .cta-sent {
   margin: 0;
   color: var(--accent-strong);
