@@ -271,7 +271,7 @@ p {
   justify-content: center;
   border-top: 0;
   overflow: hidden;
-  background: #f8f7f4;
+  background: transparent;
   box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
 }
 
@@ -513,67 +513,188 @@ section[id] {
 .cta-band {
   position: relative;
   overflow: hidden;
-  padding: clamp(88px, 14vh, 160px) 0;
-  border-top: 1px solid var(--line);
-  background: #f8f7f4;
+  padding: clamp(72px, 12vh, 120px) 0;
+  border-top: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 8% 90%, color-mix(in srgb, #c9c2ff 22%, transparent), transparent 70%),
+    radial-gradient(ellipse 42% 36% at 92% 12%, color-mix(in srgb, #c9c2ff 18%, transparent), transparent 70%),
+    #f7f5fb;
+}
+
+.cta-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cta-sprig {
+  position: absolute;
+  width: clamp(88px, 12vw, 140px);
+  height: auto;
+  opacity: 0.7;
+}
+
+.cta-sprig--bl {
+  left: -1%;
+  bottom: -4%;
+  transform: rotate(-12deg);
+}
+
+.cta-sprig--tr {
+  right: -1%;
+  top: -2%;
+  transform: rotate(28deg) scaleX(-1);
 }
 
 .cta-inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: start;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
 }
 
-.cta-copy h2 {
-  max-width: 9em;
-  margin-bottom: 16px;
+.cta-copy {
+  max-width: 30em;
 }
 
-.cta-copy p {
+.cta-eyebrow {
+  margin: 0 0 14px;
+  color: color-mix(in srgb, var(--muted) 82%, #6e66b8);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cta-title {
+  max-width: 10em;
+  margin: 0 0 18px;
+  font-size: clamp(34px, 4.4vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.cta-title-main {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.cta-title-accent {
+  color: #b7aef5;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.cta-lead {
+  margin: 0 0 22px;
   max-width: 28em;
   color: var(--muted);
-  font-size: clamp(17px, 1.4vw, 20px);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.5;
+}
+
+.cta-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  max-width: 28em;
+  color: var(--text);
+  font-size: clamp(14px, 1.15vw, 16px);
   line-height: 1.45;
 }
 
+.cta-note-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #c9c2ff;
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(110, 102, 184, 0.18);
+}
+
+.cta-card,
 .cta-form {
   display: grid;
   gap: 16px;
-  width: min(100%, 520px);
+  width: min(100%, 540px);
   justify-self: end;
+  padding: 24px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 48px rgba(66, 70, 77, 0.08);
+}
+
+.cta-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
 .cta-field {
   display: grid;
   gap: 8px;
+  min-width: 0;
 }
 
 .cta-field-label {
   color: var(--text);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 650;
   letter-spacing: -0.01em;
+}
+
+.cta-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.cta-input-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  z-index: 1;
+  transform: translateY(-50%);
+  color: color-mix(in srgb, var(--muted) 75%, #6e66b8);
+  font-size: 0.9rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cta-input-wrap--area .cta-input-icon {
+  top: 16px;
+  transform: none;
 }
 
 .cta-field input,
 .cta-field textarea {
   width: 100%;
   min-height: 48px;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  padding: 12px 14px 12px 40px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, #f3f1f8 88%, #c9c2ff);
   color: var(--text);
   outline: none;
   transition:
-    border-color 160ms ease,
     box-shadow 160ms ease,
     background 160ms ease;
 }
 
 .cta-field textarea {
-  min-height: 140px;
+  min-height: 132px;
+  padding-top: 14px;
+  border-radius: 22px;
   resize: vertical;
   line-height: 1.45;
 }
@@ -585,14 +706,60 @@ section[id] {
 
 .cta-field input:hover,
 .cta-field textarea:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, #efeaf8 90%, #c9c2ff);
 }
 
 .cta-field input:focus,
 .cta-field textarea:focus {
-  border-color: var(--accent-strong);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
-  background: var(--surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, #c9c2ff 35%, transparent);
+  background: #ffffff;
+}
+
+.cta-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 4px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c9c2ff 0%, #b7aef5 55%, #d8d2ff 100%);
+  color: #42464d;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    filter 250ms ease;
+}
+
+.cta-submit-arrow {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(110, 102, 184, 0.22);
+    filter: brightness(1.03);
+  }
+}
+
+.cta-submit:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.cta-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
 .cta-form .button {
@@ -2576,6 +2743,17 @@ section[id] {
     grid-template-columns: 1fr;
     align-items: start;
   }
+
+  .cta-card,
+  .cta-form,
+  .cta-receipt {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .cta-fields-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 860px) {
@@ -3185,7 +3363,7 @@ section[id] {
 .cta-receipt {
   display: grid;
   gap: 16px;
-  width: min(100%, 520px);
+  align-content: start;
 }
 
 .cta-receipt-list {
