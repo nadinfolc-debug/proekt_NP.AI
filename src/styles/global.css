@@ -531,49 +531,52 @@ section[id] {
 
 .cta-sprig {
   position: absolute;
-  width: clamp(88px, 12vw, 140px);
+  width: clamp(110px, 14vw, 168px);
   height: auto;
-  opacity: 0.7;
-}
-
-.cta-sprig--bl {
-  left: -1%;
-  bottom: -4%;
-  transform: rotate(-12deg);
+  opacity: 0.85;
+  filter: drop-shadow(0 10px 18px rgba(110, 102, 184, 0.12));
 }
 
 .cta-sprig--tr {
-  right: -1%;
-  top: -2%;
-  transform: rotate(28deg) scaleX(-1);
+  right: max(2%, calc(50% - 520px));
+  top: 4%;
+  transform: rotate(18deg) scaleX(-1);
+}
+
+.cta-band > .container {
+  display: flex;
+  justify-content: center;
 }
 
 .cta-inner {
   position: relative;
   z-index: 1;
+  width: min(100%, 920px);
+  margin-inline: auto;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(24px, 4vw, 40px);
   align-items: center;
+  justify-items: stretch;
 }
 
 .cta-copy {
-  max-width: 30em;
+  max-width: none;
 }
 
 .cta-eyebrow {
   margin: 0 0 14px;
   color: color-mix(in srgb, var(--muted) 82%, #6e66b8);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 650;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .cta-title {
-  max-width: 10em;
-  margin: 0 0 18px;
-  font-size: clamp(34px, 4.4vw, 56px);
+  max-width: 11em;
+  margin: 0 0 20px;
+  font-size: clamp(40px, 5.2vw, 64px);
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
@@ -591,10 +594,10 @@ section[id] {
 }
 
 .cta-lead {
-  margin: 0 0 22px;
+  margin: 0 0 24px;
   max-width: 28em;
   color: var(--muted);
-  font-size: clamp(16px, 1.35vw, 19px);
+  font-size: clamp(18px, 1.55vw, 22px);
   line-height: 1.5;
 }
 
@@ -605,7 +608,7 @@ section[id] {
   margin: 0;
   max-width: 28em;
   color: var(--text);
-  font-size: clamp(14px, 1.15vw, 16px);
+  font-size: clamp(16px, 1.3vw, 18px);
   line-height: 1.45;
 }
 
@@ -613,12 +616,12 @@ section[id] {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   background: #c9c2ff;
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1;
   box-shadow: 0 8px 18px rgba(110, 102, 184, 0.18);
 }
@@ -626,11 +629,11 @@ section[id] {
 .cta-card,
 .cta-form {
   display: grid;
-  gap: 16px;
-  width: min(100%, 540px);
-  justify-self: end;
-  padding: 24px;
-  border-radius: 24px;
+  gap: 12px;
+  width: min(100%, 360px);
+  justify-self: center;
+  padding: 18px;
+  border-radius: 22px;
   background: #ffffff;
   box-shadow: 0 18px 48px rgba(66, 70, 77, 0.08);
 }
@@ -638,7 +641,7 @@ section[id] {
 .cta-fields-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 10px;
 }
 
 .cta-field {
@@ -692,7 +695,7 @@ section[id] {
 }
 
 .cta-field textarea {
-  min-height: 132px;
+  min-height: 110px;
   padding-top: 14px;
   border-radius: 22px;
   resize: vertical;
@@ -721,9 +724,9 @@ section[id] {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  min-height: 52px;
-  margin-top: 4px;
-  padding: 0 22px;
+  min-height: 48px;
+  margin-top: 2px;
+  padding: 0 18px;
   border: 0;
   border-radius: 999px;
   background: linear-gradient(90deg, #c9c2ff 0%, #b7aef5 55%, #d8d2ff 100%);

@@ -12,37 +12,44 @@ type SubmitStatus = "idle" | "sending" | "done";
 function CtaDecor() {
   return (
     <div className="cta-decor" aria-hidden="true">
-      <svg className="cta-sprig cta-sprig--bl" viewBox="0 0 120 280" fill="none">
+      {/* Lavender from the example — top-right corner only */}
+      <svg className="cta-sprig cta-sprig--tr" viewBox="0 0 160 320" fill="none">
         <path
-          d="M58 268C56 210 62 150 58 92C56 62 52 36 48 12"
-          stroke="#6E66B8"
-          strokeWidth="1.5"
+          d="M78 310C74 240 86 170 78 110C74 72 66 40 58 10"
+          stroke="#8B82E0"
+          strokeWidth="1.6"
           strokeLinecap="round"
-          opacity="0.45"
+          opacity="0.5"
         />
-        <g fill="#C9C2FF" opacity="0.9">
-          <ellipse cx="48" cy="28" rx="5" ry="8.5" transform="rotate(-18 48 28)" />
-          <ellipse cx="56" cy="22" rx="5" ry="9" transform="rotate(-6 56 22)" />
-          <ellipse cx="64" cy="28" rx="5" ry="8.5" transform="rotate(14 64 28)" />
-          <ellipse cx="52" cy="42" rx="4.5" ry="8" transform="rotate(-12 52 42)" />
-          <ellipse cx="60" cy="40" rx="4.5" ry="8" transform="rotate(8 60 40)" />
-          <ellipse cx="54" cy="56" rx="4.2" ry="7.4" transform="rotate(-8 54 56)" />
+        <path
+          d="M78 220C98 205 118 188 128 164"
+          stroke="#8B82E0"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.35"
+        />
+        <path
+          d="M78 180C58 164 40 148 28 124"
+          stroke="#8B82E0"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.35"
+        />
+        <g fill="#C9C2FF" opacity="0.95">
+          <ellipse cx="52" cy="28" rx="6" ry="11" transform="rotate(-20 52 28)" />
+          <ellipse cx="62" cy="18" rx="6.2" ry="12" transform="rotate(-4 62 18)" />
+          <ellipse cx="74" cy="28" rx="6" ry="11" transform="rotate(16 74 28)" />
+          <ellipse cx="56" cy="46" rx="5.4" ry="10" transform="rotate(-14 56 46)" />
+          <ellipse cx="70" cy="44" rx="5.6" ry="10.2" transform="rotate(10 70 44)" />
+          <ellipse cx="58" cy="64" rx="5" ry="9.2" transform="rotate(-10 58 64)" />
+          <ellipse cx="70" cy="62" rx="5.2" ry="9.4" transform="rotate(12 70 62)" />
+          <ellipse cx="62" cy="82" rx="4.8" ry="8.6" transform="rotate(-6 62 82)" />
         </g>
-      </svg>
-      <svg className="cta-sprig cta-sprig--tr" viewBox="0 0 120 280" fill="none">
-        <path
-          d="M58 268C56 210 62 150 58 92C56 62 52 36 48 12"
-          stroke="#6E66B8"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.4"
-        />
-        <g fill="#C9C2FF" opacity="0.85">
-          <ellipse cx="48" cy="28" rx="5" ry="8.5" transform="rotate(-18 48 28)" />
-          <ellipse cx="56" cy="22" rx="5" ry="9" transform="rotate(-6 56 22)" />
-          <ellipse cx="64" cy="28" rx="5" ry="8.5" transform="rotate(14 64 28)" />
-          <ellipse cx="52" cy="42" rx="4.5" ry="8" transform="rotate(-12 52 42)" />
-          <ellipse cx="60" cy="40" rx="4.5" ry="8" transform="rotate(8 60 40)" />
+        <g fill="#A89FE8" opacity="0.8">
+          <ellipse cx="128" cy="164" rx="4.2" ry="7.4" transform="rotate(26 128 164)" />
+          <ellipse cx="118" cy="176" rx="3.8" ry="6.8" transform="rotate(18 118 176)" />
+          <ellipse cx="28" cy="124" rx="4" ry="7.2" transform="rotate(-28 28 124)" />
+          <ellipse cx="36" cy="136" rx="3.6" ry="6.4" transform="rotate(-20 36 136)" />
         </g>
       </svg>
     </div>
