@@ -14,17 +14,43 @@ export function AboutSection() {
 
       <div className="container about-container">
         <div className="about-stage">
-          <ScrollReveal className="about-copy" stagger={100} delay={40}>
-            <h2 id="about-title" className="about-title">
-              {aboutCopy.title}
-            </h2>
-            <p className="about-lead">{aboutCopy.lead}</p>
-            {aboutCopy.paragraphs.map((paragraph) => (
-              <p className="about-text" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
-          </ScrollReveal>
+          <div className="about-main">
+            <ScrollReveal className="about-copy" stagger={100} delay={40}>
+              <h2 id="about-title" className="about-title">
+                {aboutCopy.title}
+              </h2>
+              <p className="about-lead">{aboutCopy.lead}</p>
+              {aboutCopy.paragraphs.map((paragraph) => (
+                <p className="about-text" key={paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </ScrollReveal>
+
+            <ScrollReveal className="about-accents-wrap" delay={220}>
+              <ul className="about-accents">
+                {aboutCopy.accents.map((item) => (
+                  <li key={item.label}>
+                    <span className="about-accent-icon-wrap">
+                      <img
+                        className="about-accent-icon"
+                        src={asset(item.icon)}
+                        alt={item.iconAlt}
+                        width={120}
+                        height={120}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                    <div className="about-accent-copy">
+                      <span className="about-accent-label">{item.label}</span>
+                      <span className="about-accent-note">{item.note}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </ScrollReveal>
+          </div>
 
           <div className="about-visual">
             <ScrollReveal as="figure" className="about-figure" delay={160}>
@@ -39,28 +65,6 @@ export function AboutSection() {
               />
             </ScrollReveal>
           </div>
-
-          <ScrollReveal className="about-accents-wrap" delay={220}>
-            <ul className="about-accents">
-              {aboutCopy.accents.map((item) => (
-                <li key={item.label}>
-                  <img
-                    className="about-accent-icon"
-                    src={asset(item.icon)}
-                    alt={item.iconAlt}
-                    width={72}
-                    height={72}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="about-accent-copy">
-                    <span className="about-accent-label">{item.label}</span>
-                    <span className="about-accent-note">{item.note}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </ScrollReveal>
         </div>
       </div>
     </section>

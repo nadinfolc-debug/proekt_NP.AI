@@ -38,19 +38,19 @@ export const aboutCopy = {
     {
       label: "1000+ роликов",
       note: "Опыт создания видеоконтента для разных задач",
-      icon: "media/about-icons/video.jpg",
+      icon: "media/about-icons/video.png",
       iconAlt: "3D-иконка видео",
     },
     {
       label: "AI-визуал",
       note: "Для брендов и бизнеса",
-      icon: "media/about-icons/visual.jpg",
+      icon: "media/about-icons/visual.png",
       iconAlt: "3D-иконка AI-визуала",
     },
     {
       label: "Сайты и лендинги",
       note: "С акцентом на вайб-кодинг",
-      icon: "media/about-icons/sites.jpg",
+      icon: "media/about-icons/sites.png",
       iconAlt: "3D-иконка сайтов",
     },
   ],

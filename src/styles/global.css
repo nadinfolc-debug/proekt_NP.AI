@@ -2247,16 +2247,20 @@ section[id] {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
-  grid-template-areas:
-    "copy visual"
-    "accents visual";
   column-gap: clamp(48px, 7vw, 96px);
   row-gap: clamp(28px, 4vh, 40px);
   align-items: center;
 }
 
+.about-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  z-index: 2;
+}
+
 .about-copy {
-  grid-area: copy;
   position: relative;
   z-index: 2;
   max-width: 34em;
@@ -2281,7 +2285,6 @@ section[id] {
 }
 
 .about-visual {
-  grid-area: visual;
   position: relative;
   z-index: 1;
   display: flex;
@@ -2363,10 +2366,9 @@ section[id] {
 }
 
 .about-accents-wrap {
-  grid-area: accents;
   position: relative;
   z-index: 2;
-  align-self: start;
+  width: 100%;
 }
 
 .about-accents {
@@ -2374,22 +2376,24 @@ section[id] {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  width: min(100%, 28em);
+  width: 100%;
 }
 
 .about-accents li {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  justify-content: flex-start;
+  gap: 10px;
   min-width: 0;
-  padding: 12px 16px 12px 12px;
+  padding: 14px 10px 16px;
   border: 0;
-  border-radius: 18px;
-  background: #ffffff;
+  border-radius: 20px;
+  background: color-mix(in srgb, #ffffff 82%, #c9c2ff);
   box-shadow: 0 6px 24px rgba(66, 70, 77, 0.05);
+  text-align: center;
   transition:
     transform 300ms ease,
     box-shadow 300ms ease,
@@ -2399,18 +2403,27 @@ section[id] {
 @media (hover: hover) and (pointer: fine) {
   .about-accents li:hover {
     transform: translateY(-4px);
-    background: color-mix(in srgb, #c9c2ff 20%, #ffffff);
+    background: color-mix(in srgb, #c9c2ff 22%, #ffffff);
     box-shadow: 0 12px 30px rgba(66, 70, 77, 0.09);
   }
 }
 
+.about-accent-icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #c9c2ff 28%, #f8f7f4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
 .about-accent-icon {
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 78px;
+  height: 78px;
   object-fit: contain;
-  border-radius: 14px;
-  background: color-mix(in srgb, #c9c2ff 12%, #f8f7f4);
+  background: transparent;
 }
 
 .about-accent-copy {
@@ -2421,15 +2434,15 @@ section[id] {
 
 .about-accent-label {
   color: var(--text);
-  font-size: clamp(17px, 1.5vw, 21px);
+  font-size: clamp(14px, 1.2vw, 17px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .about-accent-note {
   color: color-mix(in srgb, var(--text) 70%, #6e66b8);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   line-height: 1.35;
   letter-spacing: 0.01em;
 }
@@ -2443,12 +2456,12 @@ section[id] {
 
   .about-stage {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "copy"
-      "visual"
-      "accents";
     row-gap: 28px;
     column-gap: 0;
+  }
+
+  .about-main {
+    order: 1;
   }
 
   .about-copy {
@@ -2457,6 +2470,7 @@ section[id] {
   }
 
   .about-visual {
+    order: 2;
     min-height: 0;
     justify-self: center;
     width: min(100%, 360px);
@@ -2478,22 +2492,29 @@ section[id] {
   }
 
   .about-accents {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
+  }
+
+  .about-accent-icon-wrap {
+    width: 76px;
+    height: 76px;
+  }
+
+  .about-accent-icon {
+    width: 64px;
+    height: 64px;
   }
 
   .about-accents li {
     min-width: 0;
+    padding: 12px 6px 14px;
   }
 }
 
 @media (max-width: 560px) {
   .about-figure {
     max-width: min(280px, 86%);
-  }
-
-  .about-accents {
-    grid-template-columns: 1fr;
   }
 }
 
