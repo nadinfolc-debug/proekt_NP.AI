@@ -1,5 +1,6 @@
 import { CtaBand } from "../components/CtaBand";
 import { AboutSection } from "../components/home/AboutSection";
+import { FaqSection } from "../components/home/FaqSection";
 import { HelpSection } from "../components/home/HelpSection";
 import { Hero } from "../components/home/Hero";
 import { ProjectsSection } from "../components/home/ProjectsSection";
@@ -32,6 +33,10 @@ export function HomePage() {
 
       <div className="flow-slot flow-slot-reviews">
         <ReviewsSection />
+      </div>
+
+      <div className="flow-slot flow-slot-faq">
+        <FaqSection />
       </div>
 
       <div className="flow-slot flow-slot-cta">
