@@ -1964,7 +1964,8 @@ section[id] {
   box-shadow: 0 6px 24px rgba(66, 70, 77, 0.04);
   transition:
     transform 300ms ease,
-    box-shadow 300ms ease;
+    box-shadow 300ms ease,
+    background-color 300ms ease;
 }
 
 .help-item.is-flagship {
@@ -1977,8 +1978,13 @@ section[id] {
   .help-item:hover,
   .help-item.is-flagship:hover {
     transform: translateY(-4px);
+    background: color-mix(in srgb, #c9c2ff 20%, #f8f7f4);
     box-shadow: 0 12px 30px rgba(66, 70, 77, 0.09);
   }
+}
+
+.help-dots {
+  display: none;
 }
 
 .help-n {
@@ -2064,8 +2070,17 @@ section[id] {
 .help-package-block {
   margin-top: 20px;
   max-width: 38em;
-  padding-top: 0;
+  padding: 24px 28px;
   border-top: 0;
+  border-radius: 28px;
+  background: #c9c2ff;
+  transition: background-color 300ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .help-package-block:hover {
+    background: #d8d2ff;
+  }
 }
 
 .help-package-title {
@@ -2334,6 +2349,66 @@ section[id] {
 @media (max-width: 1100px) {
   .help-menu {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .help-carousel {
+    min-width: 0;
+  }
+
+  .help-menu {
+    display: flex;
+    grid-template-columns: none;
+    column-gap: 0;
+    row-gap: 0;
+    gap: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .help-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .help-item,
+  .help-item.is-flagship {
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .help-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .help-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, #c9c2ff 45%, #f8f7f4);
+    cursor: pointer;
+    transition:
+      background-color 250ms ease,
+      transform 250ms ease;
+  }
+
+  .help-dot.is-active {
+    background: #c9c2ff;
+    transform: scale(1.25);
   }
 }
 
