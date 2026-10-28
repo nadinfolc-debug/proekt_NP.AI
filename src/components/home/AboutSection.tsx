@@ -1,13 +1,16 @@
-import { ScrollReveal } from "../ScrollReveal";
-import { aboutCopy } from "../../data/site";
 import portrait from "../../assets/about/portrait.png";
+import { aboutCopy } from "../../data/site";
+import { useSectionId } from "../../lib/useSectionId";
+import { ScrollReveal } from "../ScrollReveal";
 
 export function AboutSection() {
+  const sectionId = useSectionId("about");
+
   return (
-    <section className="section about flow-panel flow-about" id="about" aria-labelledby="about-title">
+    <section className="section about flow-panel flow-about" id={sectionId} aria-labelledby="about-title">
       <div className="container">
-        <ScrollReveal className="about-stage">
-          <div className="about-copy">
+        <div className="about-stage">
+          <ScrollReveal className="about-copy" stagger={90}>
             <h2 id="about-title" className="about-title">
               {aboutCopy.title}
             </h2>
@@ -28,9 +31,9 @@ export function AboutSection() {
                 {paragraph}
               </p>
             ))}
-          </div>
+          </ScrollReveal>
 
-          <figure className="about-figure">
+          <ScrollReveal as="figure" className="about-figure" delay={160}>
             <img
               className="about-cutout"
               src={portrait}
@@ -40,8 +43,8 @@ export function AboutSection() {
               loading="lazy"
               decoding="async"
             />
-          </figure>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );

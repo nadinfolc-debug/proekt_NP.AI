@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 
-type RootTag = "div" | "ol" | "ul" | "section";
+type RootTag = "div" | "ol" | "ul" | "section" | "figure";
 
 type ScrollRevealProps = {
   children: ReactNode;
@@ -18,7 +18,7 @@ type ScrollRevealProps = {
   as?: RootTag;
   /** Delay before this block starts, ms */
   delay?: number;
-  /** Stagger between direct children, ms (80–120 recommended) */
+  /** Stagger between direct children, ms (90–120 recommended) */
   stagger?: number;
 };
 

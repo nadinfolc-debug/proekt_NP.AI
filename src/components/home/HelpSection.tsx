@@ -1,32 +1,41 @@
-import { ScrollReveal } from "../ScrollReveal";
 import { helpBlocks, helpCopy } from "../../data/site";
+import { asset } from "../../lib/asset";
+import { useSectionId } from "../../lib/useSectionId";
+import { ScrollReveal } from "../ScrollReveal";
 
 export function HelpSection() {
+  const sectionId = useSectionId("help");
+
   return (
-    <section className="section help flow-panel flow-help" id="help" aria-labelledby="help-title">
+    <section className="section help flow-panel flow-help" id={sectionId} aria-labelledby="help-title">
       <div className="container">
-        <ScrollReveal>
+        <ScrollReveal delay={40}>
           <h2 id="help-title" className="help-title">
             {helpCopy.title}
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal as="ol" className="help-menu" stagger={100}>
+        <ScrollReveal as="ol" className="help-menu" stagger={110} delay={80}>
           {helpBlocks.map((block) => (
             <li
               className={["help-item", block.flagship ? "is-flagship" : ""].filter(Boolean).join(" ")}
               key={block.n}
             >
               <p className="help-n" aria-hidden="true">
-                {block.n}
+                <span className="help-n-num">{block.n}</span>
+                <span className="help-n-sep" aria-hidden="true">
+                  /
+                </span>
+                <span className="help-n-cat">{block.category}</span>
               </p>
-              <h3>
-                {block.flagship ? <span className="help-flag">Флагман</span> : null}
-                {block.title}
-              </h3>
+              <figure className="help-media">
+                <img src={asset(block.image)} alt={block.imageAlt} loading="lazy" decoding="async" />
+              </figure>
+              <h3>{block.title}</h3>
+              <p className="help-lead">{block.lead}</p>
               <p>
-                <span className="help-label">Что входит</span>
-                {block.includes}
+                <span className="help-label">Что можно заказать</span>
+                {block.order}
               </p>
               <p>
                 <span className="help-label">Для кого</span>
@@ -36,7 +45,8 @@ export function HelpSection() {
           ))}
         </ScrollReveal>
 
-        <ScrollReveal delay={80}>
+        <ScrollReveal delay={120} className="help-package-block">
+          <p className="help-package-title">{helpCopy.packageTitle}</p>
           <p className="help-package">{helpCopy.package}</p>
         </ScrollReveal>
       </div>

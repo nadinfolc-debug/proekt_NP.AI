@@ -5,11 +5,14 @@ import { Hero } from "../components/home/Hero";
 import { PortfolioHandGallery } from "../components/PortfolioHandGallery";
 import { ScrollReveal } from "../components/ScrollReveal";
 import { Seo } from "../components/Seo";
+import { useSectionId } from "../lib/useSectionId";
 
 const description =
   "Нейрофото, нейровидео, контент и сайты для бизнеса, брендов и личных проектов — от кадра до цельной подачи.";
 
 export function HomePage() {
+  const worksId = useSectionId("works");
+
   return (
     <div className="flow-page">
       <Seo title="NP.AI Prikolota — AI-визуал, контент и сайты" description={description} />
@@ -19,9 +22,9 @@ export function HomePage() {
       </div>
 
       <div className="flow-slot flow-slot-works">
-        <section className="section media-band flow-panel flow-works" id="works" aria-label="Портфолио">
+        <section className="section media-band flow-panel flow-works" id={worksId} aria-label="Портфолио">
           <div className="container">
-            <ScrollReveal>
+            <ScrollReveal delay={60}>
               <PortfolioHandGallery />
             </ScrollReveal>
           </div>

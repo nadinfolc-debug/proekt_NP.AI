@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { heroCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
+import { scrollToSection } from "../../lib/scroll";
 import TextType from "../TextType";
 
 const heroSrc = asset("media/hero/hero.mp4");
@@ -100,9 +100,16 @@ export function Hero() {
           />
         )}
         <p className="lead">{heroCopy.description}</p>
-        <Link className="hero-link" to={heroCopy.href}>
+        <a
+          className="hero-link"
+          href={`#${heroCopy.section}`}
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection(heroCopy.section);
+          }}
+        >
           {heroCopy.link}
-        </Link>
+        </a>
       </div>
       {reduced ? null : (
         <button type="button" className="hero-pause" onClick={toggle} aria-pressed={playing}>

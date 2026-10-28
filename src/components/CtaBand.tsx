@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ctaCopy } from "../data/site";
 import { notifyAdmin } from "../lib/notify";
 import { addApplication } from "../lib/store";
+import { useSectionId } from "../lib/useSectionId";
 import { ScrollReveal } from "./ScrollReveal";
 
 type SubmitStatus = "idle" | "sending" | "done";
@@ -20,6 +21,7 @@ export function CtaBand({
   const [receipt, setReceipt] = useState<{ name: string; contact: string; task: string } | null>(
     null,
   );
+  const sectionId = useSectionId("discuss");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,9 +53,9 @@ export function CtaBand({
   };
 
   return (
-    <section className="cta-band flow-panel flow-cta" id="contacts" aria-labelledby="cta-title">
+    <section className="cta-band flow-panel flow-cta" id={sectionId} aria-labelledby="cta-title">
       <div className="container">
-        <ScrollReveal className="cta-inner" stagger={100}>
+        <ScrollReveal className="cta-inner" stagger={120} delay={40}>
           <div className="cta-copy">
             <h2 id="cta-title">{ctaCopy.title}</h2>
             <p>{ctaCopy.text}</p>

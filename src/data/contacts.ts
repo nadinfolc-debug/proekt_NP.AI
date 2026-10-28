@@ -1,6 +1,6 @@
 export const navItems = [
-  { href: "/#works", label: "Портфолио" },
-  { href: "/#help", label: "Услуги" },
-  { href: "/#about", label: "О себе" },
-  { href: "/#contacts", label: "Обсудить проект" },
+  { section: "works", label: "Портфолио" },
+  { section: "help", label: "Услуги" },
+  { section: "about", label: "О себе" },
+  { section: "discuss", label: "Обсудить проект" },
 ] as const;

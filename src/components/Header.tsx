@@ -1,16 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navItems } from "../data/contacts";
+import { scrollToSection, type ScrollState } from "../lib/scroll";
 
 export function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setOpen(false);
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.key]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -18,6 +21,30 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
+    const sections = navItems
+      .map((item) => document.getElementById(item.section))
+      .filter((node): node is HTMLElement => Boolean(node));
+
+    const syncActive = () => {
+      const marker = window.scrollY + window.innerHeight * 0.28;
+      let current = sections[0]?.id || "";
+      for (const section of sections) {
+        if (section.offsetTop <= marker) current = section.id;
+      }
+      setActiveSection(current);
+    };
+
+    syncActive();
+    window.addEventListener("scroll", syncActive, { passive: true });
+    return () => window.removeEventListener("scroll", syncActive);
+  }, [location.pathname]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 981px)");
@@ -66,6 +93,18 @@ export function Header() {
     };
   }, [open]);
 
+  const goToSection = (event: MouseEvent<HTMLAnchorElement>, section: string) => {
+    if (location.pathname === "/") {
+      event.preventDefault();
+      setOpen(false);
+      scrollToSection(section);
+      return;
+    }
+    event.preventDefault();
+    setOpen(false);
+    navigate("/", { state: { scrollTo: section } satisfies ScrollState });
+  };
+
   const solid = open || scrolled || location.pathname !== "/";
   const overHero = location.pathname === "/" && !scrolled && !open;
 
@@ -77,25 +116,31 @@ export function Header() {
         .join(" ")}
     >
       <div className="header-bar">
-        <Link className="logo" to="/" aria-label="NP.AI Prikolota, на главную">
+        <Link
+          className="logo"
+          to="/"
+          aria-label="NP.AI Prikolota, на главную"
+          onClick={(event) => {
+            if (location.pathname === "/") {
+              event.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
           <span className="logo-main">NP.AI</span>
           <span className="logo-sub">Prikolota</span>
         </Link>
         <nav className="nav-desktop" aria-label="Разделы">
-          {navItems.map((item) => {
-            const hash = item.href.includes("#") ? item.href.slice(item.href.indexOf("#")) : "";
-            const current =
-              location.pathname === "/" && hash && location.hash === hash;
-            return (
-              <Link
-                key={item.href}
-                to={item.href}
-                aria-current={current ? "page" : undefined}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          {navItems.map((item) => (
+            <Link
+              key={item.section}
+              to="/"
+              aria-current={activeSection === item.section ? "page" : undefined}
+              onClick={(event) => goToSection(event, item.section)}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
         <button
           ref={buttonRef}
@@ -112,7 +157,11 @@ export function Header() {
         <div id="mobile-nav" className="nav-panel" role="dialog" aria-modal="true" aria-label="Меню">
           <nav aria-label="Разделы">
             {navItems.map((item) => (
-              <Link key={item.href} to={item.href}>
+              <Link
+                key={item.section}
+                to="/"
+                onClick={(event) => goToSection(event, item.section)}
+              >
                 {item.label}
               </Link>
             ))}
