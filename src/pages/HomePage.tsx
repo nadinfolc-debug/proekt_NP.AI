@@ -2,17 +2,13 @@ import { CtaBand } from "../components/CtaBand";
 import { AboutSection } from "../components/home/AboutSection";
 import { HelpSection } from "../components/home/HelpSection";
 import { Hero } from "../components/home/Hero";
-import { PortfolioHandGallery } from "../components/PortfolioHandGallery";
-import { ScrollReveal } from "../components/ScrollReveal";
+import { ProjectsSection } from "../components/home/ProjectsSection";
 import { Seo } from "../components/Seo";
-import { useSectionId } from "../lib/useSectionId";
 
 const description =
   "Нейрофото, нейровидео, контент и сайты для бизнеса, брендов и личных проектов — от кадра до цельной подачи.";
 
 export function HomePage() {
-  const worksId = useSectionId("works");
-
   return (
     <div className="flow-page">
       <Seo title="NP.AI Prikolota — AI-визуал, контент и сайты" description={description} />
@@ -21,18 +17,12 @@ export function HomePage() {
         <Hero />
       </div>
 
-      <div className="flow-slot flow-slot-works">
-        <section className="section media-band flow-panel flow-works" id={worksId} aria-label="Портфолио">
-          <div className="container">
-            <ScrollReveal delay={60}>
-              <PortfolioHandGallery />
-            </ScrollReveal>
-          </div>
-        </section>
-      </div>
-
       <div className="flow-slot flow-slot-help">
         <HelpSection />
+      </div>
+
+      <div className="flow-slot flow-slot-projects">
+        <ProjectsSection />
       </div>
 
       <div className="flow-slot flow-slot-about">
