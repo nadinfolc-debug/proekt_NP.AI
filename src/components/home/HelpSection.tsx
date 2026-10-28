@@ -33,14 +33,6 @@ export function HelpSection() {
               </figure>
               <h3>{block.title}</h3>
               <p className="help-lead">{block.lead}</p>
-              <p>
-                <span className="help-label">Что можно заказать</span>
-                {block.order}
-              </p>
-              <p>
-                <span className="help-label">Для кого</span>
-                {block.audience}
-              </p>
             </li>
           ))}
         </ScrollReveal>
