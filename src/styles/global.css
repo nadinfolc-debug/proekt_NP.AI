@@ -2374,19 +2374,49 @@ section[id] {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, max-content));
-  gap: 14px 18px;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: min(100%, 28em);
 }
 
 .about-accents li {
   display: grid;
-  gap: 4px;
-  min-width: 9.5em;
-  padding: 14px 18px;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 12px 16px 12px 12px;
   border: 0;
   border-radius: 18px;
-  background: #c9c2ff;
-  box-shadow: 0 8px 22px rgba(110, 102, 184, 0.1);
+  background: #ffffff;
+  box-shadow: 0 6px 24px rgba(66, 70, 77, 0.05);
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease,
+    background-color 300ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-accents li:hover {
+    transform: translateY(-4px);
+    background: color-mix(in srgb, #c9c2ff 20%, #ffffff);
+    box-shadow: 0 12px 30px rgba(66, 70, 77, 0.09);
+  }
+}
+
+.about-accent-icon {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: color-mix(in srgb, #c9c2ff 12%, #f8f7f4);
+}
+
+.about-accent-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
 }
 
 .about-accent-label {
@@ -2399,7 +2429,8 @@ section[id] {
 
 .about-accent-note {
   color: color-mix(in srgb, var(--text) 70%, #6e66b8);
-  font-size: 0.82rem;
+  font-size: 0.88rem;
+  line-height: 1.35;
   letter-spacing: 0.01em;
 }
 

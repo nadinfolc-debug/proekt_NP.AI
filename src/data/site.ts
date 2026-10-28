@@ -35,8 +35,24 @@ export const aboutCopy = {
     "Могу объединить сайт, изображения и видео в одном стиле — от визуальной идеи до готового проекта.",
   ],
   accents: [
-    { label: "С мая 2024", note: "в AI-контенте" },
-    { label: "1000+ роликов", note: "и визуальных материалов" },
+    {
+      label: "1000+ роликов",
+      note: "Опыт создания видеоконтента для разных задач",
+      icon: "media/about-icons/video.jpg",
+      iconAlt: "3D-иконка видео",
+    },
+    {
+      label: "AI-визуал",
+      note: "Для брендов и бизнеса",
+      icon: "media/about-icons/visual.jpg",
+      iconAlt: "3D-иконка AI-визуала",
+    },
+    {
+      label: "Сайты и лендинги",
+      note: "С акцентом на вайб-кодинг",
+      icon: "media/about-icons/sites.jpg",
+      iconAlt: "3D-иконка сайтов",
+    },
   ],
   imageAlt: "Надежда — NP.AI Prikolota",
 };

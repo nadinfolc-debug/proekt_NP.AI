@@ -1,5 +1,6 @@
 import portrait from "../../assets/about/portrait.png";
 import { aboutCopy } from "../../data/site";
+import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
 import { SectionBackdrop } from "../SectionBackdrop";
@@ -43,8 +44,19 @@ export function AboutSection() {
             <ul className="about-accents">
               {aboutCopy.accents.map((item) => (
                 <li key={item.label}>
-                  <span className="about-accent-label">{item.label}</span>
-                  <span className="about-accent-note">{item.note}</span>
+                  <img
+                    className="about-accent-icon"
+                    src={asset(item.icon)}
+                    alt={item.iconAlt}
+                    width={72}
+                    height={72}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="about-accent-copy">
+                    <span className="about-accent-label">{item.label}</span>
+                    <span className="about-accent-note">{item.note}</span>
+                  </div>
                 </li>
               ))}
             </ul>
