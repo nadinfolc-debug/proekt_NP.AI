@@ -7,6 +7,8 @@
   --accent: #c9c2ff;
   --accent-hover: #8b82e0;
   --accent-strong: #6e66b8;
+  --accent-mid: #b7aef5;
+  --accent-soft: color-mix(in srgb, var(--accent) 28%, var(--bg));
   --line: #d5d6db;
   --ink: #42464d;
 
@@ -21,8 +23,13 @@
 
   --header: 52px;
   --pad: clamp(20px, 4vw, 64px);
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 8px 28px rgba(66, 70, 77, 0.08);
+  --shadow-card-hover: 0 12px 30px rgba(66, 70, 77, 0.1);
+
   --font: "Manrope", system-ui, sans-serif;
-  --font-hero-body: "Inter", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-lift: 40px;
   --motion-duration: 0.9s;
