@@ -27,7 +27,7 @@ export const projectsCopy = {
 };
 
 export const aboutCopy = {
-  sectionTitle: "О себе",
+  sectionTitle: "Обо мне",
   title: "Привет! Я Надежда",
   lead: "Создаю сайты, AI-изображения и видео для бизнеса, брендов и личных проектов.",
   paragraphs: [
