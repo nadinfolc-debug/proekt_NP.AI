@@ -101,14 +101,17 @@ export function Hero() {
         )}
         <p className="lead">{heroCopy.description}</p>
         <a
-          className="hero-link"
+          className="hero-cta"
           href={`#${heroCopy.section}`}
           onClick={(event) => {
             event.preventDefault();
             scrollToSection(heroCopy.section);
           }}
         >
-          {heroCopy.link}
+          <span>{heroCopy.link}</span>
+          <span className="hero-cta-arrow" aria-hidden="true">
+            ↗
+          </span>
         </a>
       </div>
       {reduced ? null : (

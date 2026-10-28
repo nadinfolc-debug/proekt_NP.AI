@@ -21,6 +21,22 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        // Always open the homepage from the top — ignore leftover #contacts etc.
+        if (location.hash) {
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+        window.scrollTo(0, 0);
+      })();
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
