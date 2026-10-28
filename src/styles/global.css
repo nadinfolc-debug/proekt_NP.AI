@@ -257,9 +257,27 @@ p {
   background: transparent;
 }
 
-/* 5: CTA rises over about */
-.flow-slot-cta {
+/* 5: reviews rises over about */
+.flow-slot-reviews {
   z-index: 5;
+  margin-top: calc(var(--flow-rise) * -1);
+  padding-bottom: var(--flow-rise);
+}
+
+.flow-page .flow-reviews {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
+}
+
+.flow-page .flow-reviews::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--bg-deep) 28%, transparent), transparent);
+}
+
+/* 6: CTA rises over reviews */
+.flow-slot-cta {
+  z-index: 6;
   margin-top: calc(var(--flow-rise) * -1);
 }
 
@@ -301,6 +319,7 @@ p {
   .flow-page .flow-help,
   .flow-page .flow-projects,
   .flow-page .flow-about,
+  .flow-page .flow-reviews,
   .flow-page .flow-cta {
     border-radius: 18px 18px 0 0;
   }
@@ -343,6 +362,7 @@ p {
   .flow-slot-help,
   .flow-slot-projects,
   .flow-slot-about,
+  .flow-slot-reviews,
   .flow-slot-cta {
     margin-top: 0;
     padding-bottom: 0;
@@ -351,6 +371,7 @@ p {
   .flow-page .flow-help,
   .flow-page .flow-projects,
   .flow-page .flow-about,
+  .flow-page .flow-reviews,
   .flow-page .flow-cta {
     box-shadow: none;
     border-radius: 0;
@@ -2350,6 +2371,140 @@ section[id] {
   .project-media {
     aspect-ratio: 16 / 11;
     border-radius: 14px;
+  }
+}
+
+.reviews {
+  padding-top: clamp(48px, 10vh, 100px);
+  padding-bottom: clamp(56px, 12vh, 120px);
+}
+
+.reviews-head {
+  margin-bottom: clamp(28px, 5vh, 48px);
+  max-width: 36em;
+}
+
+.reviews-title {
+  max-width: 10em;
+  margin: 0 0 12px;
+  font-size: clamp(28px, 3.2vw, 40px);
+}
+
+.reviews-lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.5;
+}
+
+.reviews-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 20px);
+  align-items: stretch;
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 22px 20px 20px;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease,
+    background-color 300ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .review-card:hover {
+    transform: translateY(-4px);
+    background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+.review-focus {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.review-quote {
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.review-quote p {
+  margin: 0;
+  max-width: none;
+  color: var(--text);
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+.review-quote p::before {
+  content: "«";
+  color: var(--accent-mid);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.15em;
+  margin-right: 0.08em;
+}
+
+.review-quote p::after {
+  content: "»";
+  color: var(--accent-mid);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.15em;
+  margin-left: 0.04em;
+}
+
+.review-meta {
+  display: grid;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+}
+
+.review-name {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.review-role {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 960px) {
+  .reviews-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .review-card {
+    padding: 18px 16px 16px;
   }
 }
 

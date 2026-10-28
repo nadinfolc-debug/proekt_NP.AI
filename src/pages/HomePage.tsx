@@ -3,6 +3,7 @@ import { AboutSection } from "../components/home/AboutSection";
 import { HelpSection } from "../components/home/HelpSection";
 import { Hero } from "../components/home/Hero";
 import { ProjectsSection } from "../components/home/ProjectsSection";
+import { ReviewsSection } from "../components/home/ReviewsSection";
 import { Seo } from "../components/Seo";
 
 const description =
@@ -27,6 +28,10 @@ export function HomePage() {
 
       <div className="flow-slot flow-slot-about">
         <AboutSection />
+      </div>
+
+      <div className="flow-slot flow-slot-reviews">
+        <ReviewsSection />
       </div>
 
       <div className="flow-slot flow-slot-cta">
