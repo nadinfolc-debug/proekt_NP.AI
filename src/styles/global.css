@@ -2219,9 +2219,9 @@ section[id] {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.8;
+  opacity: 0.92;
   /* Slightly warmer than the source lavender wash */
-  filter: sepia(0.2) saturate(1.08) brightness(1.03) hue-rotate(-14deg);
+  filter: sepia(0.18) saturate(1.1) brightness(1.02) hue-rotate(-12deg);
 }
 
 .section-backdrop::after {
@@ -2230,9 +2230,9 @@ section[id] {
   inset: 0;
   background: linear-gradient(
     165deg,
-    color-mix(in srgb, #f4e6d6 34%, transparent) 0%,
-    color-mix(in srgb, #f0ddd0 16%, transparent) 48%,
-    color-mix(in srgb, #f8f0e8 22%, transparent) 100%
+    color-mix(in srgb, #f4e6d6 18%, transparent) 0%,
+    color-mix(in srgb, #f0ddd0 10%, transparent) 48%,
+    color-mix(in srgb, #f8f0e8 12%, transparent) 100%
   );
 }
 
