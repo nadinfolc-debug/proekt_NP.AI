@@ -1,7 +1,10 @@
 import portrait from "../../assets/about/portrait.png";
 import { aboutCopy } from "../../data/site";
+import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
+
+const aboutBackdrop = asset("media/works/обо мне.png");
 
 function LavenderSprig({ className }: { className?: string }) {
   return (
@@ -110,7 +113,9 @@ export function AboutSection() {
 
   return (
     <section className="section about flow-panel flow-about" id={sectionId} aria-labelledby="about-title">
-      <div className="about-atmosphere" aria-hidden="true" />
+      <div className="about-atmosphere" aria-hidden="true">
+        <img className="about-atmosphere-img" src={aboutBackdrop} alt="" decoding="async" />
+      </div>
 
       <div className="container about-container">
         <div className="about-stage">
