@@ -2110,13 +2110,14 @@ section[id] {
   padding-top: clamp(72px, 12vh, 120px);
   padding-bottom: clamp(96px, 15vh, 160px);
   overflow: visible;
+  background: #f8f7f4;
 }
 
 .about-stage {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0;
+  justify-content: space-between;
+  gap: clamp(28px, 5vw, 64px);
   position: relative;
 }
 
@@ -2124,8 +2125,8 @@ section[id] {
   position: relative;
   z-index: 1;
   flex: 1 1 52%;
-  max-width: 34em;
-  margin-right: clamp(-40px, -3.5vw, -20px);
+  max-width: 36em;
+  margin: 0;
   padding: 0;
   background: transparent;
   border: 0;
@@ -2135,10 +2136,10 @@ section[id] {
 .about-figure {
   position: relative;
   z-index: 2;
-  flex: 0 1 42%;
+  flex: 0 1 40%;
   margin: 0;
   max-width: 420px;
-  min-width: min(280px, 100%);
+  min-width: min(260px, 100%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -2172,62 +2173,66 @@ section[id] {
   object-fit: contain;
   object-position: center bottom;
   background: transparent;
-  filter: drop-shadow(0px 15px 25px rgba(0, 0, 0, 0.08));
-  transform: translateX(-6%);
+  filter: drop-shadow(0px 15px 25px rgba(201, 194, 255, 0.28));
 }
 
 .about-title {
-  max-width: 10em;
-  margin-bottom: clamp(20px, 3vh, 32px);
+  max-width: 14em;
+  margin-bottom: clamp(16px, 2.5vh, 24px);
+  font-size: clamp(28px, 3.4vw, 44px);
+  letter-spacing: -0.035em;
+  line-height: 1.12;
 }
 
 .about-lead {
   margin: 0 0 18px;
-  max-width: 28em;
+  max-width: 30em;
   color: var(--text);
-  font-size: clamp(22px, 2.2vw, 32px);
-  line-height: 1.25;
-  letter-spacing: -0.03em;
-  font-weight: 650;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  font-weight: 600;
 }
 
 .about-text {
   margin: 0 0 14px;
-  max-width: 34em;
+  max-width: 36em;
   color: var(--muted);
-  font-size: clamp(17px, 1.4vw, 20px);
-  line-height: 1.45;
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.5;
 }
 
-.about-creates-title {
-  margin: 24px 0 12px;
-  color: var(--text);
-  font-size: clamp(17px, 1.4vw, 20px);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-}
-
-.about-creates {
+.about-accents {
   list-style: none;
-  margin: 0 0 20px;
+  margin: 28px 0 0;
   padding: 0;
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 12px 16px;
 }
 
-.about-creates li {
-  position: relative;
-  padding-left: 1.15em;
-  color: var(--muted);
-  font-size: clamp(17px, 1.4vw, 20px);
-  line-height: 1.45;
+.about-accents li {
+  display: grid;
+  gap: 4px;
+  min-width: 9.5em;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, #c9c2ff 55%, var(--line));
+  border-radius: 14px;
+  background: color-mix(in srgb, #c9c2ff 16%, #f8f7f4);
 }
 
-.about-creates li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--accent-strong);
+.about-accent-label {
+  color: var(--text);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.about-accent-note {
+  color: color-mix(in srgb, var(--muted) 80%, #6e66b8);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
 }
 
 @media (max-width: 900px) {
@@ -2243,6 +2248,10 @@ section[id] {
     margin-top: 0;
     max-width: none;
     width: 100%;
+  }
+
+  .about-accents {
+    grid-template-columns: 1fr 1fr;
   }
 
   .about-figure {

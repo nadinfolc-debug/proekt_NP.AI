@@ -58,7 +58,9 @@ export function CtaBand({
         <ScrollReveal className="cta-inner" stagger={120} delay={40}>
           <div className="cta-copy">
             <h2 id="cta-title">{ctaCopy.title}</h2>
-            <p>{ctaCopy.text}</p>
+            {ctaCopy.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
 
           {status === "done" ? (

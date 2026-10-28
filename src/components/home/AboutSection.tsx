@@ -20,17 +20,14 @@ export function AboutSection() {
                 {paragraph}
               </p>
             ))}
-            <p className="about-creates-title">{aboutCopy.createsTitle}</p>
-            <ul className="about-creates">
-              {aboutCopy.creates.map((item) => (
-                <li key={item}>{item}</li>
+            <ul className="about-accents">
+              {aboutCopy.accents.map((item) => (
+                <li key={item.label}>
+                  <span className="about-accent-label">{item.label}</span>
+                  <span className="about-accent-note">{item.note}</span>
+                </li>
               ))}
             </ul>
-            {aboutCopy.closing.map((paragraph) => (
-              <p className="about-text" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
           </ScrollReveal>
 
           <ScrollReveal as="figure" className="about-figure" delay={160}>
