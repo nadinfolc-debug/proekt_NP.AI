@@ -5,6 +5,7 @@ import { notifyAdmin } from "../lib/notify";
 import { addApplication } from "../lib/store";
 import { useSectionId } from "../lib/useSectionId";
 import { ScrollReveal } from "./ScrollReveal";
+import { SectionBackdrop } from "./SectionBackdrop";
 
 type SubmitStatus = "idle" | "sending" | "done";
 
@@ -54,6 +55,7 @@ export function CtaBand({
 
   return (
     <section className="cta-band flow-panel flow-cta" id={sectionId} aria-labelledby="cta-title">
+      <SectionBackdrop />
       <div className="container">
         <ScrollReveal className="cta-inner" stagger={120} delay={40}>
           <div className="cta-copy">

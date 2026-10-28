@@ -208,7 +208,8 @@ p {
   justify-content: center;
   padding-top: 32px;
   padding-bottom: 32px;
-  background: var(--bg);
+  overflow: hidden;
+  background: #f8f7f4;
   box-shadow: 0 -24px 56px rgba(66, 70, 77, 0.16);
 }
 
@@ -229,7 +230,8 @@ p {
 
 .flow-page .flow-projects {
   position: relative;
-  background: var(--bg);
+  overflow: hidden;
+  background: #f8f7f4;
   box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
 }
 
@@ -246,17 +248,13 @@ p {
 
 .flow-page .flow-about {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   background: #f8f7f4;
   box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
 }
 
 .flow-page .flow-about::before {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, #c9c2ff 18%, transparent),
-    transparent 42%
-  );
+  background: transparent;
 }
 
 /* 5: CTA rises over about */
@@ -272,13 +270,13 @@ p {
   flex-direction: column;
   justify-content: center;
   border-top: 0;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--accent) 14%, var(--bg)) 0%, var(--bg) 58%);
+  overflow: hidden;
+  background: #f8f7f4;
   box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
 }
 
 .flow-page .flow-cta::before {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
+  background: transparent;
 }
 
 .flow-page .flow-cta .container {
@@ -513,10 +511,11 @@ section[id] {
 }
 
 .cta-band {
+  position: relative;
+  overflow: hidden;
   padding: clamp(88px, 14vh, 160px) 0;
   border-top: 1px solid var(--line);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--accent) 14%, var(--bg)) 0%, var(--bg) 58%);
+  background: #f8f7f4;
 }
 
 .cta-inner {
@@ -1443,9 +1442,11 @@ section[id] {
 }
 
 .footer {
+  position: relative;
+  overflow: hidden;
   padding: 28px 0 36px;
   border-top: 1px solid var(--line);
-  background: var(--bg);
+  background: #f8f7f4;
 }
 
 .footer-bar {
@@ -2204,7 +2205,7 @@ section[id] {
   background: #f8f7f4;
 }
 
-.about-atmosphere {
+.section-backdrop {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -2212,16 +2213,32 @@ section[id] {
   pointer-events: none;
 }
 
-.about-atmosphere-img {
+.section-backdrop-img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right center;
+  object-position: center;
   opacity: 0.8;
+  /* Slightly warmer than the source lavender wash */
+  filter: sepia(0.2) saturate(1.08) brightness(1.03) hue-rotate(-14deg);
 }
 
-.about-container {
+.section-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, #f4e6d6 34%, transparent) 0%,
+    color-mix(in srgb, #f0ddd0 16%, transparent) 48%,
+    color-mix(in srgb, #f8f0e8 22%, transparent) 100%
+  );
+}
+
+.about-container,
+.flow-panel > .container,
+.footer > .container {
   position: relative;
   z-index: 1;
 }
@@ -2378,10 +2395,6 @@ section[id] {
     padding-top: clamp(64px, 10vh, 96px);
     padding-bottom: clamp(72px, 12vh, 120px);
     overflow: hidden;
-  }
-
-  .about-atmosphere {
-    inset: -4% -10% -6%;
   }
 
   .about-stage {

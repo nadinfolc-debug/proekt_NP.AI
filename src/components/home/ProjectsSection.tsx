@@ -2,6 +2,7 @@ import { projectsCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
+import { SectionBackdrop } from "../SectionBackdrop";
 
 export function ProjectsSection() {
   const sectionId = useSectionId("projects");
@@ -12,6 +13,7 @@ export function ProjectsSection() {
       id={sectionId}
       aria-labelledby="projects-title"
     >
+      <SectionBackdrop />
       <div className="container">
         <ScrollReveal delay={40}>
           <h2 id="projects-title" className="projects-title">

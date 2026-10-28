@@ -2,12 +2,14 @@ import { helpBlocks, helpCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
+import { SectionBackdrop } from "../SectionBackdrop";
 
 export function HelpSection() {
   const sectionId = useSectionId("help");
 
   return (
     <section className="section help flow-panel flow-help" id={sectionId} aria-labelledby="help-title">
+      <SectionBackdrop />
       <div className="container">
         <ScrollReveal delay={40}>
           <h2 id="help-title" className="help-title">

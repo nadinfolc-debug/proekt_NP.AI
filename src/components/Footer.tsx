@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import { SectionBackdrop } from "./SectionBackdrop";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="footer">
+      <SectionBackdrop />
       <div className="container footer-bar">
         <p className="footer-brand-line">
           <span>NP.AI</span> Prikolota

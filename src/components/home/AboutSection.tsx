@@ -1,19 +1,15 @@
 import portrait from "../../assets/about/portrait.png";
 import { aboutCopy } from "../../data/site";
-import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
-
-const aboutBackdrop = asset("media/works/обо мне.png");
+import { SectionBackdrop } from "../SectionBackdrop";
 
 export function AboutSection() {
   const sectionId = useSectionId("about");
 
   return (
     <section className="section about flow-panel flow-about" id={sectionId} aria-labelledby="about-title">
-      <div className="about-atmosphere" aria-hidden="true">
-        <img className="about-atmosphere-img" src={aboutBackdrop} alt="" decoding="async" />
-      </div>
+      <SectionBackdrop />
 
       <div className="container about-container">
         <div className="about-stage">
