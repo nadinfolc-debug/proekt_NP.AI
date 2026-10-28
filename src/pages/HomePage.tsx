@@ -31,12 +31,12 @@ export function HomePage() {
         <AboutSection />
       </div>
 
-      <div className="flow-slot flow-slot-reviews">
-        <ReviewsSection />
-      </div>
-
       <div className="flow-slot flow-slot-faq">
         <FaqSection />
+      </div>
+
+      <div className="flow-slot flow-slot-reviews">
+        <ReviewsSection />
       </div>
 
       <div className="flow-slot flow-slot-cta">
