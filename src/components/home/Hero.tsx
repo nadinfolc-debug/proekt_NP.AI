@@ -4,9 +4,10 @@ import { asset } from "../../lib/asset";
 import { scrollToSection } from "../../lib/scroll";
 import TextType from "../TextType";
 
-const heroSrc = asset("media/hero/hero.mp4");
-const posterJpg = asset("media/hero/poster.jpg");
-const posterWebp = asset("media/hero/poster.webp");
+/** New filename + version query bust mobile disk cache of the old ski reel. */
+const HERO_MEDIA_VERSION = "20261029c";
+const heroSrc = `${asset("media/hero/cover.mp4")}?v=${HERO_MEDIA_VERSION}`;
+const posterJpg = `${asset("media/hero/poster.jpg")}?v=${HERO_MEDIA_VERSION}`;
 
 export function Hero() {
   const reduced = usePrefersReducedMotion();
@@ -73,7 +74,6 @@ export function Hero() {
     <section className="hero flow-panel flow-hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
         <picture>
-          <source srcSet={posterWebp} type="image/webp" />
           <img src={posterJpg} alt="" width={1280} height={720} fetchPriority="high" />
         </picture>
         {reduced ? null : (
