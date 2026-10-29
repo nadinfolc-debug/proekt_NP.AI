@@ -17,27 +17,33 @@ export function Hero() {
     const node = videoRef.current;
     if (!node || reduced) return;
 
+    node.loop = true;
+    node.muted = true;
+
     const play = () => {
       const pending = node.play();
       if (!pending) return;
       pending.then(() => setPlaying(true)).catch(() => setPlaying(false));
     };
 
+    // Keep looping continuously — do not pause when the hero leaves the viewport.
     play();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) {
-          node.pause();
-          setPlaying(false);
-          return;
-        }
-        play();
-      },
-      { threshold: 0.2 },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
+    const onEnded = () => {
+      node.currentTime = 0;
+      play();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible" && !node.paused) return;
+      if (document.visibilityState === "visible") play();
+    };
+
+    node.addEventListener("ended", onEnded);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      node.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [reduced]);
 
   const toggle = () => {
