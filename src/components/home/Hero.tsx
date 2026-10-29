@@ -19,6 +19,11 @@ export function Hero() {
 
     node.loop = true;
     node.muted = true;
+    node.defaultMuted = true;
+    node.playsInline = true;
+    node.setAttribute("playsinline", "");
+    node.setAttribute("webkit-playsinline", "");
+    node.setAttribute("x5-playsinline", "");
 
     const play = () => {
       const pending = node.play();
@@ -26,7 +31,7 @@ export function Hero() {
       pending.then(() => setPlaying(true)).catch(() => setPlaying(false));
     };
 
-    // Keep looping continuously — do not pause when the hero leaves the viewport.
+    // Keep looping continuously on desktop and mobile — never pause on scroll.
     play();
 
     const onEnded = () => {
@@ -34,15 +39,22 @@ export function Hero() {
       play();
     };
     const onVisibility = () => {
-      if (document.visibilityState === "visible" && !node.paused) return;
       if (document.visibilityState === "visible") play();
+    };
+    // iOS/Android often need a gesture if autoplay was blocked once.
+    const onFirstGesture = () => {
+      if (node.paused) play();
     };
 
     node.addEventListener("ended", onEnded);
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("touchstart", onFirstGesture, { passive: true, once: true });
+    window.addEventListener("click", onFirstGesture, { once: true });
     return () => {
       node.removeEventListener("ended", onEnded);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("touchstart", onFirstGesture);
+      window.removeEventListener("click", onFirstGesture);
     };
   }, [reduced]);
 
