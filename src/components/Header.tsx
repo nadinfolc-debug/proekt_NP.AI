@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { navItems } from "../data/contacts";
+import { navItems, socialLinks } from "../data/contacts";
 import { scrollToSection, type ScrollState } from "../lib/scroll";
 
 export function Header() {
@@ -142,6 +142,16 @@ export function Header() {
             </Link>
           ))}
         </nav>
+        <div className="header-contacts">
+          <a
+            className="header-telegram"
+            href={socialLinks.telegram.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {socialLinks.telegram.label}
+          </a>
+        </div>
         <button
           ref={buttonRef}
           type="button"
@@ -165,6 +175,9 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <a href={socialLinks.telegram.href} target="_blank" rel="noreferrer">
+              {socialLinks.telegram.label}
+            </a>
           </nav>
         </div>
       ) : null}

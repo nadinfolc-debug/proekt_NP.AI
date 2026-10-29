@@ -5,7 +5,7 @@ import { scrollToSection } from "../../lib/scroll";
 import TextType from "../TextType";
 
 /** New filename + version query bust mobile disk cache of the old ski reel. */
-const HERO_MEDIA_VERSION = "20261029c";
+const HERO_MEDIA_VERSION = "20261029lite";
 const heroSrc = `${asset("media/hero/cover.mp4")}?v=${HERO_MEDIA_VERSION}`;
 const posterJpg = `${asset("media/hero/poster.jpg")}?v=${HERO_MEDIA_VERSION}`;
 

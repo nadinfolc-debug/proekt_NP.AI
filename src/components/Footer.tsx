@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { socialLinks } from "../data/contacts";
 import { SectionBackdrop } from "./SectionBackdrop";
 
 export function Footer() {
@@ -12,6 +13,9 @@ export function Footer() {
           <span>NP.AI</span> Prikolota
         </p>
         <nav className="footer-nav" aria-label="Документы">
+          <a href={socialLinks.telegram.href} target="_blank" rel="noreferrer">
+            {socialLinks.telegram.label}
+          </a>
           <Link to="/privacy">Политика конфиденциальности</Link>
           <Link to="/offer">Оферта</Link>
         </nav>

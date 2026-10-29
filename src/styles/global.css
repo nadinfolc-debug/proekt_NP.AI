@@ -948,6 +948,23 @@ section[id] {
   margin-left: auto;
 }
 
+.header-telegram {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.header.is-over-hero .header-telegram {
+  color: #f8f7f4;
+}
+
+.header.is-over-hero .header-telegram:hover {
+  color: var(--accent);
+}
+
+.header.is-solid .header-telegram {
+  color: var(--accent-strong);
+}
+
 .nav-desktop a,
 .header-contacts a,
 .footer a,
@@ -2047,7 +2064,13 @@ section[id] {
   }
 
   .header-contacts {
-    display: none;
+    display: flex;
+    margin-left: auto;
+  }
+
+  .header-telegram {
+    font-size: 13px;
+    padding-inline: 10px;
   }
 
   /* Keep section links visible on phones (not only behind «Меню») */
