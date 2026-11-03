@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navItems, socialLinks } from "../data/contacts";
 import { scrollToSection, type ScrollState } from "../lib/scroll";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   const location = useLocation();
@@ -143,6 +144,7 @@ export function Header() {
           ))}
         </nav>
         <div className="header-contacts">
+          <ThemeToggle />
           <a
             className="header-telegram"
             href={socialLinks.telegram.href}
@@ -178,6 +180,10 @@ export function Header() {
             <a href={socialLinks.telegram.href} target="_blank" rel="noreferrer">
               {socialLinks.telegram.label}
             </a>
+            <div className="nav-panel-theme">
+              <ThemeToggle />
+              <span>Тема</span>
+            </div>
           </nav>
         </div>
       ) : null}

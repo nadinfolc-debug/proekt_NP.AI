@@ -36,6 +36,24 @@
   color-scheme: light;
 }
 
+html[data-theme="dark"] {
+  --bg: #121316;
+  --bg-deep: #1a1b1e;
+  --surface: #26282d;
+  --text: #f0efec;
+  --muted: #b4b6bc;
+  --accent: #c9c2ff;
+  --accent-hover: #ddd8ff;
+  --accent-strong: #d4ceff;
+  --accent-mid: #b7aef5;
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, var(--bg));
+  --line: #3c3f46;
+  --ink: #f0efec;
+  --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.38);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.48);
+  color-scheme: dark;
+}
+
 @font-face {
   font-family: Manrope;
   src: url("../assets/fonts/manrope-cyrillic.woff2") format("woff2");

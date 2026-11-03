@@ -29,6 +29,19 @@
     />
     <script>
       (function () {
+        try {
+          var stored = localStorage.getItem("np-theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#121316" : "#F8F7F4");
+        } catch (e) {}
         if ("scrollRestoration" in history) history.scrollRestoration = "manual";
         // Always open the homepage from the top — ignore leftover #contacts etc.
         if (location.hash) {
