@@ -399,46 +399,24 @@ p {
   }
 }
 
+/* Initial state; motion is driven by GSAP ScrollTrigger */
 .scroll-reveal {
   opacity: 0;
-  transform: translate3d(0, var(--motion-lift), 0);
-  transition:
-    opacity var(--motion-duration) var(--ease-out-expo),
-    transform var(--motion-duration) var(--ease-out-expo);
-  transition-delay: var(--sr-delay, 0ms);
   will-change: opacity, transform;
-}
-
-.scroll-reveal.is-in {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
 }
 
 .scroll-reveal-stagger {
   opacity: 1;
-  transform: none;
-  transition: none;
   will-change: auto;
 }
 
 .scroll-reveal-stagger .scroll-reveal-item {
   opacity: 0;
-  transform: translate3d(0, var(--motion-lift), 0);
-  transition:
-    opacity var(--motion-duration) var(--ease-out-expo),
-    transform var(--motion-duration) var(--ease-out-expo);
-  transition-delay: var(--sr-delay, 0ms);
   will-change: opacity, transform;
 }
 
-.scroll-reveal-stagger.is-in .scroll-reveal-item {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 @media (max-width: 700px) {
-  .scroll-reveal,
-  .scroll-reveal-stagger .scroll-reveal-item {
+  :root {
     --motion-lift: 22px;
     --motion-duration: 0.7s;
   }
@@ -449,7 +427,6 @@ p {
   .scroll-reveal-stagger .scroll-reveal-item {
     opacity: 1;
     transform: none;
-    transition: none;
     will-change: auto;
   }
 }

@@ -1,4 +1,5 @@
 import { CtaBand } from "../components/CtaBand";
+import { FlowRise } from "../components/FlowRise";
 import { AboutSection } from "../components/home/AboutSection";
 import { FaqSection } from "../components/home/FaqSection";
 import { HelpSection } from "../components/home/HelpSection";
@@ -12,36 +13,38 @@ const description =
 
 export function HomePage() {
   return (
-    <div className="flow-page">
-      <Seo title="NP.AI Prikolota — AI-визуал, контент и сайты" description={description} />
+    <FlowRise>
+      <div className="flow-page">
+        <Seo title="NP.AI Prikolota — AI-визуал, контент и сайты" description={description} />
 
-      <div className="flow-slot flow-slot-hero">
-        <Hero />
-      </div>
+        <div className="flow-slot flow-slot-hero">
+          <Hero />
+        </div>
 
-      <div className="flow-slot flow-slot-help">
-        <HelpSection />
-      </div>
+        <div className="flow-slot flow-slot-help">
+          <HelpSection />
+        </div>
 
-      <div className="flow-slot flow-slot-projects">
-        <ProjectsSection />
-      </div>
+        <div className="flow-slot flow-slot-projects">
+          <ProjectsSection />
+        </div>
 
-      <div className="flow-slot flow-slot-about">
-        <AboutSection />
-      </div>
+        <div className="flow-slot flow-slot-about">
+          <AboutSection />
+        </div>
 
-      <div className="flow-slot flow-slot-faq">
-        <FaqSection />
-      </div>
+        <div className="flow-slot flow-slot-faq">
+          <FaqSection />
+        </div>
 
-      <div className="flow-slot flow-slot-reviews">
-        <ReviewsSection />
-      </div>
+        <div className="flow-slot flow-slot-reviews">
+          <ReviewsSection />
+        </div>
 
-      <div className="flow-slot flow-slot-cta">
-        <CtaBand />
+        <div className="flow-slot flow-slot-cta">
+          <CtaBand />
+        </div>
       </div>
-    </div>
+    </FlowRise>
   );
 }

@@ -4,11 +4,11 @@ import {
   isValidElement,
   useEffect,
   useRef,
-  useState,
   type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
+import { getGsap } from "../lib/gsap";
 
 type RootTag = "div" | "ol" | "ul" | "section" | "figure";
 
@@ -26,12 +26,6 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function isInView(node: HTMLElement) {
-  const rect = node.getBoundingClientRect();
-  const vh = window.innerHeight || document.documentElement.clientHeight;
-  return rect.top < vh * 0.92 && rect.bottom > vh * 0.08;
-}
-
 export function ScrollReveal({
   children,
   className = "",
@@ -40,72 +34,70 @@ export function ScrollReveal({
   stagger = 0,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
+  const staggered = stagger > 0;
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
     if (prefersReducedMotion()) {
-      setVisible(true);
+      node.classList.add("is-in");
+      node.querySelectorAll(".scroll-reveal-item").forEach((item) => {
+        (item as HTMLElement).style.opacity = "1";
+        (item as HTMLElement).style.transform = "none";
+      });
       return;
     }
 
-    if (isInView(node)) {
-      setVisible(true);
-      return;
-    }
+    const { gsap } = getGsap();
+    const items = staggered
+      ? Array.from(node.querySelectorAll<HTMLElement>(":scope > .scroll-reveal-item"))
+      : [node];
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        setVisible(true);
-        observer.disconnect();
-      },
-      {
-        // Any visible pixel is enough — ratio thresholds fail on tall sections.
-        threshold: 0,
-        rootMargin: "0px 0px -40px 0px",
-      },
-    );
+    gsap.set(items, {
+      opacity: 0,
+      y: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--motion-lift")) || 40,
+      force3D: true,
+    });
 
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+    const tween = gsap.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--motion-duration")) || 0.9,
+      ease: "power3.out",
+      delay: delay / 1000,
+      stagger: staggered ? stagger / 1000 : 0,
+      scrollTrigger: {
+        trigger: node,
+        start: "top 88%",
+        once: true,
+      },
+      onStart: () => node.classList.add("is-in"),
+    });
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, [delay, stagger, staggered]);
 
   const Tag = as;
-  const staggered = stagger > 0;
-  const classes = [
-    "scroll-reveal",
-    staggered ? "scroll-reveal-stagger" : "",
-    visible ? "is-in" : "",
-    className,
-  ]
+  const classes = ["scroll-reveal", staggered ? "scroll-reveal-stagger" : "", className]
     .filter(Boolean)
     .join(" ");
 
   const content = staggered
-    ? Children.map(children, (child, index) => {
+    ? Children.map(children, (child) => {
         if (!isValidElement(child)) return child;
         const element = child as ReactElement<{ className?: string; style?: CSSProperties }>;
-        const style: CSSProperties = {
-          ...element.props.style,
-          ["--sr-delay" as string]: `${delay + index * stagger}ms`,
-        };
         return cloneElement(element, {
           className: [element.props.className, "scroll-reveal-item"].filter(Boolean).join(" "),
-          style,
         });
       })
     : children;
 
-  const rootStyle =
-    !staggered && delay > 0
-      ? ({ ["--sr-delay" as string]: `${delay}ms` } as CSSProperties)
-      : undefined;
-
   return (
-    <Tag ref={ref as never} className={classes} style={rootStyle}>
+    <Tag ref={ref as never} className={classes}>
       {content}
     </Tag>
   );
