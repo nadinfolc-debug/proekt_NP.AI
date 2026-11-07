@@ -33,41 +33,50 @@ export function ProjectsSection() {
                 />
               </figure>
               <div className="project-copy">
+                <p className="project-eyebrow">{item.eyebrow}</p>
                 <h3 className="project-name">{item.name}</h3>
-                <p className="project-tags">{item.tags.join(" · ")}</p>
                 <p className="project-text">{item.text}</p>
-                {"linkHref" in item && item.linkHref ? (
-                  <p className="project-link-line">
-                    {item.linkBefore}
-                    <a
-                      className="project-link"
-                      href={item.linkHref}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {item.linkLabel}
-                    </a>
-                  </p>
-                ) : null}
+
+                <div className="project-includes">
+                  <p className="project-includes-title">{item.includesTitle}</p>
+                  <ul className="project-chips">
+                    {item.includes.map((chip, index) => (
+                      <li
+                        key={chip}
+                        className={`project-chip project-chip-${(index % 3) + 1}`}
+                      >
+                        {chip}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="project-actions">
+                  {item.actions.map((action) => {
+                    const href = "asset" in action && action.asset ? asset(action.href) : action.href;
+                    return (
+                      <a
+                        key={action.label}
+                        className={`button project-action${
+                          action.variant === "accent" ? " button-accent" : ""
+                        }`}
+                        href={href}
+                        {...(action.external
+                          ? { target: "_blank", rel: "noreferrer" }
+                          : {})}
+                        {...("download" in action && action.download
+                          ? { download: action.download }
+                          : {})}
+                      >
+                        {action.label}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
             </ScrollReveal>
           ))}
         </div>
-
-        <ScrollReveal delay={120}>
-          <p className="projects-pdf">
-            {projectsCopy.pdfBefore}
-            <a
-              className="project-link"
-              href={asset(projectsCopy.pdfHref)}
-              download={projectsCopy.pdfDownload}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {projectsCopy.pdfLabel}
-            </a>
-          </p>
-        </ScrollReveal>
       </div>
     </section>
   );

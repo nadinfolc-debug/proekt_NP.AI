@@ -15,20 +15,44 @@ export const helpCopy = {
 
 export const projectsCopy = {
   title: "Проекты",
-  pdfBefore: "Подробнее о том, что я делаю: ",
-  pdfLabel: "открыть PDF об услугах",
-  pdfHref: "pro-uslugi.pdf",
-  pdfDownload: "про услуги.pdf",
   items: [
     {
-      name: "Соцвет — сайт авторской флористики",
-      tags: ["Сайт", "Адаптивный дизайн", "Чат-бот", "ИИ"],
-      text: "Создала сайт для авторской флористики с каталогом букетов, мобильной версией и чат-ботом с искусственным интеллектом.",
-      linkHref: "https://nadinfolc-debug-socvet-bloom-bouquet-studio-9e26.twc1.net/",
-      linkLabel: "Открыть сайт Соцвет",
-      linkBefore: "Посмотреть проект: ",
+      eyebrow: "Авторский концепт · Сайт и брендинг",
+      name: "«Соцвет» — от идеи до цифрового проекта",
+      text: "Создала сайт для флористической мастерской, объединив эстетику бренда, удобный каталог букетов, оформление заказов и адаптивный дизайн. Дополнительно разработала фирменные материалы и визуальные концепции для продвижения.",
+      includesTitle: "Что входит в проект",
+      includes: [
+        "Адаптивный сайт",
+        "Каталог и корзина",
+        "Панель заказов",
+        "Фирменный стиль",
+        "PDF-материалы",
+        "Оформление соцсетей",
+      ],
       image: "media/works/проекты.png",
       imageAlt: "Соцвет — адаптивный сайт авторской флористики на ноутбуке и телефоне",
+      actions: [
+        {
+          label: "Посмотреть сайт",
+          href: "https://nadinfolc-debug-socvet-bloom-bouquet-studio-9e26.twc1.net/",
+          external: true,
+          variant: "accent" as const,
+        },
+        {
+          label: "PDF об услугах",
+          href: "pro-uslugi.pdf",
+          download: "про услуги.pdf",
+          asset: true,
+          external: true,
+          variant: "ghost" as const,
+        },
+        {
+          label: "Написать в Telegram",
+          href: "https://t.me/Maricheva80",
+          external: true,
+          variant: "ghost" as const,
+        },
+      ],
     },
   ],
 };
