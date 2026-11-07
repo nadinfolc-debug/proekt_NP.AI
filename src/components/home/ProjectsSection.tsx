@@ -74,13 +74,19 @@ export function ProjectsSection() {
                       );
                     }
 
+                    const href =
+                      "asset" in action && action.asset ? asset(action.href) : action.href;
+
                     return (
                       <a
                         key={action.label}
                         className={className}
-                        href={action.href}
+                        href={href}
                         {...(action.external
                           ? { target: "_blank", rel: "noreferrer" }
+                          : {})}
+                        {...("download" in action && action.download
+                          ? { download: action.download }
                           : {})}
                       >
                         {action.label}

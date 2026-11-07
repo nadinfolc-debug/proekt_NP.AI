@@ -42,6 +42,14 @@ export const projectsCopy = {
           variant: "accent" as const,
         },
         {
+          label: "PDF по проекту",
+          href: "proekt-socvet.pdf",
+          download: "для блока проекты.pdf",
+          asset: true,
+          external: true,
+          variant: "ghost" as const,
+        },
+        {
           label: "Обсудить проект",
           section: "discuss",
           variant: "ghost" as const,
