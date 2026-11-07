@@ -36,6 +36,19 @@ export function ProjectsSection() {
                 <h3 className="project-name">{item.name}</h3>
                 <p className="project-tags">{item.tags.join(" · ")}</p>
                 <p className="project-text">{item.text}</p>
+                {"linkHref" in item && item.linkHref ? (
+                  <p className="project-link-line">
+                    {item.linkBefore}
+                    <a
+                      className="project-link"
+                      href={item.linkHref}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {item.linkLabel}
+                    </a>
+                  </p>
+                ) : null}
               </div>
             </ScrollReveal>
           ))}

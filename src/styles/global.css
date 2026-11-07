@@ -2437,6 +2437,30 @@ section[id] {
   line-height: 1.5;
 }
 
+.project-link-line {
+  margin: 14px 0 0;
+  max-width: 34em;
+  color: var(--text);
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
+.project-link {
+  color: var(--accent-strong);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+  transition: color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-link:hover {
+    color: var(--accent-hover);
+  }
+}
+
 @media (max-width: 860px) {
   .project-card {
     grid-template-columns: 1fr;
