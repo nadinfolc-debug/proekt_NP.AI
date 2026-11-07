@@ -2446,6 +2446,15 @@ section[id] {
   letter-spacing: -0.02em;
 }
 
+.projects-pdf {
+  margin: 28px 0 0;
+  max-width: 40em;
+  color: var(--text);
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
 .project-link {
   color: var(--accent-strong);
   font-weight: 650;

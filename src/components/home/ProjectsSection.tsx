@@ -53,6 +53,21 @@ export function ProjectsSection() {
             </ScrollReveal>
           ))}
         </div>
+
+        <ScrollReveal delay={120}>
+          <p className="projects-pdf">
+            {projectsCopy.pdfBefore}
+            <a
+              className="project-link"
+              href={asset(projectsCopy.pdfHref)}
+              download={projectsCopy.pdfDownload}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {projectsCopy.pdfLabel}
+            </a>
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );

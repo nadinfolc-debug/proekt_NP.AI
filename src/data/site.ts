@@ -15,6 +15,10 @@ export const helpCopy = {
 
 export const projectsCopy = {
   title: "Проекты",
+  pdfBefore: "Подробнее о том, что я делаю: ",
+  pdfLabel: "открыть PDF об услугах",
+  pdfHref: "pro-uslugi.pdf",
+  pdfDownload: "про услуги.pdf",
   items: [
     {
       name: "Соцвет — сайт авторской флористики",
