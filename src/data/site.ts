@@ -11,6 +11,9 @@ export const helpCopy = {
   packageTitle: "Один бренд. Единый стиль. Все площадки.",
   package:
     "Создаю изображения, ролики и сайты в едином стиле — для маркетплейсов, соцсетей и бизнеса",
+  pdfLabel: "Подробнее об услугах (PDF)",
+  pdfHref: "pro-uslugi.pdf",
+  pdfDownload: "про услуги.pdf",
 };
 
 export const projectsCopy = {
@@ -37,14 +40,6 @@ export const projectsCopy = {
           href: "https://nadinfolc-debug-socvet-bloom-bouquet-studio-9e26.twc1.net/",
           external: true,
           variant: "accent" as const,
-        },
-        {
-          label: "PDF об услугах",
-          href: "pro-uslugi.pdf",
-          download: "про услуги.pdf",
-          asset: true,
-          external: true,
-          variant: "ghost" as const,
         },
         {
           label: "Обсудить проект",

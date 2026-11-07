@@ -42,6 +42,15 @@ export function HelpSection() {
         <ScrollReveal delay={120} className="help-package-block">
           <p className="help-package-title">{helpCopy.packageTitle}</p>
           <p className="help-package">{helpCopy.package}</p>
+          <a
+            className="button button-accent help-pdf-button"
+            href={asset(helpCopy.pdfHref)}
+            download={helpCopy.pdfDownload}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {helpCopy.pdfLabel}
+          </a>
         </ScrollReveal>
       </div>
     </section>

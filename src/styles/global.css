@@ -2370,6 +2370,13 @@ section[id] {
   letter-spacing: -0.02em;
 }
 
+.help-pdf-button {
+  margin-top: 16px;
+  min-height: 44px;
+  padding: 0 20px;
+  font-size: 0.95rem;
+}
+
 .projects {
   padding-top: clamp(48px, 10vh, 120px);
   padding-bottom: clamp(56px, 12vh, 150px);
