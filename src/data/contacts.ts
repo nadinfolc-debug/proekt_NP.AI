@@ -8,7 +8,7 @@ export const navItems = [
 
 export const socialLinks = {
   telegram: {
-    href: "https://t.me/Maricheva80",
+    href: "https://t.me/NP_AI_Prikolota",
     label: "Telegram",
   },
 } as const;
