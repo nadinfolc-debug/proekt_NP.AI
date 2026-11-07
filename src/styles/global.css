@@ -2475,6 +2475,14 @@ section[id] {
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.2;
+  cursor: default;
+  transform: translateY(0) scale(1);
+  box-shadow: none;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.35s var(--ease-out-expo);
 }
 
 .project-chip-1 {
@@ -2490,6 +2498,40 @@ section[id] {
 .project-chip-3 {
   background: color-mix(in srgb, #9fd9c7 48%, var(--surface));
   color: color-mix(in srgb, #2f7a66 70%, var(--text));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-chip:hover {
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  .project-chip-1:hover {
+    background: color-mix(in srgb, var(--accent) 62%, var(--surface));
+    color: var(--accent-strong);
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 38%, transparent);
+  }
+
+  .project-chip-2:hover {
+    background: color-mix(in srgb, #9ec9e8 68%, var(--surface));
+    color: #2f5f82;
+    box-shadow: 0 10px 22px color-mix(in srgb, #9ec9e8 42%, transparent);
+  }
+
+  .project-chip-3:hover {
+    background: color-mix(in srgb, #9fd9c7 70%, var(--surface));
+    color: #246655;
+    box-shadow: 0 10px 22px color-mix(in srgb, #9fd9c7 42%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-chip {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .project-chip:hover {
+    transform: none;
+  }
 }
 
 .project-actions {
@@ -2544,6 +2586,25 @@ html[data-theme="dark"] .project-chip-2 {
 html[data-theme="dark"] .project-chip-3 {
   background: color-mix(in srgb, #5fbfa8 28%, var(--surface));
   color: color-mix(in srgb, #b6ead9 75%, var(--text));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme="dark"] .project-chip-1:hover {
+    background: color-mix(in srgb, var(--accent) 42%, var(--surface));
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  html[data-theme="dark"] .project-chip-2:hover {
+    background: color-mix(in srgb, #6ea8cc 44%, var(--surface));
+    color: #d2e8f5;
+    box-shadow: 0 10px 22px color-mix(in srgb, #6ea8cc 28%, transparent);
+  }
+
+  html[data-theme="dark"] .project-chip-3:hover {
+    background: color-mix(in srgb, #5fbfa8 42%, var(--surface));
+    color: #d2f3e8;
+    box-shadow: 0 10px 22px color-mix(in srgb, #5fbfa8 28%, transparent);
+  }
 }
 
 .reviews {
