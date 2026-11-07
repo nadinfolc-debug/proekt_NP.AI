@@ -1,5 +1,6 @@
 import { projectsCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
+import { scrollToSection } from "../../lib/scroll";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
 import { SectionBackdrop } from "../SectionBackdrop";
@@ -53,13 +54,33 @@ export function ProjectsSection() {
 
                 <div className="project-actions">
                   {item.actions.map((action) => {
-                    const href = "asset" in action && action.asset ? asset(action.href) : action.href;
+                    const className = `button project-action${
+                      action.variant === "accent" ? " button-accent" : ""
+                    }`;
+
+                    if ("section" in action && action.section) {
+                      return (
+                        <a
+                          key={action.label}
+                          className={className}
+                          href={`#${action.section}`}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            scrollToSection(action.section);
+                          }}
+                        >
+                          {action.label}
+                        </a>
+                      );
+                    }
+
+                    const href =
+                      "asset" in action && action.asset ? asset(action.href) : action.href;
+
                     return (
                       <a
                         key={action.label}
-                        className={`button project-action${
-                          action.variant === "accent" ? " button-accent" : ""
-                        }`}
+                        className={className}
                         href={href}
                         {...(action.external
                           ? { target: "_blank", rel: "noreferrer" }

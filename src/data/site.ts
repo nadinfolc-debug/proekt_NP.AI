@@ -47,9 +47,8 @@ export const projectsCopy = {
           variant: "ghost" as const,
         },
         {
-          label: "Написать в Telegram",
-          href: "https://t.me/Maricheva80",
-          external: true,
+          label: "Обсудить проект",
+          section: "discuss",
           variant: "ghost" as const,
         },
       ],
