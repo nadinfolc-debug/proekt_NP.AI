@@ -30,7 +30,7 @@ export const helpCopy = {
     },
     {
       label: "Сообщество ВК",
-      href: "https://vk.ru/prikolota_np_ai",
+      href: "https://vk.ru/np.ai_prikolota",
       external: true,
       variant: "ghost" as const,
     },
