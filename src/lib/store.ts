@@ -2,6 +2,9 @@ export type Application = {
   id: string;
   name: string;
   contact: string;
+  contactMethod?: string;
+  contactHandle?: string;
+  service?: string;
   task: string;
   createdAt: string;
   status: "new" | "done";

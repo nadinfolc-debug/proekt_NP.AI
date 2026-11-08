@@ -1,6 +1,9 @@
 export type NotifyPayload = {
   name: string;
   contact: string;
+  contactMethod: string;
+  contactHandle: string;
+  service: string;
   task: string;
 };
 
@@ -23,6 +26,9 @@ async function postOnce(payload: NotifyPayload): Promise<boolean> {
     body: JSON.stringify({
       name: payload.name,
       contact: payload.contact,
+      contactMethod: payload.contactMethod,
+      contactHandle: payload.contactHandle,
+      service: payload.service,
       task: payload.task,
       ...(notifySecret ? { secret: notifySecret } : {}),
     }),

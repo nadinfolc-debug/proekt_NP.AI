@@ -193,8 +193,16 @@ export function AdminPage() {
                         {app.status === "new" ? "Новая" : "Готово"}
                       </span>
                     </div>
+                    {app.service ? (
+                      <p>
+                        <span className="admin-label">Услуга:</span> {app.service}
+                      </p>
+                    ) : null}
                     <p>
-                      <span className="admin-label">Связь:</span> {app.contact}
+                      <span className="admin-label">Связь:</span>{" "}
+                      {app.contactMethod && app.contactHandle
+                        ? `${app.contactMethod}: ${app.contactHandle}`
+                        : app.contact}
                     </p>
                     <p>
                       <span className="admin-label">Задача:</span> {app.task}

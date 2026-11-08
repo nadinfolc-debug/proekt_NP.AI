@@ -63,20 +63,31 @@ const T = {
   title:
     "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u0441 \u0441\u0430\u0439\u0442\u0430",
   name: "\u0418\u043c\u044f",
+  contactMethod:
+    "\u0421\u043f\u043e\u0441\u043e\u0431 \u0441\u0432\u044f\u0437\u0438",
+  contactHandle: "\u041f\u0440\u043e\u0444\u0438\u043b\u044c",
   contact: "\u0421\u0432\u044f\u0437\u044c",
+  service: "\u0423\u0441\u043b\u0443\u0433\u0430",
   task: "\u0417\u0430\u0434\u0430\u0447\u0430",
 };
 
-function buildMessage(name, contact, task) {
-  return [
-    `<b>${T.title}</b>`,
-    "",
-    `<b>${T.name}:</b> ${escapeHtml(name)}`,
-    `<b>${T.contact}:</b> ${escapeHtml(contact)}`,
-    "",
-    `<b>${T.task}:</b>`,
-    escapeHtml(task),
-  ].join("\n");
+function buildMessage({ name, contactMethod, contactHandle, contact, service, task }) {
+  const lines = [`<b>${T.title}</b>`, "", `<b>${T.name}:</b> ${escapeHtml(name)}`];
+
+  if (contactMethod) {
+    lines.push(`<b>${T.contactMethod}:</b> ${escapeHtml(contactMethod)}`);
+  }
+  if (contactHandle) {
+    lines.push(`<b>${T.contactHandle}:</b> ${escapeHtml(contactHandle)}`);
+  } else if (contact) {
+    lines.push(`<b>${T.contact}:</b> ${escapeHtml(contact)}`);
+  }
+  if (service) {
+    lines.push(`<b>${T.service}:</b> ${escapeHtml(service)}`);
+  }
+
+  lines.push("", `<b>${T.task}:</b>`, escapeHtml(task));
+  return lines.join("\n");
 }
 
 async function readBody(req) {
@@ -119,14 +130,25 @@ const server = createServer(async (req, res) => {
   }
 
   const name = String(body.name || "").trim();
+  const contactMethod = String(body.contactMethod || "").trim();
+  const contactHandle = String(body.contactHandle || "").trim();
   const contact = String(body.contact || "").trim();
+  const service = String(body.service || "").trim();
   const task = String(body.task || "").trim();
-  if (!name || !contact || !task) {
+  const hasContact = Boolean(contactHandle || contact);
+  if (!name || !hasContact || !task) {
     sendJson(res, 400, { ok: false, error: "Missing fields" });
     return;
   }
 
-  const text = buildMessage(name, contact, task);
+  const text = buildMessage({
+    name,
+    contactMethod,
+    contactHandle,
+    contact,
+    service,
+    task,
+  });
 
   const tgResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: "POST",

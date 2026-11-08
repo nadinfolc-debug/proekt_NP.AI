@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ctaCopy } from "../data/site";
-import { notifyAdmin } from "../lib/notify";
+import { isNotifyConfigured, notifyAdmin, type NotifyPayload } from "../lib/notify";
 import { addApplication } from "../lib/store";
 import { useSectionId } from "../lib/useSectionId";
 import { ScrollReveal } from "./ScrollReveal";
 import { SectionBackdrop } from "./SectionBackdrop";
 
-type SubmitStatus = "idle" | "sending" | "done";
+type SubmitStatus = "idle" | "sending" | "done" | "error";
 
 export function CtaBand({
   showFaqLink: _showFaqLink = true,
@@ -15,22 +15,25 @@ export function CtaBand({
   showFaqLink?: boolean;
 }) {
   const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
+  const [contactMethod, setContactMethod] = useState("");
+  const [contactHandle, setContactHandle] = useState("");
+  const [service, setService] = useState("");
   const [task, setTask] = useState("");
   const [agree, setAgree] = useState(false);
   const [status, setStatus] = useState<SubmitStatus>("idle");
-  const [receipt, setReceipt] = useState<{ name: string; contact: string; task: string } | null>(
-    null,
-  );
+  const [receipt, setReceipt] = useState<NotifyPayload | null>(null);
   const sectionId = useSectionId("discuss");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!agree || status === "sending") return;
 
-    const payload = {
+    const payload: NotifyPayload = {
       name: name.trim(),
-      contact: contact.trim(),
+      contactMethod: contactMethod.trim(),
+      contactHandle: contactHandle.trim(),
+      contact: `${contactMethod.trim()}: ${contactHandle.trim()}`,
+      service: service.trim(),
       task: task.trim(),
     };
 
@@ -38,11 +41,18 @@ export function CtaBand({
     setReceipt(null);
 
     addApplication(payload);
-    await notifyAdmin(payload);
+
+    const delivered = isNotifyConfigured() ? await notifyAdmin(payload) : true;
+    if (!delivered) {
+      setStatus("error");
+      return;
+    }
 
     setReceipt(payload);
     setName("");
-    setContact("");
+    setContactMethod("");
+    setContactHandle("");
+    setService("");
     setTask("");
     setAgree(false);
     setStatus("done");
@@ -77,7 +87,8 @@ export function CtaBand({
 
           {status === "done" ? (
             <div className="cta-card cta-receipt" role="status">
-              <p className="cta-sent">Заявка отправлена. Я свяжусь с вами.</p>
+              <p className="cta-sent">{ctaCopy.successTitle}</p>
+              <p className="cta-sent-note">{ctaCopy.successText}</p>
               {receipt ? (
                 <dl className="cta-receipt-list">
                   <div>
@@ -85,8 +96,16 @@ export function CtaBand({
                     <dd>{receipt.name}</dd>
                   </div>
                   <div>
-                    <dt>Связь</dt>
-                    <dd>{receipt.contact}</dd>
+                    <dt>Способ связи</dt>
+                    <dd>{receipt.contactMethod}</dd>
+                  </div>
+                  <div>
+                    <dt>Профиль</dt>
+                    <dd>{receipt.contactHandle}</dd>
+                  </div>
+                  <div>
+                    <dt>Услуга</dt>
+                    <dd>{receipt.service}</dd>
                   </div>
                   <div>
                     <dt>Задача</dt>
@@ -100,45 +119,95 @@ export function CtaBand({
             </div>
           ) : (
             <form className="cta-card cta-form" onSubmit={onSubmit}>
+              <label className="cta-field">
+                <span className="cta-field-label">{ctaCopy.fields.name.label}</span>
+                <span className="cta-input-wrap">
+                  <span className="cta-input-icon" aria-hidden="true">
+                    👤
+                  </span>
+                  <input
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    required
+                    placeholder={ctaCopy.fields.name.placeholder}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    disabled={status === "sending"}
+                  />
+                </span>
+              </label>
+
               <div className="cta-fields-row">
                 <label className="cta-field">
-                  <span className="cta-field-label">{ctaCopy.fields.name.label}</span>
-                  <span className="cta-input-wrap">
+                  <span className="cta-field-label">{ctaCopy.fields.contactMethod.label}</span>
+                  <span className="cta-input-wrap cta-input-wrap--select">
                     <span className="cta-input-icon" aria-hidden="true">
-                      👤
+                      ✉
                     </span>
-                    <input
-                      type="text"
-                      name="name"
-                      autoComplete="name"
+                    <select
+                      name="contactMethod"
                       required
-                      placeholder={ctaCopy.fields.name.placeholder}
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
+                      value={contactMethod}
+                      onChange={(event) => setContactMethod(event.target.value)}
                       disabled={status === "sending"}
-                    />
+                    >
+                      <option value="" disabled>
+                        {ctaCopy.fields.contactMethod.placeholder}
+                      </option>
+                      {ctaCopy.contactMethods.map((method) => (
+                        <option key={method} value={method}>
+                          {method}
+                        </option>
+                      ))}
+                    </select>
                   </span>
                 </label>
 
                 <label className="cta-field">
-                  <span className="cta-field-label">{ctaCopy.fields.contact.label}</span>
+                  <span className="cta-field-label">{ctaCopy.fields.contactHandle.label}</span>
                   <span className="cta-input-wrap">
                     <span className="cta-input-icon" aria-hidden="true">
-                      ✉
+                      @
                     </span>
                     <input
                       type="text"
-                      name="contact"
+                      name="contactHandle"
                       autoComplete="username"
                       required
-                      placeholder={ctaCopy.fields.contact.placeholder}
-                      value={contact}
-                      onChange={(event) => setContact(event.target.value)}
+                      placeholder={ctaCopy.fields.contactHandle.placeholder}
+                      value={contactHandle}
+                      onChange={(event) => setContactHandle(event.target.value)}
                       disabled={status === "sending"}
                     />
                   </span>
                 </label>
               </div>
+
+              <label className="cta-field">
+                <span className="cta-field-label">{ctaCopy.fields.service.label}</span>
+                <span className="cta-input-wrap cta-input-wrap--select">
+                  <span className="cta-input-icon" aria-hidden="true">
+                    ◆
+                  </span>
+                  <select
+                    name="service"
+                    required
+                    value={service}
+                    onChange={(event) => setService(event.target.value)}
+                    disabled={status === "sending"}
+                  >
+                    <option value="" disabled>
+                      {ctaCopy.fields.service.placeholder}
+                    </option>
+                    {ctaCopy.services.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </span>
+              </label>
 
               <label className="cta-field">
                 <span className="cta-field-label">{ctaCopy.fields.task.label}</span>
@@ -172,6 +241,12 @@ export function CtaBand({
                   <Link to="/offer">офертой</Link>
                 </span>
               </label>
+
+              {status === "error" ? (
+                <p className="cta-form-error" role="alert">
+                  {ctaCopy.errorText}
+                </p>
+              ) : null}
 
               <button className="cta-submit" type="submit" disabled={status === "sending"}>
                 <span>{status === "sending" ? "Отправка…" : ctaCopy.submit}</span>
