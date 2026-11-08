@@ -2425,6 +2425,10 @@ section[id] {
   align-items: stretch;
 }
 
+.projects-more {
+  margin-top: 16px;
+}
+
 .project-card {
   display: flex;
   flex-direction: column;

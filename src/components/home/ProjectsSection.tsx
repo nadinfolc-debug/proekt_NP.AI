@@ -59,6 +59,25 @@ export function ProjectsSection() {
             </ScrollReveal>
           ))}
         </div>
+
+        <ScrollReveal delay={120} className="help-package-block projects-more">
+          <p className="help-package-title">{projectsCopy.moreTitle}</p>
+          <p className="help-package">{projectsCopy.moreText}</p>
+          <div className="help-actions">
+            {projectsCopy.moreActions.map((action) => (
+              <a
+                key={action.label}
+                className={`button help-action${
+                  action.variant === "accent" ? " button-accent" : ""
+                }`}
+                href={action.href}
+                {...(action.external ? { target: "_blank", rel: "noreferrer" } : {})}
+              >
+                {action.label}
+              </a>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

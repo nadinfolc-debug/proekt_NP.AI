@@ -64,6 +64,23 @@ export const projectsCopy = {
       actions: [],
     },
   ],
+  moreTitle: "Больше проектов и примеров работ",
+  moreText:
+    "Другие примеры сайтов, AI-изображений, рекламных роликов и визуального оформления смотрите в моих социальных сетях.",
+  moreActions: [
+    {
+      label: "Смотреть работы во ВКонтакте",
+      href: "https://vk.ru/np.ai_prikolota",
+      external: true,
+      variant: "accent" as const,
+    },
+    {
+      label: "Смотреть работы в Telegram",
+      href: "https://t.me/NP_AI_Prikolota",
+      external: true,
+      variant: "ghost" as const,
+    },
+  ],
 };
 
 export const aboutCopy = {
