@@ -1,5 +1,4 @@
 import { useId, useState } from "react";
-import { Link } from "react-router-dom";
 import { homeFaqCopy } from "../../data/site";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
@@ -56,10 +55,6 @@ export function FaqSection() {
               );
             })}
           </div>
-
-          <p className="home-faq-more">
-            <Link to={homeFaqCopy.moreHref}>{homeFaqCopy.moreLabel}</Link>
-          </p>
         </ScrollReveal>
       </div>
     </section>
