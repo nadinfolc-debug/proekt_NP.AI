@@ -19,10 +19,7 @@ export function HelpSection() {
 
         <ScrollReveal as="ol" className="help-menu" stagger={90} delay={60}>
           {helpBlocks.map((block) => (
-            <li
-              className={["help-item", block.flagship ? "is-flagship" : ""].filter(Boolean).join(" ")}
-              key={block.n}
-            >
+            <li className="help-item" key={block.n}>
               <p className="help-n" aria-hidden="true">
                 <span className="help-n-num">{block.n}</span>
                 <span className="help-n-sep" aria-hidden="true">
@@ -42,15 +39,26 @@ export function HelpSection() {
         <ScrollReveal delay={120} className="help-package-block">
           <p className="help-package-title">{helpCopy.packageTitle}</p>
           <p className="help-package">{helpCopy.package}</p>
-          <a
-            className="button button-accent help-pdf-button"
-            href={asset(helpCopy.pdfHref)}
-            download={helpCopy.pdfDownload}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {helpCopy.pdfLabel}
-          </a>
+          <div className="help-actions">
+            {helpCopy.actions.map((action) => {
+              const href = "asset" in action && action.asset ? asset(action.href) : action.href;
+              return (
+                <a
+                  key={action.label}
+                  className={`button help-action${
+                    action.variant === "accent" ? " button-accent" : ""
+                  }`}
+                  href={href}
+                  {...(action.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  {...("download" in action && action.download
+                    ? { download: action.download }
+                    : {})}
+                >
+                  {action.label}
+                </a>
+              );
+            })}
+          </div>
         </ScrollReveal>
       </div>
     </section>

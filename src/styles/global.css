@@ -2217,7 +2217,7 @@ section[id] {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 18px;
   row-gap: 18px;
   align-items: stretch;
@@ -2241,15 +2241,8 @@ section[id] {
     background-color 300ms ease;
 }
 
-.help-item.is-flagship {
-  border: 0;
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
 @media (hover: hover) and (pointer: fine) {
-  .help-item:hover,
-  .help-item.is-flagship:hover {
+  .help-item:hover {
     transform: translateY(-4px);
     background: color-mix(in srgb, var(--accent) 20%, var(--surface));
     box-shadow: var(--shadow-card-hover);
@@ -2287,20 +2280,20 @@ section[id] {
 .help-media {
   width: 100%;
   height: auto;
-  max-height: 140px;
+  max-height: none;
   max-width: none;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   overflow: hidden;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--bg-deep) 55%, var(--surface));
-  aspect-ratio: 4 / 3;
+  background: color-mix(in srgb, var(--bg-deep) 35%, var(--surface));
+  aspect-ratio: 1 / 1;
 }
 
 .help-media img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -2340,10 +2333,10 @@ section[id] {
 
 .help-package-block {
   box-sizing: border-box;
-  width: min(720px, 100%);
-  max-width: min(720px, 100%);
+  width: min(820px, 100%);
+  max-width: min(820px, 100%);
   margin: 22px auto 0;
-  padding: 16px 24px;
+  padding: 20px 24px;
   border-top: 0;
   border-radius: var(--radius-card);
   background: var(--accent-soft);
@@ -2362,27 +2355,34 @@ section[id] {
 }
 
 .help-package-title {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: var(--text);
   font-size: clamp(17px, 1.5vw, 22px);
   font-weight: 650;
   letter-spacing: -0.03em;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .help-package {
   margin: 0 auto;
-  max-width: 40em;
+  max-width: 46em;
   color: var(--muted);
   font-size: clamp(13px, 1.1vw, 15px);
-  line-height: 1.4;
+  line-height: 1.45;
   letter-spacing: -0.02em;
 }
 
-.help-pdf-button {
+.help-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-top: 16px;
+}
+
+.help-action {
   min-height: 44px;
-  padding: 0 20px;
+  padding: 0 18px;
   font-size: 0.95rem;
 }
 
@@ -3294,14 +3294,27 @@ html[data-theme="dark"] .section-backdrop::after {
     scroll-snap-type: none;
   }
 
-  .help-item,
-  .help-item.is-flagship {
+  .help-item {
     position: relative;
     flex: none;
     width: auto;
     max-width: none;
     height: auto;
     scroll-snap-align: none;
+  }
+
+  .help-media {
+    aspect-ratio: 1 / 1;
+    max-width: min(360px, 100%);
+    margin-inline: auto;
+  }
+
+  .help-actions {
+    gap: 8px;
+  }
+
+  .help-action {
+    flex: 1 1 100%;
   }
 
   .help-menu.scroll-reveal-stagger .scroll-reveal-item {
