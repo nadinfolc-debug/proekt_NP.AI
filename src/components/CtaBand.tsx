@@ -21,7 +21,6 @@ export function CtaBand({
   const [task, setTask] = useState("");
   const [agree, setAgree] = useState(false);
   const [status, setStatus] = useState<SubmitStatus>("idle");
-  const [receipt, setReceipt] = useState<NotifyPayload | null>(null);
   const sectionId = useSectionId("discuss");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -38,7 +37,6 @@ export function CtaBand({
     };
 
     setStatus("sending");
-    setReceipt(null);
 
     addApplication(payload);
 
@@ -48,7 +46,6 @@ export function CtaBand({
       return;
     }
 
-    setReceipt(payload);
     setName("");
     setContactMethod("");
     setContactHandle("");
@@ -60,7 +57,6 @@ export function CtaBand({
 
   const resetForm = () => {
     setStatus("idle");
-    setReceipt(null);
   };
 
   const [titleMain, titleAccent = ""] = ctaCopy.title.split(" ");
@@ -89,30 +85,6 @@ export function CtaBand({
             <div className="cta-card cta-receipt" role="status">
               <p className="cta-sent">{ctaCopy.successTitle}</p>
               <p className="cta-sent-note">{ctaCopy.successText}</p>
-              {receipt ? (
-                <dl className="cta-receipt-list">
-                  <div>
-                    <dt>Имя</dt>
-                    <dd>{receipt.name}</dd>
-                  </div>
-                  <div>
-                    <dt>Способ связи</dt>
-                    <dd>{receipt.contactMethod}</dd>
-                  </div>
-                  <div>
-                    <dt>Профиль</dt>
-                    <dd>{receipt.contactHandle}</dd>
-                  </div>
-                  <div>
-                    <dt>Услуга</dt>
-                    <dd>{receipt.service}</dd>
-                  </div>
-                  <div>
-                    <dt>Задача</dt>
-                    <dd>{receipt.task}</dd>
-                  </div>
-                </dl>
-              ) : null}
               <button className="button button-ghost" type="button" onClick={resetForm}>
                 Отправить ещё одну
               </button>
