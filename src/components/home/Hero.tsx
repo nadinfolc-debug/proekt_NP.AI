@@ -117,7 +117,13 @@ export function Hero() {
             startOnVisible
           />
         )}
-        <p className="lead">{heroCopy.description}</p>
+        <div className="hero-lead">
+          {heroCopy.description.map((paragraph) => (
+            <p key={paragraph} className="lead">
+              {paragraph}
+            </p>
+          ))}
+        </div>
         <a
           className="hero-cta"
           href={`#${heroCopy.section}`}
