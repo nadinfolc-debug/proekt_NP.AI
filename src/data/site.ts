@@ -15,18 +15,10 @@ export const helpCopy = {
     "Создаю сайты, веб-приложения и AI-контент для бизнеса. Вы можете заказать отдельную услугу или комплексное решение — с регулярным созданием контента, обновлением и технической поддержкой.",
   actions: [
     {
-      label: "Подробнее об услугах",
-      href: "pro-uslugi.pdf",
-      download: "про услуги.pdf",
-      asset: true,
-      external: true,
-      variant: "accent" as const,
-    },
-    {
       label: "Telegram-канал",
       href: "https://t.me/NP_AI_Prikolota",
       external: true,
-      variant: "ghost" as const,
+      variant: "accent" as const,
     },
     {
       label: "Сообщество ВК",

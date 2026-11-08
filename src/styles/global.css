@@ -266,7 +266,7 @@ p {
 
 .flow-page .flow-faq {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: var(--bg);
   box-shadow: 0 -22px 52px rgba(66, 70, 77, 0.14);
 }
@@ -2720,39 +2720,45 @@ section[id] {
 }
 
 .home-faq {
-  padding-top: clamp(48px, 10vh, 100px);
-  padding-bottom: clamp(56px, 12vh, 120px);
+  padding-top: clamp(36px, 6vh, 72px);
+  padding-bottom: clamp(40px, 8vh, 88px);
 }
 
 .home-faq-head {
-  margin-bottom: clamp(24px, 4vh, 40px);
-  max-width: 36em;
+  margin-bottom: clamp(16px, 3vh, 28px);
+  max-width: 40em;
 }
 
 .home-faq-title {
   max-width: 12em;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-size: clamp(28px, 3.2vw, 40px);
 }
 
 .home-faq-lead {
   margin: 0;
   color: var(--muted);
-  font-size: clamp(15px, 1.3vw, 18px);
-  line-height: 1.5;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.45;
 }
 
 .home-faq-panel {
   width: min(100%, 820px);
   margin: 0;
-  padding: clamp(8px, 1.5vw, 16px) clamp(16px, 2.5vw, 28px) clamp(16px, 2vw, 24px);
+  padding: 6px 18px 14px;
   border-radius: var(--radius-card);
   background: var(--surface);
   box-shadow: var(--shadow-card);
+  overflow: visible;
 }
 
 .home-faq-wrap {
   max-width: none;
+  overflow: visible;
+}
+
+.home-faq .faq-item {
+  overflow: visible;
 }
 
 .home-faq .faq-item:first-child {
@@ -2764,11 +2770,11 @@ section[id] {
 }
 
 .home-faq .faq-item button {
-  min-height: 56px;
-  padding: 14px 0;
+  min-height: 46px;
+  padding: 10px 0;
   color: var(--text);
   font-family: var(--font);
-  font-size: clamp(16px, 1.6vw, 20px);
+  font-size: clamp(15px, 1.4vw, 18px);
   font-weight: 650;
   letter-spacing: -0.03em;
   cursor: pointer;
@@ -2785,21 +2791,22 @@ section[id] {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-pill);
   background: var(--accent-soft);
   color: var(--accent-strong);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
 }
 
 .home-faq .faq-item p {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   max-width: 54em;
   color: var(--muted);
-  font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.55;
+  font-size: clamp(14px, 1.15vw, 15px);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .home-faq-more {
@@ -2825,13 +2832,18 @@ section[id] {
 
 @media (max-width: 700px) {
   .home-faq-panel {
-    padding: 4px 14px 14px;
+    padding: 4px 14px 12px;
   }
 
   .home-faq .faq-item button {
-    min-height: 52px;
-    gap: 12px;
-    font-size: 16px;
+    min-height: 44px;
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .home-faq .faq-item p {
+    font-size: 14px;
+    line-height: 1.45;
   }
 }
 
