@@ -1,6 +1,5 @@
 import { projectsCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
-import { scrollToSection } from "../../lib/scroll";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
 import { SectionBackdrop } from "../SectionBackdrop";
@@ -34,66 +33,28 @@ export function ProjectsSection() {
                 />
               </figure>
               <div className="project-copy">
-                <p className="project-eyebrow">{item.eyebrow}</p>
                 <h3 className="project-name">{item.name}</h3>
                 <p className="project-text">{item.text}</p>
+                {item.note ? <p className="project-note">{item.note}</p> : null}
 
-                <div className="project-includes">
-                  <p className="project-includes-title">{item.includesTitle}</p>
-                  <ul className="project-chips">
-                    {item.includes.map((chip, index) => (
-                      <li
-                        key={chip}
-                        className={`project-chip project-chip-${(index % 3) + 1}`}
-                      >
-                        {chip}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="project-actions">
-                  {item.actions.map((action) => {
-                    const className = `button project-action${
-                      action.variant === "accent" ? " button-accent" : ""
-                    }`;
-
-                    if ("section" in action && action.section) {
-                      return (
-                        <a
-                          key={action.label}
-                          className={className}
-                          href={`#${action.section}`}
-                          onClick={(event) => {
-                            event.preventDefault();
-                            scrollToSection(action.section);
-                          }}
-                        >
-                          {action.label}
-                        </a>
-                      );
-                    }
-
-                    const href =
-                      "asset" in action && action.asset ? asset(action.href) : action.href;
-
-                    return (
+                {item.actions.length > 0 ? (
+                  <div className="project-actions">
+                    {item.actions.map((action) => (
                       <a
                         key={action.label}
-                        className={className}
-                        href={href}
+                        className={`button project-action${
+                          action.variant === "accent" ? " button-accent" : ""
+                        }`}
+                        href={action.href}
                         {...(action.external
                           ? { target: "_blank", rel: "noreferrer" }
-                          : {})}
-                        {...("download" in action && action.download
-                          ? { download: action.download }
                           : {})}
                       >
                         {action.label}
                       </a>
-                    );
-                  })}
-                </div>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </ScrollReveal>
           ))}
