@@ -29,7 +29,7 @@ export function AboutSection() {
               <h3 id="about-title" className="about-title">
                 {aboutCopy.title}
               </h3>
-              <p className="about-lead">{aboutCopy.lead}</p>
+              {aboutCopy.lead ? <p className="about-lead">{aboutCopy.lead}</p> : null}
               {aboutCopy.paragraphs.map((paragraph) => (
                 <p className="about-text" key={paragraph}>
                   {paragraph}
