@@ -1,3 +1,5 @@
+import { isApiConfigured, submitApplication } from "./api";
+
 export type NotifyPayload = {
   name: string;
   contact: string;
@@ -5,53 +7,37 @@ export type NotifyPayload = {
   contactHandle: string;
   service: string;
   task: string;
+  consent: boolean;
+  website?: string;
 };
 
-const notifyUrl = import.meta.env.VITE_NOTIFY_URL as string | undefined;
-const notifySecret = import.meta.env.VITE_NOTIFY_SECRET as string | undefined;
-
 export function isNotifyConfigured() {
-  return Boolean(notifyUrl && notifyUrl.trim());
+  return isApiConfigured();
 }
 
-async function postOnce(payload: NotifyPayload): Promise<boolean> {
-  if (!isNotifyConfigured() || !notifyUrl) return false;
-
-  const response = await fetch(notifyUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(notifySecret ? { "X-Notify-Secret": notifySecret } : {}),
-    },
-    body: JSON.stringify({
-      name: payload.name,
-      contact: payload.contact,
-      contactMethod: payload.contactMethod,
-      contactHandle: payload.contactHandle,
-      service: payload.service,
-      task: payload.task,
-      ...(notifySecret ? { secret: notifySecret } : {}),
-    }),
-  });
-
-  if (!response.ok) return false;
-  const data = (await response.json().catch(() => null)) as { ok?: boolean } | null;
-  return Boolean(data?.ok);
-}
-
-/** Sends application to Telegram notify worker. Retries once. Never throws. */
+/** Submits application to RU backend. Retries once. Never throws. */
 export async function notifyAdmin(payload: NotifyPayload): Promise<boolean> {
   if (!isNotifyConfigured()) return false;
 
+  const body = {
+    name: payload.name,
+    contactMethod: payload.contactMethod,
+    contactHandle: payload.contactHandle,
+    service: payload.service,
+    task: payload.task,
+    consent: payload.consent,
+    website: payload.website || "",
+  };
+
   try {
-    if (await postOnce(payload)) return true;
+    if ((await submitApplication(body)).ok) return true;
   } catch {
     // retry below
   }
 
   try {
     await new Promise((resolve) => setTimeout(resolve, 600));
-    return await postOnce(payload);
+    return (await submitApplication(body)).ok;
   } catch {
     return false;
   }

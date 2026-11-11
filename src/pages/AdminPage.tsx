@@ -1,20 +1,21 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
 import {
-  ADMIN_LOGIN,
-  ADMIN_PASSWORD,
-  deleteApplication,
-  deleteProduct,
-  getApplications,
-  getProducts,
-  isAdminAuthed,
+  checkAdminSession,
+  fetchApplications,
+  isApiConfigured,
   loginAdmin,
   logoutAdmin,
+  patchApplication,
+  removeApplication,
+  type Application,
+} from "../lib/api";
+import {
+  deleteProduct,
+  getProducts,
   saveProduct,
   subscribeStore,
-  updateApplication,
-  type Application,
   type Product,
 } from "../lib/store";
 
@@ -28,7 +29,8 @@ const emptyProduct = {
 };
 
 export function AdminPage() {
-  const [authed, setAuthed] = useState(isAdminAuthed());
+  const [authed, setAuthed] = useState(false);
+  const [booting, setBooting] = useState(true);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -37,12 +39,42 @@ export function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState(emptyProduct);
+  const [appsError, setAppsError] = useState("");
+
+  const refreshApps = useCallback(async () => {
+    try {
+      const items = await fetchApplications();
+      setApps(items);
+      setAppsError("");
+    } catch {
+      setAppsError("Не удалось загрузить заявки с сервера.");
+    }
+  }, []);
 
   useEffect(() => {
-    const sync = () => {
-      setApps(getApplications());
-      setProducts(getProducts());
+    let cancelled = false;
+    (async () => {
+      if (!isApiConfigured()) {
+        if (!cancelled) {
+          setBooting(false);
+          setAuthed(false);
+        }
+        return;
+      }
+      const ok = await checkAdminSession();
+      if (!cancelled) {
+        setAuthed(ok);
+        setBooting(false);
+        if (ok) await refreshApps();
+      }
+    })();
+    return () => {
+      cancelled = true;
     };
+  }, [refreshApps]);
+
+  useEffect(() => {
+    const sync = () => setProducts(getProducts());
     sync();
     return subscribeStore(sync);
   }, []);
@@ -62,9 +94,14 @@ export function AdminPage() {
     });
   }, [editing]);
 
-  const onLogin = (event: FormEvent) => {
+  const onLogin = async (event: FormEvent) => {
     event.preventDefault();
-    if (!loginAdmin(login, password)) {
+    if (!isApiConfigured()) {
+      setError("Сервер заявок не настроен (VITE_API_URL).");
+      return;
+    }
+    const ok = await loginAdmin(login.trim(), password);
+    if (!ok) {
       setError("Неверный логин или пароль");
       return;
     }
@@ -72,11 +109,13 @@ export function AdminPage() {
     setLogin("");
     setPassword("");
     setAuthed(true);
+    await refreshApps();
   };
 
-  const onLogout = () => {
-    logoutAdmin();
+  const onLogout = async () => {
+    await logoutAdmin();
     setAuthed(false);
+    setApps([]);
   };
 
   const onSaveProduct = (event: FormEvent) => {
@@ -93,23 +132,33 @@ export function AdminPage() {
     setDraft(emptyProduct);
   };
 
+  if (booting) {
+    return (
+      <div className="page admin-page">
+        <Seo title="Кабинет — NP.AI Prikolota" description="Личный кабинет." />
+        <div className="container narrow">
+          <p className="lead">Проверка сессии…</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!authed) {
     return (
       <div className="page admin-page">
-        <Seo title="Админка — NP.AI Prikolota" description="Вход в админ-панель." />
+        <Seo title="Кабинет — NP.AI Prikolota" description="Вход в личный кабинет." />
         <div className="container narrow">
-          <h1>Админка</h1>
-          <p className="lead">Вход только для владельца сайта.</p>
+          <h1>Личный кабинет</h1>
+          <p className="lead">Вход только для владельца сайта. Заявки хранятся на сервере в РФ.</p>
           <form className="admin-login" onSubmit={onLogin}>
             <label className="cta-field">
               <span className="cta-field-label">Логин</span>
               <input
-                type="email"
+                type="text"
                 value={login}
                 onChange={(event) => setLogin(event.target.value)}
                 required
                 autoComplete="username"
-                placeholder="nadin@admin.com"
               />
             </label>
             <label className="cta-field">
@@ -128,12 +177,7 @@ export function AdminPage() {
             </button>
           </form>
           <p className="admin-hint">
-            Логин: <code>{ADMIN_LOGIN}</code>
-            <br />
-            Пароль по умолчанию: <code>{ADMIN_PASSWORD}</code>
-            <br />
-            Сменить можно через <code>VITE_ADMIN_LOGIN</code> и{" "}
-            <code>VITE_ADMIN_PASSWORD</code> в <code>.env</code>.
+            Логин и пароль задаются в `server/.env` на вашем сервере. В код сайта они не попадают.
           </p>
           <p className="legal-back">
             <Link to="/">На сайт</Link>
@@ -145,12 +189,12 @@ export function AdminPage() {
 
   return (
     <div className="page admin-page">
-      <Seo title="Админка — NP.AI Prikolota" description="Заявки и товары." />
+      <Seo title="Кабинет — NP.AI Prikolota" description="Заявки и товары." />
       <div className="container">
         <div className="admin-top">
           <div>
             <p className="eyebrow">Кабинет</p>
-            <h1>Админка</h1>
+            <h1>Заявки</h1>
           </div>
           <div className="admin-top-actions">
             <Link className="cta-secondary" to="/">
@@ -162,7 +206,7 @@ export function AdminPage() {
           </div>
         </div>
 
-        <div className="admin-tabs" role="tablist" aria-label="Разделы админки">
+        <div className="admin-tabs" role="tablist" aria-label="Разделы кабинета">
           <button
             type="button"
             className={tab === "apps" ? "is-active" : ""}
@@ -181,6 +225,7 @@ export function AdminPage() {
 
         {tab === "apps" ? (
           <section className="admin-panel" aria-label="Заявки">
+            {appsError ? <p className="admin-error">{appsError}</p> : null}
             {apps.length === 0 ? (
               <p className="lead">Пока нет заявок. Они появятся после отправки формы на сайте.</p>
             ) : (
@@ -188,7 +233,9 @@ export function AdminPage() {
                 {apps.map((app) => (
                   <li key={app.id} className="admin-card">
                     <div className="admin-card-head">
-                      <strong>{app.name}</strong>
+                      <strong>
+                        №{app.number} · {app.name}
+                      </strong>
                       <span className={app.status === "new" ? "admin-badge is-new" : "admin-badge"}>
                         {app.status === "new" ? "Новая" : "Готово"}
                       </span>
@@ -212,15 +259,22 @@ export function AdminPage() {
                       <button
                         type="button"
                         className="button"
-                        onClick={() =>
-                          updateApplication(app.id, {
-                            status: app.status === "new" ? "done" : "new",
-                          })
-                        }
+                        onClick={async () => {
+                          const next = app.status === "new" ? "done" : "new";
+                          const result = await patchApplication(app.id, next);
+                          if (result.ok) await refreshApps();
+                        }}
                       >
                         {app.status === "new" ? "Отметить готовой" : "Вернуть в новые"}
                       </button>
-                      <button type="button" className="button" onClick={() => deleteApplication(app.id)}>
+                      <button
+                        type="button"
+                        className="button"
+                        onClick={async () => {
+                          const result = await removeApplication(app.id);
+                          if (result.ok) await refreshApps();
+                        }}
+                      >
                         Удалить
                       </button>
                     </div>

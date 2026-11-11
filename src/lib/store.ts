@@ -1,15 +1,3 @@
-export type Application = {
-  id: string;
-  name: string;
-  contact: string;
-  contactMethod?: string;
-  contactHandle?: string;
-  service?: string;
-  task: string;
-  createdAt: string;
-  status: "new" | "done";
-};
-
 export type Product = {
   id: string;
   title: string;
@@ -20,9 +8,8 @@ export type Product = {
   updatedAt: string;
 };
 
-const APP_KEY = "npai.applications";
 const PRODUCT_KEY = "npai.products";
-const AUTH_KEY = "npai.admin";
+const APP_KEY = "npai.applications";
 const EVENT = "npai-store";
 
 const defaultProducts: Product[] = [
@@ -39,7 +26,7 @@ const defaultProducts: Product[] = [
     id: "social",
     title: "Контент для соцсетей",
     price: "по запросу",
-    description: "Регулярное ведение: ролики и посты в едином стиле.",
+    description: "Регулярный контент: ролики и посты в едином стиле.",
     visible: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -48,21 +35,16 @@ const defaultProducts: Product[] = [
     id: "site",
     title: "Сайты и лендинги",
     price: "по запросу",
-    description: "Современный лендинг или сайт-резюме под ключ.",
-    visible: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: "full",
-    title: "Комплексная упаковка",
-    price: "по запросу",
-    description: "Фото + видео/анимация + сайт под ключ.",
+    description: "Сайт или лендинг под задачу и стиль бренда.",
     visible: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
 ];
+
+function emit() {
+  window.dispatchEvent(new Event(EVENT));
+}
 
 function read<T>(key: string, fallback: T): T {
   try {
@@ -76,45 +58,23 @@ function read<T>(key: string, fallback: T): T {
 
 function write<T>(key: string, value: T) {
   localStorage.setItem(key, JSON.stringify(value));
-  window.dispatchEvent(new Event(EVENT));
+  emit();
 }
 
-export function subscribeStore(onChange: () => void) {
-  const handler = () => onChange();
-  window.addEventListener(EVENT, handler);
-  window.addEventListener("storage", handler);
+/** Clear legacy browser-side application storage (PD must not live in localStorage). */
+try {
+  localStorage.removeItem(APP_KEY);
+} catch {
+  // ignore
+}
+
+export function subscribeStore(listener: () => void) {
+  window.addEventListener(EVENT, listener);
+  window.addEventListener("storage", listener);
   return () => {
-    window.removeEventListener(EVENT, handler);
-    window.removeEventListener("storage", handler);
+    window.removeEventListener(EVENT, listener);
+    window.removeEventListener("storage", listener);
   };
-}
-
-export function getApplications(): Application[] {
-  return read<Application[]>(APP_KEY, []).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-}
-
-export function addApplication(input: Omit<Application, "id" | "createdAt" | "status">) {
-  const list = getApplications();
-  const item: Application = {
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-    status: "new",
-    ...input,
-  };
-  write(APP_KEY, [item, ...list]);
-  return item;
-}
-
-export function updateApplication(id: string, patch: Partial<Application>) {
-  const list = getApplications().map((item) => (item.id === id ? { ...item, ...patch } : item));
-  write(APP_KEY, list);
-}
-
-export function deleteApplication(id: string) {
-  write(
-    APP_KEY,
-    getApplications().filter((item) => item.id !== id),
-  );
 }
 
 export function getProducts(): Product[] {
@@ -172,23 +132,4 @@ export function deleteProduct(id: string) {
     PRODUCT_KEY,
     getProducts().filter((item) => item.id !== id),
   );
-}
-
-/** Change via .env: VITE_ADMIN_LOGIN / VITE_ADMIN_PASSWORD */
-export const ADMIN_LOGIN = (import.meta.env.VITE_ADMIN_LOGIN || "nadin@admin.com").toLowerCase();
-export const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "npai2026";
-
-export function isAdminAuthed() {
-  return sessionStorage.getItem(AUTH_KEY) === "1";
-}
-
-export function loginAdmin(login: string, password: string) {
-  const normalized = login.trim().toLowerCase();
-  if (normalized !== ADMIN_LOGIN || password !== ADMIN_PASSWORD) return false;
-  sessionStorage.setItem(AUTH_KEY, "1");
-  return true;
-}
-
-export function logoutAdmin() {
-  sessionStorage.removeItem(AUTH_KEY);
 }

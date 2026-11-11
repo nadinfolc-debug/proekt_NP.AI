@@ -2,10 +2,8 @@
 
 interface ImportMetaEnv {
   readonly VITE_SHOW_DRAFTS?: string;
-  readonly VITE_ADMIN_LOGIN?: string;
-  readonly VITE_ADMIN_PASSWORD?: string;
-  readonly VITE_NOTIFY_URL?: string;
-  readonly VITE_NOTIFY_SECRET?: string;
+  /** Public URL of the RU applications backend. Never put secrets in VITE_*. */
+  readonly VITE_API_URL?: string;
 }
 
 interface ImportMeta {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { socialLinks } from "../data/contacts";
+import { contactChannels } from "../data/contacts";
 import { SectionBackdrop } from "./SectionBackdrop";
 
 export function Footer() {
@@ -12,14 +12,25 @@ export function Footer() {
         <p className="footer-brand-line">
           <span>NP.AI</span> Prikolota
         </p>
-        <nav className="footer-nav" aria-label="Документы">
-          <a href={socialLinks.telegram.href} target="_blank" rel="noreferrer">
-            {socialLinks.telegram.label}
-          </a>
+        <nav className="footer-nav" aria-label="Документы и связь">
+          {contactChannels.map((channel) => (
+            <a key={channel.id} href={channel.href} target="_blank" rel="noreferrer">
+              {channel.label}
+            </a>
+          ))}
           <Link to="/privacy">Политика конфиденциальности</Link>
+          <Link to="/consent">Согласие на обработку ПДн</Link>
           <Link to="/offer">Оферта</Link>
         </nav>
-        <p className="footer-year">© {year}</p>
+        <p className="footer-year">
+          © {year}
+          <span className="footer-sep" aria-hidden="true">
+            ·
+          </span>
+          <Link to="/admin" className="footer-cabinet">
+            Кабинет
+          </Link>
+        </p>
       </div>
     </footer>
   );

@@ -1,6 +1,7 @@
 # Telegram-бот для заявок NP.AI
 
-Заявки с формы «Обсудить проект» приходят вам в Telegram.
+Заявки с формы «Обсудить проект» приходят вам в Telegram.  
+Клиентский код **не** содержит общих секретов: защита — Cloudflare Turnstile + серверная проверка, rate limit и валидация.
 
 ## 1. Создайте бота
 
@@ -21,7 +22,18 @@ https://api.telegram.org/bot<ТОКЕН>/getUpdates
 
 3. Найдите `"chat":{"id": 123456789` — это ваш `CHAT_ID` (число, может быть отрицательным для группы)
 
-## 3. Задеплойте Worker (бесплатно)
+## 3. Turnstile (антиспам)
+
+1. В Cloudflare Dashboard → Turnstile создайте виджет для домена сайта.
+2. **Site key** — публичный, для сайта (`VITE_TURNSTILE_SITE_KEY`).
+3. **Secret key** — только на Worker / в `telegram-bot/.env` (`TURNSTILE_SECRET_KEY`).
+
+Для локальных тестов можно использовать dummy-ключи Cloudflare (всегда проходят проверку):
+
+- Site: `1x00000000000000000000AA`
+- Secret: `1x0000000000000000000000000000000AA`
+
+## 4. Задеплойте Worker (только после отдельного подтверждения)
 
 Нужен аккаунт [Cloudflare](https://dash.cloudflare.com/) и Node.js.
 
@@ -47,20 +59,24 @@ npm run secret:bot
 npm run secret:chat
 # вставьте chat_id
 
-npm run secret:key
-# придумайте секрет, например: npai-secret-2026
+npm run secret:turnstile
+# вставьте TURNSTILE_SECRET_KEY
 ```
 
-## 4. Подключите сайт
+Опционально (vars): `ALLOWED_ORIGINS`, `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_MS`.
 
-В корне проекта создайте файл `.env` (и `.env.production` при сборке):
+Порядок безопасного перехода: `SECURE_CUTOVER.md`.
+
+## 5. Подключите сайт
+
+В корне проекта:
 
 ```
 VITE_NOTIFY_URL=https://npai-telegram-notify.<ваш-аккаунт>.workers.dev
-VITE_NOTIFY_SECRET=npai-secret-2026
+VITE_TURNSTILE_SITE_KEY=<публичный site key>
 ```
 
-Секрет должен совпадать с `SECRET` у Worker.
+**Не** добавляйте `TURNSTILE_SECRET_KEY`, `BOT_TOKEN` и старый `VITE_NOTIFY_SECRET` в `VITE_*`.
 
 Перезапустите сайт:
 
@@ -68,16 +84,16 @@ VITE_NOTIFY_SECRET=npai-secret-2026
 npm run dev
 ```
 
-Для GitHub Pages после деплоя Worker снова соберите и запушьте сайт (`npm run build:docs` + push), чтобы в сборку попали `VITE_*` переменные.
+Для GitHub Pages переменные `VITE_*` задаются в CI secrets **до** сборки.
 
-## Быстрый тест без Cloudflare
+## Быстрый тест без Cloudflare (локально)
 
 1. Создайте `telegram-bot/.env`:
 
 ```
 BOT_TOKEN=токен_от_BotFather
 CHAT_ID=ваш_chat_id
-SECRET=npai-secret-2026
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 PORT=8787
 ```
 
@@ -88,19 +104,18 @@ cd telegram-bot
 node local-server.mjs
 ```
 
-3. В корне сайта `.env`:
+3. В корне сайта `.env` / `.env.development`:
 
 ```
-VITE_NOTIFY_URL=http://localhost:8787
-VITE_NOTIFY_SECRET=npai-secret-2026
+VITE_NOTIFY_URL=http://127.0.0.1:8787
+VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA
 ```
 
-4. Перезапустите `npm run dev` и отправьте тестовую заявку с формы.
-
-Для продакшена на GitHub Pages нужен публичный URL Worker (шаг 3 выше), а `VITE_NOTIFY_*` должны быть заданы **до** `npm run build` / `build:gh`.
+4. Перезапустите `npm run dev` и отправьте тестовую заявку с формы (виджет Turnstile с dummy-ключом проходит автоматически).
 
 ## Проверка
 
 1. Откройте сайт → «Обсудить проект»
-2. Отправьте тестовую заявку
-3. В Telegram должно прийти сообщение от бота
+2. Пройдите Turnstile (или dummy в локальном тесте)
+3. Отправьте заявку
+4. В Telegram должно прийти полное сообщение: имя, услуга, описание, способ связи, контакт

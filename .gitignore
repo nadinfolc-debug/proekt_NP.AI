@@ -10,4 +10,7 @@ dist
 proekt_NP.AI
 telegram-bot/.wrangler
 telegram-bot/node_modules
+server/node_modules
+server/data
+server/.env
 

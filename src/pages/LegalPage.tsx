@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
-import { legalMeta, offerSections, privacySections } from "../data/legal";
+import {
+  consentSections,
+  legalMeta,
+  offerSections,
+  privacySections,
+} from "../data/legal";
 
-type LegalKind = "privacy" | "offer";
+type LegalKind = "privacy" | "offer" | "consent";
 
 const copy: Record<
   LegalKind,
-  { title: string; eyebrow: string; sections: typeof privacySections | typeof offerSections }
+  {
+    title: string;
+    eyebrow: string;
+    sections: typeof privacySections | typeof offerSections | typeof consentSections;
+  }
 > = {
   privacy: {
     title: "Политика конфиденциальности",
@@ -17,6 +26,11 @@ const copy: Record<
     title: "Публичная оферта",
     eyebrow: "Документы",
     sections: offerSections,
+  },
+  consent: {
+    title: "Согласие на обработку персональных данных",
+    eyebrow: "Документы",
+    sections: consentSections,
   },
 };
 
@@ -48,9 +62,11 @@ export function LegalPage({ kind }: { kind: LegalKind }) {
         <p className="legal-back">
           <Link to="/">На главную</Link>
           {" · "}
-          <Link to={kind === "privacy" ? "/offer" : "/privacy"}>
-            {kind === "privacy" ? "Оферта" : "Политика конфиденциальности"}
-          </Link>
+          <Link to="/privacy">Политика</Link>
+          {" · "}
+          <Link to="/consent">Согласие</Link>
+          {" · "}
+          <Link to="/offer">Оферта</Link>
         </p>
       </div>
     </div>

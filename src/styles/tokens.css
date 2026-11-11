@@ -29,7 +29,8 @@
   --shadow-card-hover: 0 12px 30px rgba(66, 70, 77, 0.1);
 
   --font: "Manrope", system-ui, sans-serif;
-  --font-display: "Cormorant Garamond", Georgia, serif;
+  /* Display stack is local/system only — do not load Google Fonts. */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-lift: 40px;
   --motion-duration: 0.9s;

@@ -22,6 +22,5 @@ jobs:
       - run: npm ci
       - name: Build for GitHub Pages
         env:
-          VITE_NOTIFY_URL: ${{ secrets.VITE_NOTIFY_URL }}
-          VITE_NOTIFY_SECRET: ${{ secrets.VITE_NOTIFY_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: npm run build:gh

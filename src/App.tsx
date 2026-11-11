@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-ro
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { scrollToSection, type ScrollState } from "./lib/scroll";
-import { AdminPage } from "./pages/AdminPage";
 import { FaqPage } from "./pages/FaqPage";
 import { HomePage } from "./pages/HomePage";
+import { AdminPage } from "./pages/AdminPage";
 import { LegalPage } from "./pages/LegalPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { ProjectPage } from "./pages/ProjectPage";
@@ -123,6 +123,7 @@ function Shell() {
           <Route path="/videos" element={<VideosRedirect />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/privacy" element={<LegalPage kind="privacy" />} />
+          <Route path="/consent" element={<LegalPage kind="consent" />} />
           <Route path="/offer" element={<LegalPage kind="offer" />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
