@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { contactChannels } from "../../data/contacts";
 import { heroCopy } from "../../data/site";
 import { asset } from "../../lib/asset";
 import { scrollToSection } from "../../lib/scroll";
@@ -128,19 +129,32 @@ export function Hero() {
             </p>
           ))}
         </div>
-        <a
-          className="hero-cta"
-          href={`#${heroCopy.section}`}
-          onClick={(event) => {
-            event.preventDefault();
-            scrollToSection(heroCopy.section);
-          }}
-        >
-          <span>{heroCopy.link}</span>
-          <span className="hero-cta-arrow" aria-hidden="true">
-            ↗
-          </span>
-        </a>
+        <div className="hero-actions" role="group" aria-label="Связаться">
+          <a
+            className="hero-cta"
+            href={`#${heroCopy.section}`}
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection(heroCopy.section);
+            }}
+          >
+            <span>{heroCopy.link}</span>
+            <span className="hero-cta-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+          {contactChannels.map((channel) => (
+            <a
+              key={channel.id}
+              className="hero-channel"
+              href={channel.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {channel.label}
+            </a>
+          ))}
+        </div>
       </div>
       {reduced ? null : (
         <button type="button" className="hero-pause" onClick={toggle} aria-pressed={playing}>

@@ -173,15 +173,24 @@ export function Header() {
       {open ? (
         <div id="mobile-nav" className="nav-panel" role="dialog" aria-modal="true" aria-label="Меню">
           <nav aria-label="Разделы">
-            {navItems.map((item) => (
-              <Link
-                key={item.section}
-                to="/"
-                onClick={(event) => goToSection(event, item.section)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems
+              .filter((item) => item.section !== "discuss")
+              .map((item) => (
+                <Link
+                  key={item.section}
+                  to="/"
+                  onClick={(event) => goToSection(event, item.section)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            <Link
+              className="nav-panel-social"
+              to="/"
+              onClick={(event) => goToSection(event, "discuss")}
+            >
+              Обсудить проект
+            </Link>
             <a
               className="nav-panel-social"
               href={socialLinks.telegram.href}
