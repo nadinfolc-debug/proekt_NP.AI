@@ -2563,14 +2563,14 @@ section[id] {
 
 @media (max-width: 980px) {
   :root {
-    /* Logo row + nav links row — keep compact so sticky sections keep space */
-    --header: 72px;
+    /* Logo row + section links (may wrap to two lines on narrow phones) */
+    --header: 108px;
   }
 
   .header {
     height: auto;
     min-height: var(--header);
-    padding-block: 4px 4px;
+    padding-block: 4px 6px;
     align-items: stretch;
   }
 
@@ -2578,11 +2578,16 @@ section[id] {
     flex-wrap: wrap;
     align-items: center;
     gap: 0 12px;
-    row-gap: 0;
+    row-gap: 2px;
+  }
+
+  .header-bar > .logo {
+    order: 1;
   }
 
   .header-contacts {
     display: flex;
+    order: 2;
     margin-left: auto;
   }
 
@@ -2590,14 +2595,35 @@ section[id] {
     display: none;
   }
 
-  /* Phones: burger menu instead of a clipped horizontal link row */
-  .nav-desktop {
-    display: none;
-  }
-
   .menu-toggle {
     display: inline-flex;
+    order: 2;
     margin-left: 8px;
+  }
+
+  /*
+    Keep section links visible on phones (Услуги, Проекты, …) as a full-width
+    row under the logo — including «Обсудить проект», without clipping.
+  */
+  .nav-desktop {
+    display: flex;
+    flex-wrap: wrap;
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    margin-left: 0;
+    gap: 0 2px;
+    padding-block: 2px;
+  }
+
+  .nav-desktop a {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding-inline: 8px;
+    font-size: 13px;
+    font-weight: 550;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
   }
 }
 
