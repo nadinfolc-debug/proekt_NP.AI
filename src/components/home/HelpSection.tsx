@@ -3,9 +3,18 @@ import { asset } from "../../lib/asset";
 import { useSectionId } from "../../lib/useSectionId";
 import { ScrollReveal } from "../ScrollReveal";
 import { SectionBackdrop } from "../SectionBackdrop";
+import TumbleDeckShowcase, { type TumbleCard } from "../ui/tumble-deck-showcase";
 
 export function HelpSection() {
   const sectionId = useSectionId("help");
+  const cards: TumbleCard[] = helpBlocks.map((block) => ({
+    src: asset(block.image),
+    alt: block.imageAlt,
+    n: block.n,
+    category: block.category,
+    title: block.title,
+    lead: block.lead,
+  }));
 
   return (
     <section className="section help flow-panel flow-help" id={sectionId} aria-labelledby="help-title">
@@ -17,23 +26,17 @@ export function HelpSection() {
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal as="ol" className="help-menu" stagger={90} delay={60}>
-          {helpBlocks.map((block) => (
-            <li className="help-item" key={block.n}>
-              <p className="help-n" aria-hidden="true">
-                <span className="help-n-num">{block.n}</span>
-                <span className="help-n-sep" aria-hidden="true">
-                  /
-                </span>
-                <span className="help-n-cat">{block.category}</span>
-              </p>
-              <figure className="help-media">
-                <img src={asset(block.image)} alt={block.imageAlt} loading="lazy" decoding="async" />
-              </figure>
-              <h3>{block.title}</h3>
-              <p className="help-lead">{block.lead}</p>
-            </li>
-          ))}
+        <ScrollReveal delay={60} className="help-deck-wrap">
+          <TumbleDeckShowcase
+            cards={cards}
+            height="min(78svh, 680px)"
+            aspect={0.78}
+            depth={4}
+            scrollPerCard={220}
+            ariaLabel="Услуги — листать карточки"
+            className="help-deck"
+          />
+          <p className="help-deck-hint">Листайте колёсиком, жестом или кликом</p>
         </ScrollReveal>
 
         <ScrollReveal delay={120} className="help-package-block">

@@ -11,8 +11,10 @@ const posterJpg = `${asset("media/hero/poster.jpg")}?v=${HERO_MEDIA_VERSION}`;
 
 export function Hero() {
   const reduced = usePrefersReducedMotion();
+  const compact = usePrefersCompactHero();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const staticTitle = reduced || compact;
 
   useEffect(() => {
     const node = videoRef.current;
@@ -91,8 +93,10 @@ export function Hero() {
       </div>
       <div className="hero-shade" aria-hidden="true" />
       <div className="container hero-content">
-        {reduced ? (
-          <h1 id="hero-title">{heroCopy.typed[0]}</h1>
+        {staticTitle ? (
+          <h1 id="hero-title" className="hero-type-title">
+            {heroCopy.typed[0]}
+          </h1>
         ) : (
           <TextType
             id="hero-title"
@@ -159,4 +163,19 @@ function usePrefersReducedMotion() {
   }, []);
 
   return reduced;
+}
+
+/** On phones show the full headline at once — typing mid-word looks broken. */
+function usePrefersCompactHero() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 860px)");
+    const apply = () => setCompact(media.matches);
+    apply();
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, []);
+
+  return compact;
 }

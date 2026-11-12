@@ -20,6 +20,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Guard VITE_API_URL (152-FZ)
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node scripts/check-api-url.mjs
       - name: Build for GitHub Pages
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}

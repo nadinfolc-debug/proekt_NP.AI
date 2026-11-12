@@ -14,11 +14,17 @@ export function Footer() {
         </p>
         <nav className="footer-nav" aria-label="Документы и связь">
           {contactChannels.map((channel) => (
-            <a key={channel.id} href={channel.href} target="_blank" rel="noreferrer">
+            <a
+              key={channel.id}
+              className="footer-social"
+              href={channel.href}
+              target="_blank"
+              rel="noreferrer"
+            >
               {channel.label}
             </a>
           ))}
-          <Link to="/privacy">Политика конфиденциальности</Link>
+          <Link to="/privacy">Политика обработки ПДн</Link>
           <Link to="/consent">Согласие на обработку ПДн</Link>
           <Link to="/offer">Оферта</Link>
         </nav>

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { CookieBanner } from "./components/CookieBanner";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { scrollToSection, type ScrollState } from "./lib/scroll";
@@ -130,6 +131,7 @@ function Shell() {
         </Routes>
       </main>
       {isAdmin ? null : <Footer />}
+      {isAdmin ? null : <CookieBanner />}
     </>
   );
 }

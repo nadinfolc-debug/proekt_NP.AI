@@ -7,6 +7,7 @@
     "dev": "vite",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
+    "check:152": "node scripts/check-api-url.mjs",
     "build": "tsc -b && vite build",
     "build:gh": "tsc -b && vite build --mode gh",
     "build:docs": "npm run build:gh && node -e \"const fs=require('fs');const p=require('path');fs.rmSync('docs',{recursive:true,force:true});fs.cpSync('dist','docs',{recursive:true});fs.writeFileSync('docs/.nojekyll','');\"",

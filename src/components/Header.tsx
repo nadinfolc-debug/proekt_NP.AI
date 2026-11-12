@@ -112,7 +112,12 @@ export function Header() {
   return (
     <header
       id="site-header"
-      className={["header", solid ? "is-solid" : "", overHero ? "is-over-hero" : ""]
+      className={[
+        "header",
+        solid ? "is-solid" : "",
+        overHero ? "is-over-hero" : "",
+        open ? "is-menu-open" : "",
+      ]
         .filter(Boolean)
         .join(" ")}
     >
@@ -177,9 +182,34 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <a href={socialLinks.telegram.href} target="_blank" rel="noreferrer">
+            <a
+              className="nav-panel-social"
+              href={socialLinks.telegram.href}
+              target="_blank"
+              rel="noreferrer"
+            >
               {socialLinks.telegram.label}
             </a>
+            {socialLinks.vk.href ? (
+              <a
+                className="nav-panel-social"
+                href={socialLinks.vk.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {socialLinks.vk.label}
+              </a>
+            ) : null}
+            {socialLinks.max.href ? (
+              <a
+                className="nav-panel-social"
+                href={socialLinks.max.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {socialLinks.max.label}
+              </a>
+            ) : null}
             <div className="nav-panel-theme">
               <ThemeToggle />
               <span>Тема</span>

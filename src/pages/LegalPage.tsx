@@ -18,7 +18,7 @@ const copy: Record<
   }
 > = {
   privacy: {
-    title: "Политика конфиденциальности",
+    title: "Политика обработки персональных данных",
     eyebrow: "Документы",
     sections: privacySections,
   },
@@ -62,7 +62,7 @@ export function LegalPage({ kind }: { kind: LegalKind }) {
         <p className="legal-back">
           <Link to="/">На главную</Link>
           {" · "}
-          <Link to="/privacy">Политика</Link>
+          <Link to="/privacy">Политика ПДн</Link>
           {" · "}
           <Link to="/consent">Согласие</Link>
           {" · "}

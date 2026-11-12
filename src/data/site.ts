@@ -177,7 +177,32 @@ export const ctaCopy = {
     "Расскажите, что хотите создать — сайт, лендинг, AI-визуал, ролики или комплексное оформление.",
     "Напишите удобным способом — отвечу в том же канале. Номер телефона на сайте не публикую.",
   ],
+  /** Kept for LeadForm when we re-enable the on-site application form. */
+  submit: "Отправить заявку",
+  success: "Спасибо! Отвечу в удобном для вас канале связи.",
   channelsHint: "Выберите мессенджер",
+  fields: {
+    name: {
+      label: "Имя",
+      placeholder: "Как к вам обращаться",
+    },
+    contactMethod: {
+      label: "Куда ответить",
+      placeholder: "Telegram",
+    },
+    contactHandle: {
+      label: "Ник или ссылка",
+      placeholder: "@username или ссылка на профиль",
+    },
+    service: {
+      label: "Услуга",
+      placeholder: "Выберите направление",
+    },
+    task: {
+      label: "Задача",
+      placeholder: "Коротко: что нужно сделать и к какому сроку",
+    },
+  },
 };
 
 export const helpBlocks = [

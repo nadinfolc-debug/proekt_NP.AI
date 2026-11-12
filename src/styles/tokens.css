@@ -1,3 +1,27 @@
+@property --rim-glow-spot {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 18%;
+}
+
+@property --rim-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --rim-gx {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --rim-gy {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: -14px;
+}
+
 :root {
   --bg: #f8f7f4;
   --bg-deep: #e6e7ea;
@@ -28,6 +52,35 @@
   --shadow-card: 0 8px 28px rgba(66, 70, 77, 0.08);
   --shadow-card-hover: 0 12px 30px rgba(66, 70, 77, 0.1);
 
+  /* Thin lit rim — quiet edge + bright lavender speck that travels around */
+  --rim-angle: 0deg;
+  --rim-glow-spot: 18%;
+  --rim-gradient: conic-gradient(
+    from var(--rim-angle),
+    color-mix(in srgb, var(--line) 55%, transparent) 0%,
+    color-mix(in srgb, var(--line) 55%, transparent) 62%,
+    color-mix(in srgb, var(--accent-mid) 80%, transparent) 74%,
+    color-mix(in srgb, #fff 35%, var(--accent)) 84%,
+    #fff 88%,
+    var(--accent) 92%,
+    color-mix(in srgb, var(--accent-mid) 75%, transparent) 96%,
+    color-mix(in srgb, var(--line) 55%, transparent) 100%
+  );
+  --rim-gradient-strong: conic-gradient(
+    from var(--rim-angle),
+    color-mix(in srgb, var(--accent-mid) 35%, transparent) 0%,
+    color-mix(in srgb, var(--accent-mid) 35%, transparent) 58%,
+    color-mix(in srgb, #fff 40%, var(--accent)) 78%,
+    #fff 86%,
+    var(--accent) 91%,
+    color-mix(in srgb, var(--accent-strong) 60%, transparent) 96%,
+    color-mix(in srgb, var(--accent-mid) 35%, transparent) 100%
+  );
+  --rim-gx: 0px;
+  --rim-gy: -14px;
+  --rim-glow: var(--rim-gx) var(--rim-gy) 28px 2px color-mix(in srgb, var(--accent) 58%, transparent);
+  --rim-glow-hover: var(--rim-gx) var(--rim-gy) 36px 3px color-mix(in srgb, var(--accent) 72%, transparent);
+
   --font: "Manrope", system-ui, sans-serif;
   /* Display stack is local/system only — do not load Google Fonts. */
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -52,6 +105,29 @@ html[data-theme="dark"] {
   --ink: #f0efec;
   --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.38);
   --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.48);
+  --rim-gradient: conic-gradient(
+    from var(--rim-angle),
+    color-mix(in srgb, var(--line) 50%, transparent) 0%,
+    color-mix(in srgb, var(--line) 50%, transparent) 62%,
+    color-mix(in srgb, var(--accent) 70%, transparent) 74%,
+    color-mix(in srgb, #fff 40%, var(--accent)) 84%,
+    #fff 88%,
+    var(--accent) 92%,
+    color-mix(in srgb, var(--accent-mid) 65%, transparent) 96%,
+    color-mix(in srgb, var(--line) 50%, transparent) 100%
+  );
+  --rim-gradient-strong: conic-gradient(
+    from var(--rim-angle),
+    color-mix(in srgb, var(--accent) 28%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 28%, transparent) 58%,
+    color-mix(in srgb, #fff 45%, var(--accent)) 78%,
+    #fff 86%,
+    var(--accent) 91%,
+    color-mix(in srgb, var(--accent) 45%, transparent) 96%,
+    color-mix(in srgb, var(--accent) 28%, transparent) 100%
+  );
+  --rim-glow: var(--rim-gx) var(--rim-gy) 30px 2px color-mix(in srgb, var(--accent) 65%, transparent);
+  --rim-glow-hover: var(--rim-gx) var(--rim-gy) 38px 3px color-mix(in srgb, var(--accent) 80%, transparent);
   color-scheme: dark;
 }
 

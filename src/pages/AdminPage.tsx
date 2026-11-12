@@ -179,8 +179,12 @@ export function AdminPage() {
           <p className="admin-hint">
             Логин и пароль задаются в `server/.env` на вашем сервере. В код сайта они не попадают.
           </p>
-          <p className="legal-back">
+          <p className="legal-back admin-legal">
             <Link to="/">На сайт</Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/privacy">Политика обработки ПДн</Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/consent">Согласие на обработку ПДн</Link>
           </p>
         </div>
       </div>
@@ -205,6 +209,11 @@ export function AdminPage() {
             </button>
           </div>
         </div>
+        <p className="legal-back admin-legal">
+          <Link to="/privacy">Политика обработки ПДн</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/consent">Согласие на обработку ПДн</Link>
+        </p>
 
         <div className="admin-tabs" role="tablist" aria-label="Разделы кабинета">
           <button
@@ -368,3 +377,4 @@ export function AdminPage() {
     </div>
   );
 }
+

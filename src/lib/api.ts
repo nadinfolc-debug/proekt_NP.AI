@@ -1,3 +1,5 @@
+import { assertApiBaseAllowed, normalizeApiBase } from "./api-url";
+
 export type Application = {
   id: string;
   number: number;
@@ -24,9 +26,10 @@ export type ApplicationPayload = {
 const TOKEN_KEY = "npai.admin.token";
 
 function apiBase() {
-  const raw = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
-  if (raw) return raw.replace(/\/$/, "");
-  return "";
+  const base = normalizeApiBase(import.meta.env.VITE_API_URL as string | undefined);
+  if (!base) return "";
+  if (assertApiBaseAllowed(base)) return "";
+  return base;
 }
 
 export function isApiConfigured() {
@@ -56,7 +59,14 @@ async function request<T>(
 ): Promise<{ ok: boolean; status: number; data: T | null; error?: string }> {
   const base = apiBase();
   if (!base) {
-    return { ok: false, status: 0, data: null, error: "API URL is not configured" };
+    const raw = normalizeApiBase(import.meta.env.VITE_API_URL as string | undefined);
+    const blocked = assertApiBaseAllowed(raw);
+    return {
+      ok: false,
+      status: 0,
+      data: null,
+      error: blocked || "API URL is not configured",
+    };
   }
 
   const headers = new Headers(options.headers || {});
