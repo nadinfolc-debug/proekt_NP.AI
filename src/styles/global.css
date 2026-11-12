@@ -169,6 +169,7 @@ p {
 .button,
 .hero-cta,
 .hero-channel,
+.help-item,
 .help-package-block,
 .home-faq-panel,
 .footer-social,
@@ -205,7 +206,8 @@ p {
 .review-card:nth-child(2n),
 .about-accents li:nth-child(2n),
 .cta-channel:nth-child(2n),
-.button:nth-child(2n) {
+.button:nth-child(2n),
+.help-item:nth-child(2n) {
   animation-delay: -1.6s;
   animation-duration: 7.2s;
 }
@@ -214,7 +216,8 @@ p {
 .review-card:nth-child(3n),
 .about-accents li:nth-child(3n),
 .cta-channel:nth-child(3n),
-.button:nth-child(3n) {
+.button:nth-child(3n),
+.help-item:nth-child(3n) {
   animation-delay: -3.4s;
   animation-duration: 8s;
 }
@@ -260,6 +263,7 @@ p {
   .button:hover,
   .hero-cta:hover,
   .hero-channel:hover,
+  .help-item:hover,
   .help-package-block:hover,
   .footer-social:hover,
   .nav-panel-social:hover {
@@ -277,6 +281,7 @@ p {
   .button,
   .hero-cta,
   .hero-channel,
+  .help-item,
   .help-package-block,
   .home-faq-panel,
   .footer-social,
@@ -2727,33 +2732,14 @@ section[id] {
   font-size: clamp(28px, 3.2vw, 40px);
 }
 
-.help-deck-wrap {
-  margin: 0 0 clamp(18px, 3vh, 28px);
-}
-
-.help-deck {
-  border-radius: var(--radius-card);
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 18%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
-    color-mix(in srgb, var(--surface) 72%, var(--bg));
-}
-
-.help-deck-hint {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 0.82rem;
-  text-align: center;
-  letter-spacing: -0.01em;
-}
-
 .help-menu {
   list-style: none;
-  margin: 0;
+  margin: 0 0 clamp(18px, 3vh, 28px);
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 12px;
-  row-gap: 12px;
+  column-gap: 14px;
+  row-gap: 14px;
   align-items: stretch;
   width: 100%;
 }
@@ -2764,22 +2750,30 @@ section[id] {
   height: 100%;
   min-width: 0;
   margin: 0;
-  padding: 10px 10px 12px;
-  border: 0;
+  padding: 10px 10px 14px;
+  border: 2px solid transparent;
   border-radius: var(--radius-card);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--rim-gradient) border-box;
+  box-shadow: var(--shadow-card), var(--rim-glow);
   transition:
     transform 300ms ease,
     box-shadow 300ms ease,
-    background-color 300ms ease;
+    background 300ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .help-item:hover {
-    transform: translateY(-4px);
-    background: color-mix(in srgb, var(--accent) 20%, var(--surface));
-    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+    background:
+      linear-gradient(
+          color-mix(in srgb, var(--accent) 14%, var(--surface)),
+          color-mix(in srgb, var(--accent) 14%, var(--surface))
+        )
+        padding-box,
+      var(--rim-gradient-strong) border-box;
+    box-shadow: var(--shadow-card-hover), var(--rim-glow-hover);
   }
 }
 
@@ -2813,21 +2807,20 @@ section[id] {
 
 .help-media {
   width: 100%;
-  height: 112px;
-  max-height: 112px;
+  height: 160px;
+  max-height: 160px;
   max-width: 100%;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 12px;
   background: color-mix(in srgb, var(--bg-deep) 35%, var(--surface));
-  aspect-ratio: auto;
 }
 
 .help-media img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
@@ -2854,13 +2847,13 @@ section[id] {
 
 @media (min-width: 1200px) {
   .help-menu {
-    column-gap: 14px;
-    row-gap: 14px;
+    column-gap: 16px;
+    row-gap: 16px;
   }
 
   .help-media {
-    height: 128px;
-    max-height: 128px;
+    height: 180px;
+    max-height: 180px;
   }
 
   .help-item h3 {
@@ -2868,8 +2861,8 @@ section[id] {
   }
 
   .help-item p {
-    font-size: 0.8rem;
-    line-height: 1.38;
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
 }
 
@@ -3816,8 +3809,8 @@ html[data-theme="dark"] .section-backdrop::after {
   }
 
   .help-media {
-    height: 140px;
-    max-height: 140px;
+    height: 150px;
+    max-height: 150px;
   }
 
   .help-item p {
@@ -3827,39 +3820,22 @@ html[data-theme="dark"] .section-backdrop::after {
 }
 
 @media (max-width: 700px) {
-  .help-deck-wrap {
-    margin-bottom: 18px;
-  }
-
-  .help-deck {
-    min-height: 420px;
-  }
-
   .help-menu {
     display: grid;
     grid-template-columns: 1fr;
     column-gap: 0;
-    row-gap: 12px;
-    overflow: visible;
-    scroll-snap-type: none;
+    row-gap: 14px;
   }
 
   .help-item {
-    position: relative;
-    flex: none;
-    width: auto;
-    max-width: none;
-    height: auto;
-    scroll-snap-align: none;
     padding: 12px;
   }
 
   .help-media {
-    height: auto;
-    max-height: none;
-    aspect-ratio: 1 / 1;
-    max-width: min(320px, 100%);
-    margin-inline: auto;
+    height: 200px;
+    max-height: 200px;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .help-item h3 {
