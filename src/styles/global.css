@@ -2143,15 +2143,61 @@ section[id] {
   gap: 8px 24px;
 }
 
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 0.9fr;
+  gap: 28px 32px;
+  align-items: start;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.footer-col-title {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 8px;
 }
 
+.footer-nav-social {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.footer-nav-docs {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
 .footer-nav a {
   color: var(--muted);
   font-size: 14px;
+  text-decoration: none;
+}
+
+.footer-nav-docs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+}
+
+.footer-nav-docs a:hover {
+  color: var(--accent-strong);
 }
 
 .footer-social {
@@ -2213,12 +2259,6 @@ section[id] {
   opacity: 0.9;
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 0.8fr;
-  gap: 24px;
 }
 
 .footer-brand {
@@ -4022,10 +4062,21 @@ html[data-theme="dark"] .section-backdrop::after {
     gap: 14px;
   }
 
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
   .footer-nav {
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
+  }
+
+  .footer-nav-social {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .footer-nav a {
