@@ -1,4 +1,6 @@
 import { createServer } from "node:http";
+import { createReadStream, existsSync, statSync } from "node:fs";
+import { extname, join } from "node:path";
 import "./load-env.mjs";
 import {
   bearerToken,
@@ -15,9 +17,9 @@ import {
 } from "./store.mjs";
 import { validateApplication } from "./validate.mjs";
 import { notifyMail } from "./mail.mjs";
-import { notifyVkShort } from "./vk.mjs";
+import { serverRoot } from "./load-env.mjs";
 
-const HOST = process.env.HOST || "127.0.0.1";
+const HOST = process.env.HOST || (process.env.PORT ? "0.0.0.0" : "127.0.0.1");
 const PORT = Number(process.env.PORT || 8788);
 const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX || 8);
 const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
@@ -32,11 +34,20 @@ function allowedOrigins() {
     .filter(Boolean);
 }
 
+function originAllowed(origin, hostHeader) {
+  if (!origin) return true;
+  try {
+    const originHost = new URL(origin).host;
+    const requestHost = String(hostHeader || "").split(",")[0].trim();
+    if (originHost && originHost === requestHost) return true;
+  } catch {
+    return false;
+  }
+  return allowedOrigins().includes(origin);
+}
 function corsHeaders(origin) {
-  const list = allowedOrigins();
-  const allow = origin && list.includes(origin) ? origin : list[0] || "*";
   return {
-    "Access-Control-Allow-Origin": allow,
+    "Access-Control-Allow-Origin": origin || allowedOrigins()[0] || "*",
     "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     Vary: "Origin",
@@ -89,17 +100,60 @@ function requireAuth(req, res, origin) {
   return token;
 }
 
+const distDir = join(serverRoot, "..", "dist");
+
+const STATIC_TYPES = {
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".ico": "image/x-icon",
+  ".woff2": "font/woff2",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+};
+
+function serveSite(req, res, pathname) {
+  if (!existsSync(distDir)) return false;
+  const relative = decodeURIComponent(pathname).replace(/^\/+/, "");
+  if (relative.includes("..")) return false;
+  let file = join(distDir, relative);
+  if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
+  if (!existsSync(file) || !statSync(file).isFile()) file = join(distDir, "index.html");
+  if (!existsSync(file)) return false;
+  const type = STATIC_TYPES[extname(file)] || "application/octet-stream";
+  res.writeHead(200, {
+    "Content-Type": type,
+    "Cache-Control": file.endsWith("index.html") ? "no-cache" : "public, max-age=86400",
+  });
+  if (req.method === "HEAD") {
+    res.end();
+    return true;
+  }
+  createReadStream(file).pipe(res);
+  return true;
+}
+
 const server = createServer(async (req, res) => {
   const origin = req.headers.origin || "";
-  const list = allowedOrigins();
 
   if (req.method === "OPTIONS") {
-    res.writeHead(204, corsHeaders(origin && list.includes(origin) ? origin : list[0]));
+    if (origin && !originAllowed(origin, req.headers.host)) {
+      sendJson(res, 403, { ok: false, error: "Origin not allowed" }, origin);
+      return;
+    }
+    res.writeHead(204, corsHeaders(origin));
     res.end();
     return;
   }
 
-  if (origin && !list.includes(origin)) {
+  if (origin && !originAllowed(origin, req.headers.host)) {
     sendJson(res, 403, { ok: false, error: "Origin not allowed" }, origin);
     return;
   }
@@ -162,12 +216,6 @@ const server = createServer(async (req, res) => {
       } else if (mail.skipped) {
         console.info("Mail notify skipped:", mail.reason);
       }
-      const vk = await notifyVkShort({ number: item.number, createdAt: item.createdAt });
-      if (!vk.ok && !vk.skipped) {
-        console.warn("VK notify failed", vk);
-      } else if (vk.skipped) {
-        console.info("VK notify skipped:", vk.reason);
-      }
 
       sendJson(res, 200, { ok: true, number: item.number }, origin);
       return;
@@ -205,6 +253,8 @@ const server = createServer(async (req, res) => {
       }
     }
 
+    if ((req.method === "GET" || req.method === "HEAD") && serveSite(req, res, path)) return;
+
     sendJson(res, 404, { ok: false, error: "Not found" }, origin);
   } catch (error) {
     console.error(error);
@@ -218,5 +268,5 @@ if (!process.env.ADMIN_PASSWORD) {
 
 server.listen(PORT, HOST, () => {
   console.log(`NP.AI RU backend listening on http://${HOST}:${PORT}`);
-  console.log("Personal data stays on this server. Email goes to the operator. VK gets number + date/time only.");
+  console.log("Applications stay on this server and open in /admin. Nothing is sent to VK.");
 });

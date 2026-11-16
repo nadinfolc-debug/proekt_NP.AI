@@ -29,6 +29,9 @@ export default defineConfig(({ mode }) => ({
   plugins: [react(), publishExtras(mode)],
   server: {
     port: 5173,
+    proxy: {
+      "/api": "http://127.0.0.1:8788",
+    },
     watch: {
       ignored: ["**/public/media/**"],
     },

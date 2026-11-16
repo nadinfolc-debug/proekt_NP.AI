@@ -1,0 +1,12 @@
+node_modules
+server/node_modules
+dist
+.git
+.tools
+docs
+telegram-bot
+server/data
+server/.env
+.env
+.env.*
+*.md

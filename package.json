@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node server/src/index.mjs",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
     "check:152": "node scripts/check-api-url.mjs",

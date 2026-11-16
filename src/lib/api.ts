@@ -25,15 +25,16 @@ export type ApplicationPayload = {
 
 const TOKEN_KEY = "npai.admin.token";
 
-function apiBase() {
+/** Empty string means the site and the cabinet API are on the same address. */
+function apiBase(): string | null {
   const base = normalizeApiBase(import.meta.env.VITE_API_URL as string | undefined);
   if (!base) return "";
-  if (assertApiBaseAllowed(base)) return "";
+  if (assertApiBaseAllowed(base)) return null;
   return base;
 }
 
 export function isApiConfigured() {
-  return Boolean(apiBase());
+  return apiBase() !== null;
 }
 
 export function getAdminToken() {
@@ -58,14 +59,12 @@ async function request<T>(
   options: RequestInit & { auth?: boolean } = {},
 ): Promise<{ ok: boolean; status: number; data: T | null; error?: string }> {
   const base = apiBase();
-  if (!base) {
-    const raw = normalizeApiBase(import.meta.env.VITE_API_URL as string | undefined);
-    const blocked = assertApiBaseAllowed(raw);
+  if (base === null) {
     return {
       ok: false,
       status: 0,
       data: null,
-      error: blocked || "API URL is not configured",
+      error: "API URL is not allowed",
     };
   }
 
