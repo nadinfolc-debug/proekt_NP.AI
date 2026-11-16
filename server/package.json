@@ -6,5 +6,8 @@
   "scripts": {
     "start": "node src/index.mjs",
     "dev": "node --watch src/index.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.6.0"
   }
 }

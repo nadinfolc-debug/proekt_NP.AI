@@ -39,6 +39,23 @@ VITE_API_URL=http://127.0.0.1:8788
 | PATCH | `/api/applications/:id` | Статус (Bearer) |
 | DELETE | `/api/applications/:id` | Удаление (Bearer) |
 
+## Письмо о заявке
+
+Полный текст заявки лежит в `server/data/applications.json` на этом сервере.  
+Дополнительно сервер отправляет письмо оператору, если в `.env` заданы `SMTP_*` и `NOTIFY_EMAIL`.
+
+Яндекс Почта: `SMTP_HOST=smtp.yandex.ru`, порт `465`, логин — полный ящик, пароль — пароль приложения (не основной пароль ящика).  
+`NOTIFY_EMAIL` — куда приходит письмо, сейчас `np-ai-prikolota@yandex.com`.
+
+Без SMTP заявка всё равно сохраняется. В VK по-прежнему уходит только номер, дата и время.
+
+## Timeweb Cloud
+
+1. Приложение Node.js из папки `server` (команда запуска `npm start`).
+2. В переменных: `HOST=0.0.0.0`, свой `ADMIN_LOGIN` / `ADMIN_PASSWORD`, `ALLOWED_ORIGINS` с адресом сайта, блок `SMTP_*`.
+3. В сборке сайта секрет `VITE_API_URL` = публичный `https://….twc1.net` этого приложения (без слэша в конце).
+4. Адрес Timeweb допустим: блок-лист режет GitHub Pages, Cloudflare и Telegram API, не timeweb.
+
 ## VK
 
 1. Управление сообществом → Настройки → Работа с API → ключ доступа (права на сообщения).

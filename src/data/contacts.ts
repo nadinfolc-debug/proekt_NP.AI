@@ -14,9 +14,9 @@ export type SocialLink = {
 };
 
 /**
- * MAX: paste your invite link (https://max.ru/u/...) when ready.
- * How to copy: MAX → Профиль → «Пригласить друзей» → «Скопировать ссылку».
- * Leave href empty to hide the button until the link is set.
+ * MAX button is hidden while href is empty.
+ * Saved link: https://max.ru/u/f9LHodD0cOIXrC0-2Ju9bOCN-6fMcOiaCvfg9qZa2FQNjbbMvifb_TNOYGY
+ * Paste a new link into href when the button should show again.
  */
 export const socialLinks: Record<"telegram" | "vk" | "max", SocialLink> = {
   telegram: {
@@ -33,7 +33,7 @@ export const socialLinks: Record<"telegram" | "vk" | "max", SocialLink> = {
   },
   max: {
     id: "max",
-    href: "https://max.ru/u/f9LHodD0cOIXrC0-2Ju9bOCN-6fMcOiaCvfg9qZa2FQNjbbMvifb_TNOYGY",
+    href: "",
     label: "MAX",
     cta: "Написать в MAX",
   },

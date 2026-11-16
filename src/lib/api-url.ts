@@ -3,7 +3,7 @@
  * Empty URL = API disabled (messengers-only) — allowed.
  */
 const BLOCKED_HOST_RE =
-  /(^|\.)workers\.dev$|(^|\.)pages\.dev$|cloudflare\.com|challenges\.cloudflare|googleapis\.com|google\.com|gstatic\.com|facebook\.net|facebook\.com|doubleclick\.net|formspree\.io|getform\.io|basin\.com|web3forms\.com|api\.telegram\.org/i;
+  /(^|\.)workers\.dev$|(^|\.)pages\.dev$|(^|\.)github\.io$|(^|\.)netlify\.app$|cloudflare\.com|challenges\.cloudflare|googleapis\.com|google\.com|gstatic\.com|facebook\.net|facebook\.com|doubleclick\.net|formspree\.io|getform\.io|basin\.com|web3forms\.com|api\.telegram\.org/i;
 
 export function normalizeApiBase(raw: string | undefined | null): string {
   const value = (raw || "").trim().replace(/\/$/, "");

@@ -14,6 +14,7 @@ import {
   updateApplication,
 } from "./store.mjs";
 import { validateApplication } from "./validate.mjs";
+import { notifyMail } from "./mail.mjs";
 import { notifyVkShort } from "./vk.mjs";
 
 const HOST = process.env.HOST || "127.0.0.1";
@@ -155,6 +156,12 @@ const server = createServer(async (req, res) => {
       }
 
       const item = createApplication(validated.value);
+      const mail = await notifyMail(item);
+      if (!mail.ok && !mail.skipped) {
+        console.warn("Mail notify failed", mail.error);
+      } else if (mail.skipped) {
+        console.info("Mail notify skipped:", mail.reason);
+      }
       const vk = await notifyVkShort({ number: item.number, createdAt: item.createdAt });
       if (!vk.ok && !vk.skipped) {
         console.warn("VK notify failed", vk);
@@ -211,5 +218,5 @@ if (!process.env.ADMIN_PASSWORD) {
 
 server.listen(PORT, HOST, () => {
   console.log(`NP.AI RU backend listening on http://${HOST}:${PORT}`);
-  console.log("Personal data stays on this server. VK gets number + date/time only.");
+  console.log("Personal data stays on this server. Email goes to the operator. VK gets number + date/time only.");
 });

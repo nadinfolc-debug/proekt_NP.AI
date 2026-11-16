@@ -1,6 +1,6 @@
-import { contactChannels } from "../data/contacts";
 import { ctaCopy } from "../data/site";
 import { useSectionId } from "../lib/useSectionId";
+import { LeadForm } from "./LeadForm";
 import { ScrollReveal } from "./ScrollReveal";
 import { SectionBackdrop } from "./SectionBackdrop";
 
@@ -16,7 +16,7 @@ export function CtaBand({
     <section className="cta-band flow-panel flow-cta" id={sectionId} aria-labelledby="cta-title">
       <SectionBackdrop />
       <div className="container">
-        <ScrollReveal className="cta-inner" stagger={120} delay={40}>
+        <ScrollReveal className="cta-inner cta-inner--form" stagger={120} delay={40}>
           <div className="cta-copy">
             <p className="cta-eyebrow">Контакты</p>
             <h2 id="cta-title" className="cta-title">
@@ -32,24 +32,8 @@ export function CtaBand({
             </p>
           </div>
 
-          <div className="cta-card cta-channels">
-            <p className="cta-channels-label">{ctaCopy.channelsHint}</p>
-            <div className="cta-channel-list">
-              {contactChannels.map((channel, index) => (
-                <a
-                  key={channel.id}
-                  className={index === 0 ? "cta-channel cta-channel--accent" : "cta-channel"}
-                  href={channel.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span>{channel.cta}</span>
-                  <span className="cta-submit-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              ))}
-            </div>
+          <div className="cta-side">
+            <LeadForm />
           </div>
         </ScrollReveal>
       </div>

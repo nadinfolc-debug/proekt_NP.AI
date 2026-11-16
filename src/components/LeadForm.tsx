@@ -4,8 +4,8 @@ import { ctaCopy } from "../data/site";
 import { isApiConfigured } from "../lib/api";
 import { notifyAdmin } from "../lib/notify";
 
-/** Keep false until RU backend is live and the form is intentionally re-enabled. */
-export const LEAD_FORM_ENABLED: boolean = false;
+/** On-site applications. Full text is stored only on the RU backend. */
+export const LEAD_FORM_ENABLED: boolean = true;
 
 const CONTACT_METHODS = ["Telegram", "ВКонтакте", "MAX"] as const;
 const SERVICES = [

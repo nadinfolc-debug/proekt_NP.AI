@@ -1079,11 +1079,12 @@ section[id] {
 .cta-side {
   display: grid;
   gap: 16px;
-  width: min(100%, 360px);
+  width: min(100%, 440px);
   justify-self: center;
 }
 
 .cta-inner--form {
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1.05fr);
   align-items: start;
 }
 
