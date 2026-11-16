@@ -25,6 +25,7 @@ export function validateApplication(body) {
   const consent = body.consent === true || body.consent === "true" || body.agree === true;
 
   if (!consent) return { error: "Consent required" };
+  if (body.consentVersion !== "2026-11-16") return { error: "Consent document changed. Reload the page." };
   if (name.length < 2 || name.length > 100) return { error: "Invalid name" };
   if (!CONTACT_METHODS.has(contactMethod)) return { error: "Invalid contact method" };
   if (contactHandle.length < 2 || contactHandle.length > 200) return { error: "Invalid contact" };
@@ -39,6 +40,7 @@ export function validateApplication(body) {
       contact: `${contactMethod}: ${contactHandle}`,
       service,
       task,
+      consentVersion: body.consentVersion,
     },
   };
 }

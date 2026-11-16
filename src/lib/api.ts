@@ -20,6 +20,7 @@ export type ApplicationPayload = {
   service: string;
   task: string;
   consent: boolean;
+  consentVersion?: string;
   website?: string;
 };
 

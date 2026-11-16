@@ -102,7 +102,7 @@ export function AdminPage() {
     }
     const ok = await loginAdmin(login.trim(), password);
     if (!ok) {
-      setError("Неверный логин или пароль");
+      setError("Не удалось войти. Проверьте логин и пароль. После частых попыток подождите 15 минут.");
       return;
     }
     setError("");
@@ -193,12 +193,12 @@ export function AdminPage() {
 
   return (
     <div className="page admin-page">
-      <Seo title="Кабинет — NP.AI Prikolota" description="Заявки и товары." />
+      <Seo title="Кабинет — NP.AI Prikolota" description="Заявки и услуги." />
       <div className="container">
         <div className="admin-top">
           <div>
             <p className="eyebrow">Кабинет</p>
-            <h1>Заявки</h1>
+            <h1>{tab === "apps" ? "Заявки" : "Услуги"}</h1>
           </div>
           <div className="admin-top-actions">
             <Link className="cta-secondary" to="/">
@@ -228,7 +228,7 @@ export function AdminPage() {
             className={tab === "products" ? "is-active" : ""}
             onClick={() => setTab("products")}
           >
-            Товары ({products.length})
+            Услуги ({products.length})
           </button>
         </div>
 
@@ -280,6 +280,7 @@ export function AdminPage() {
                         type="button"
                         className="button"
                         onClick={async () => {
+                          if (!window.confirm("Удалить эту заявку и её персональные данные с сервера? Отменить удаление нельзя. Копии в резервных архивах удаляются отдельно.")) return;
                           const result = await removeApplication(app.id);
                           if (result.ok) await refreshApps();
                         }}
@@ -293,11 +294,11 @@ export function AdminPage() {
             )}
           </section>
         ) : (
-          <section className="admin-panel" aria-label="Товары">
+          <section className="admin-panel" aria-label="Услуги">
             <form className="admin-product-form" onSubmit={onSaveProduct}>
-              <h2>{editingId ? "Редактировать товар" : "Добавить товар"}</h2>
+              <h2>{editingId ? "Редактировать услугу" : "Добавить услугу"}</h2>
               <label className="cta-field">
-                <span className="cta-field-label">Название</span>
+                <span className="cta-field-label">Название услуги</span>
                 <input
                   value={draft.title}
                   onChange={(event) => setDraft((prev) => ({ ...prev, title: event.target.value }))}
@@ -305,14 +306,14 @@ export function AdminPage() {
                 />
               </label>
               <label className="cta-field">
-                <span className="cta-field-label">Цена</span>
+                <span className="cta-field-label">Стоимость</span>
                 <input
                   value={draft.price}
                   onChange={(event) => setDraft((prev) => ({ ...prev, price: event.target.value }))}
                 />
               </label>
               <label className="cta-field">
-                <span className="cta-field-label">Описание</span>
+                <span className="cta-field-label">Описание услуги</span>
                 <textarea
                   rows={4}
                   value={draft.description}
@@ -356,7 +357,7 @@ export function AdminPage() {
                 <li key={product.id} className="admin-card">
                   <div className="admin-card-head">
                     <strong>{product.title}</strong>
-                    <span className="admin-badge">{product.visible ? "На сайте" : "Скрыт"}</span>
+                    <span className="admin-badge">{product.visible ? "На сайте" : "Скрыта"}</span>
                   </div>
                   <p className="product-price">{product.price}</p>
                   <p>{product.description}</p>

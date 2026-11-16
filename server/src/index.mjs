@@ -25,6 +25,18 @@ const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX || 8);
 const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
 
 const rateBuckets = new Map();
+const loginBuckets = new Map();
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+
+function loginAllowed() {
+  const now = Date.now();
+  // One owner: a global limit also prevents bypass through forged proxy headers.
+  const recent = (loginBuckets.get("owner") || []).filter((time) => now - time < LOGIN_WINDOW_MS);
+  if (recent.length >= 10) return false;
+  recent.push(now);
+  loginBuckets.set("owner", recent);
+  return true;
+}
 
 function allowedOrigins() {
   const raw = String(process.env.ALLOWED_ORIGINS || "http://127.0.0.1:5173,http://localhost:5173");
@@ -58,6 +70,9 @@ function sendJson(res, status, data, origin) {
   const headers = {
     ...corsHeaders(origin),
     "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store, private",
+    Pragma: "no-cache",
+    "X-Content-Type-Options": "nosniff",
   };
   res.writeHead(status, headers);
   res.end(JSON.stringify(data));
@@ -86,7 +101,16 @@ function rateLimitOk(ip) {
 
 async function readJson(req) {
   const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
+  let size = 0;
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > 32768) {
+      const error = new Error("Request too large");
+      error.status = 413;
+      throw error;
+    }
+    chunks.push(chunk);
+  }
   if (!chunks.length) return {};
   return JSON.parse(Buffer.concat(chunks).toString("utf8"));
 }
@@ -168,6 +192,11 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === "POST" && path === "/api/auth/login") {
+      if (!loginAllowed()) {
+        res.setHeader("Retry-After", "900");
+        sendJson(res, 429, { ok: false, error: "Too many login attempts. Try again in 15 minutes." }, origin);
+        return;
+      }
       const body = await readJson(req);
       const login = String(body.login || "").trim();
       const password = String(body.password || "");
@@ -257,8 +286,9 @@ const server = createServer(async (req, res) => {
 
     sendJson(res, 404, { ok: false, error: "Not found" }, origin);
   } catch (error) {
-    console.error(error);
-    sendJson(res, 500, { ok: false, error: "Server error" }, origin);
+    const status = error.status === 413 ? 413 : error instanceof SyntaxError ? 400 : 500;
+    if (status === 500) console.error("Request failed");
+    sendJson(res, status, { ok: false, error: status === 413 ? "Request too large" : status === 400 ? "Invalid JSON" : "Server error" }, origin);
   }
 });
 

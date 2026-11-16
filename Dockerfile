@@ -7,7 +7,7 @@ COPY server/package.json server/package-lock.json ./server/
 RUN npm ci && npm ci --prefix server
 
 COPY . .
-RUN npm run build
+RUN npm run test:security && npm run build
 
 ENV HOST=0.0.0.0
 ENV PORT=8080

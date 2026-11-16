@@ -24,12 +24,6 @@ export async function notifyMail(item) {
   const text = [
     `Новая заявка №${item.number}`,
     `Дата и время (МСК): ${dateTime}`,
-    `Имя: ${item.name}`,
-    `Куда ответить: ${item.contactMethod || ""}`,
-    `Контакт: ${item.contactHandle || item.contact || ""}`,
-    `Услуга: ${item.service || ""}`,
-    "Задача:",
-    item.task || "",
     "",
     "Заявка сохранена на сервере. Список заявок — в кабинете сайта /admin.",
   ].join("\n");
@@ -39,6 +33,7 @@ export async function notifyMail(item) {
       host,
       port,
       secure: port === 465,
+      requireTLS: true,
       auth: { user, pass },
     });
     await transport.sendMail({
@@ -52,7 +47,7 @@ export async function notifyMail(item) {
     return {
       ok: false,
       skipped: false,
-      error: error instanceof Error ? error.message : "mail failed",
+      error: "mail delivery failed",
     };
   }
 }

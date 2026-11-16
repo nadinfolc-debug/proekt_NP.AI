@@ -26,6 +26,7 @@ export async function notifyAdmin(payload: NotifyPayload): Promise<boolean> {
     service: payload.service,
     task: payload.task,
     consent: payload.consent,
+    consentVersion: "2026-11-16",
     website: payload.website || "",
   };
 

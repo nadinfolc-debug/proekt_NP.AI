@@ -10,7 +10,7 @@ function hashPassword(password, salt) {
 export function verifyAdminCredentials(login, password) {
   const expectedLogin = String(process.env.ADMIN_LOGIN || "admin");
   const expectedPassword = String(process.env.ADMIN_PASSWORD || "");
-  if (!expectedPassword) return false;
+  if (!expectedPassword || expectedPassword === "change-me-now") return false;
   if (login !== expectedLogin) return false;
 
   const salt = createHash("sha256").update(`npai-admin:${expectedLogin}`).digest();
@@ -37,7 +37,6 @@ export function isSessionValid(token) {
     sessions.delete(token);
     return false;
   }
-  sessions.set(token, Date.now() + SESSION_TTL_MS);
   return true;
 }
 
