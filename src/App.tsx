@@ -130,8 +130,8 @@ function Shell() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      {isAdmin ? null : <Footer />}
-      {isAdmin ? null : <CookieBanner />}
+      <Footer />
+      <CookieBanner />
     </>
   );
 }

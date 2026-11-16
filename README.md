@@ -38,7 +38,8 @@ npm run preview
 ## GitHub Pages
 
 Репозиторий: https://github.com/nadinfolc-debug/proekt_NP.AI  
-Сайт: https://nadinfolc-debug.github.io/proekt_NP.AI/
+Сайт для посетителей: https://nadinfolc-debug-proekt-np-ai-1df5.twc1.net/  
+Страница на GitHub Pages только перенаправляет на этот адрес и не принимает заявки.
 
 В репозитории лежит **исходный код на TypeScript/React** (`src/`). Браузер его не открывает напрямую. На Pages нужна **сборка** (HTML + JS) — она в папке `docs/` и публикуется workflow.
 

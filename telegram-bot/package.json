@@ -2,11 +2,11 @@
   "name": "npai-telegram-notify",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "secret:bot": "wrangler secret put BOT_TOKEN",
-    "secret:chat": "wrangler secret put CHAT_ID",
-    "secret:turnstile": "wrangler secret put TURNSTILE_SECRET_KEY"
+    "dev": "node -e \"console.error('Disabled: do not run the Cloudflare worker for personal data.'); process.exit(1)\"",
+    "deploy": "node -e \"console.error('Disabled: applications stay on the RU server, not Cloudflare.'); process.exit(1)\"",
+    "secret:bot": "node -e \"console.error('Disabled.'); process.exit(1)\"",
+    "secret:chat": "node -e \"console.error('Disabled.'); process.exit(1)\"",
+    "secret:turnstile": "node -e \"console.error('Disabled: Turnstile is not used.'); process.exit(1)\""
   },
   "devDependencies": {
     "wrangler": "^4.40.0"
