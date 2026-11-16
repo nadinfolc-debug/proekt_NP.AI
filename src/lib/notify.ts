@@ -27,6 +27,7 @@ export async function notifyAdmin(payload: NotifyPayload): Promise<boolean> {
     task: payload.task,
     consent: payload.consent,
     consentVersion: "2026-11-16",
+    requestId: crypto.randomUUID(),
     website: payload.website || "",
   };
 

@@ -5,7 +5,7 @@ export const legalMeta = {
   inn: "632403844285",
   address: "г. Москва, ул. Егерская, д. 1, кв. 102",
   email: "np-ai-prikolota@yandex.com",
-  hosting: "timeweb.cloud (дата-центр на территории Российской Федерации)",
+  hosting: "timeweb.cloud (дата-центр на территории Российской Федерации, включая приватное S3-хранилище заявок)",
   contactChannels:
     "форма заявки на Сайте, Telegram или ВКонтакте в шапке и подвале, либо email",
   siteUrl: "сайт NP.AI Prikolota",

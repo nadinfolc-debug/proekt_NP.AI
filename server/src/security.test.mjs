@@ -42,7 +42,7 @@ test("closed cabinet, consent evidence, logout, body limit and login throttling"
   await new Promise((resolve) => probe.close(resolve));
   const dataDir = mkdtempSync(join(tmpdir(), "npai-security-test-"));
   const child = spawn(process.execPath, [fileURLToPath(new URL("./index.mjs", import.meta.url))], {
-    env: { ...process.env, HOST: "127.0.0.1", PORT: String(port), DATA_DIR: dataDir,
+    env: { ...process.env, NODE_ENV: "test", APPLICATION_STORAGE: "file", HOST: "127.0.0.1", PORT: String(port), DATA_DIR: dataDir,
       ADMIN_LOGIN: "owner", ADMIN_PASSWORD: "test-password-only-12345", SMTP_PASS: "", RATE_LIMIT_MAX: "50" },
     stdio: ["ignore", "pipe", "pipe"],
   });

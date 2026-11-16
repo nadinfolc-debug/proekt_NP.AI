@@ -14,7 +14,7 @@ import {
   deleteApplication,
   listApplications,
   updateApplication,
-} from "./store.mjs";
+} from "./persistence.mjs";
 import { validateApplication } from "./validate.mjs";
 import { notifyMail } from "./mail.mjs";
 import { serverRoot } from "./load-env.mjs";
@@ -238,7 +238,7 @@ const server = createServer(async (req, res) => {
         return;
       }
 
-      const item = createApplication(validated.value);
+      const item = await createApplication(validated.value);
       const mail = await notifyMail(item);
       if (!mail.ok && !mail.skipped) {
         console.warn("Mail notify failed", mail.error);
@@ -252,7 +252,7 @@ const server = createServer(async (req, res) => {
 
     if (req.method === "GET" && path === "/api/applications") {
       if (!requireAuth(req, res, origin)) return;
-      sendJson(res, 200, { ok: true, items: listApplications() }, origin);
+      sendJson(res, 200, { ok: true, items: await listApplications() }, origin);
       return;
     }
 
@@ -263,7 +263,7 @@ const server = createServer(async (req, res) => {
 
       if (req.method === "PATCH") {
         const body = await readJson(req);
-        const updated = updateApplication(id, body);
+        const updated = await updateApplication(id, body);
         if (!updated) {
           sendJson(res, 404, { ok: false, error: "Not found" }, origin);
           return;
@@ -273,7 +273,7 @@ const server = createServer(async (req, res) => {
       }
 
       if (req.method === "DELETE") {
-        if (!deleteApplication(id)) {
+        if (!await deleteApplication(id)) {
           sendJson(res, 404, { ok: false, error: "Not found" }, origin);
           return;
         }

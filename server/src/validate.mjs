@@ -25,6 +25,7 @@ export function validateApplication(body) {
   const consent = body.consent === true || body.consent === "true" || body.agree === true;
 
   if (!consent) return { error: "Consent required" };
+  if (body.requestId !== undefined && !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(body.requestId)) return { error: "Invalid request ID" };
   if (body.consentVersion !== "2026-11-16") return { error: "Consent document changed. Reload the page." };
   if (name.length < 2 || name.length > 100) return { error: "Invalid name" };
   if (!CONTACT_METHODS.has(contactMethod)) return { error: "Invalid contact method" };
@@ -41,6 +42,7 @@ export function validateApplication(body) {
       service,
       task,
       consentVersion: body.consentVersion,
+      requestId: body.requestId,
     },
   };
 }

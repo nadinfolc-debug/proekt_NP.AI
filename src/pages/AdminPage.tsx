@@ -234,8 +234,13 @@ export function AdminPage() {
 
         {tab === "apps" ? (
           <section className="admin-panel" aria-label="Заявки">
-            {appsError ? <p className="admin-error">{appsError}</p> : null}
-            {apps.length === 0 ? (
+            {appsError ? (
+              <div role="alert">
+                <p className="admin-error">{appsError}</p>
+                <button className="button" type="button" onClick={refreshApps}>Повторить загрузку</button>
+              </div>
+            ) : null}
+            {apps.length === 0 && !appsError ? (
               <p className="lead">Пока нет заявок. Они появятся после отправки формы на сайте.</p>
             ) : (
               <ul className="admin-list">

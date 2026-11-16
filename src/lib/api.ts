@@ -2,7 +2,7 @@ import { assertApiBaseAllowed, normalizeApiBase } from "./api-url";
 
 export type Application = {
   id: string;
-  number: number;
+  number: number | string;
   name: string;
   contact: string;
   contactMethod?: string;
@@ -21,6 +21,7 @@ export type ApplicationPayload = {
   task: string;
   consent: boolean;
   consentVersion?: string;
+  requestId?: string;
   website?: string;
 };
 
@@ -137,7 +138,7 @@ export async function fetchApplications() {
     method: "GET",
     auth: true,
   });
-  if (!result.ok || !result.data?.items) return [];
+  if (!result.ok || !result.data?.items) throw new Error("Не удалось загрузить заявки");
   return result.data.items;
 }
 
