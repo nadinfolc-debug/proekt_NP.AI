@@ -80,6 +80,13 @@ test("closed cabinet, consent evidence, logout, body limit and login throttling"
     assert.equal(login.status, 200);
     const { token } = await login.json();
     assert.equal((await request("/api/applications", "GET", undefined, token)).status, 200);
+    for (const status of ["in_progress", "review", "done", "delivered", "new"]) {
+      const response = await request(`/api/applications/${db.items[0].id}`, "PATCH", { status }, token);
+      assert.equal(response.status, 200);
+      assert.equal((await response.json()).item.status, status);
+    }
+    assert.equal((await request(`/api/applications/${db.items[0].id}`, "PATCH", { status: "unknown" }, token)).status, 400);
+    assert.equal((await request(`/api/applications/${db.items[0].id}`, "PATCH", { status: "delivered" })).status, 401);
     assert.equal((await request("/api/auth/logout", "POST", {}, token)).status, 200);
     assert.equal((await request("/api/applications", "GET", undefined, token)).status, 401);
     assert.equal((await request("/api/applications", "POST", { oversized: "x".repeat(40000) })).status, 413);

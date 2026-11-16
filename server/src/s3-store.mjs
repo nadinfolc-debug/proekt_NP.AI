@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { serverRoot } from "./load-env.mjs";
+import { APPLICATION_STATUSES } from "./application-status.mjs";
 
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const ETAG = Symbol("etag");
@@ -79,8 +80,8 @@ export function createS3Store(client, bucket) {
     async updateApplication(id, patch) {
       const item = await get(id);
       if (!item) return null;
-      if (patch.status !== "new" && patch.status !== "done") return item;
-      const updated = { ...item, status: patch.status };
+      if (!APPLICATION_STATUSES.has(patch.status)) return item;
+      const updated = { ...item, status: patch.status, updatedAt: new Date().toISOString() };
       if (!item[ETAG]) throw new Error("Storage returned no concurrency token");
       await put(keyFor(id), updated, { IfMatch: item[ETAG] });
       return updated;

@@ -18,6 +18,7 @@ import {
 import { validateApplication } from "./validate.mjs";
 import { notifyMail } from "./mail.mjs";
 import { serverRoot } from "./load-env.mjs";
+import { APPLICATION_STATUSES } from "./application-status.mjs";
 
 const HOST = process.env.HOST || (process.env.PORT ? "0.0.0.0" : "127.0.0.1");
 const PORT = Number(process.env.PORT || 8788);
@@ -263,6 +264,10 @@ const server = createServer(async (req, res) => {
 
       if (req.method === "PATCH") {
         const body = await readJson(req);
+        if (!body || !APPLICATION_STATUSES.has(body.status)) {
+          sendJson(res, 400, { ok: false, error: "Invalid application status" }, origin);
+          return;
+        }
         const updated = await updateApplication(id, body);
         if (!updated) {
           sendJson(res, 404, { ok: false, error: "Not found" }, origin);

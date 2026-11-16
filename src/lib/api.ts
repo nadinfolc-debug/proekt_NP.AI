@@ -1,4 +1,5 @@
 import { assertApiBaseAllowed, normalizeApiBase } from "./api-url";
+import type { ApplicationStatus } from "../data/applicationStatuses";
 
 export type Application = {
   id: string;
@@ -10,7 +11,7 @@ export type Application = {
   service?: string;
   task: string;
   createdAt: string;
-  status: "new" | "done";
+  status: ApplicationStatus;
 };
 
 export type ApplicationPayload = {
@@ -142,7 +143,7 @@ export async function fetchApplications() {
   return result.data.items;
 }
 
-export async function patchApplication(id: string, status: "new" | "done") {
+export async function patchApplication(id: string, status: ApplicationStatus) {
   return request(`/api/applications/${encodeURIComponent(id)}`, {
     method: "PATCH",
     auth: true,

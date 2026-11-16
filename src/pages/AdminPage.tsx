@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo";
+import { applicationStatus, applicationStatuses, type ApplicationStatus } from "../data/applicationStatuses";
 import {
   checkAdminSession,
   fetchApplications,
@@ -40,6 +41,10 @@ export function AdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState(emptyProduct);
   const [appsError, setAppsError] = useState("");
+  const [statusFilter, setStatusFilter] = useState<ApplicationStatus | "all">("all");
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState("");
+  const visibleApps = apps.filter((app) => statusFilter === "all" || app.status === statusFilter);
 
   const refreshApps = useCallback(async () => {
     try {
@@ -116,6 +121,22 @@ export function AdminPage() {
     await logoutAdmin();
     setAuthed(false);
     setApps([]);
+    setActionError("");
+  };
+
+  const changeStatus = async (app: Application, status: ApplicationStatus) => {
+    setBusyId(app.id);
+    setActionError("");
+    try {
+      const result = await patchApplication(app.id, status);
+      if (!result.ok) {
+        setActionError("Не удалось сохранить этап заявки. Проверьте соединение и попробуйте ещё раз.");
+        return;
+      }
+      await refreshApps();
+    } finally {
+      setBusyId(null);
+    }
   };
 
   const onSaveProduct = (event: FormEvent) => {
@@ -234,24 +255,48 @@ export function AdminPage() {
 
         {tab === "apps" ? (
           <section className="admin-panel" aria-label="Заявки">
+            <div className="admin-workflow" aria-label="Этапы работы с заявками">
+              {applicationStatuses.map((status, index) => (
+                <button
+                  type="button"
+                  key={status.value}
+                  className="admin-stage"
+                  data-status={status.value}
+                  aria-pressed={statusFilter === status.value}
+                  onClick={() => setStatusFilter(status.value)}
+                >
+                  <span className="admin-stage-top"><span>{index + 1}</span><strong>{apps.filter((app) => app.status === status.value).length}</strong></span>
+                  <span className="admin-stage-title">{status.title}</span>
+                  <span className="admin-stage-description">{status.description}</span>
+                </button>
+              ))}
+            </div>
+            <div className="admin-app-toolbar">
+              <button type="button" className="button" aria-pressed={statusFilter === "all"} onClick={() => setStatusFilter("all")}>
+                Все заявки ({apps.length})
+              </button>
+              <p aria-live="polite">{statusFilter === "all" ? "Все этапы" : applicationStatus(statusFilter).title} · {visibleApps.length}</p>
+              <button type="button" className="button" onClick={refreshApps}>Обновить заявки</button>
+            </div>
+            {actionError ? <p className="admin-error" role="alert">{actionError}</p> : null}
             {appsError ? (
               <div role="alert">
                 <p className="admin-error">{appsError}</p>
                 <button className="button" type="button" onClick={refreshApps}>Повторить загрузку</button>
               </div>
             ) : null}
-            {apps.length === 0 && !appsError ? (
-              <p className="lead">Пока нет заявок. Они появятся после отправки формы на сайте.</p>
+            {visibleApps.length === 0 && !appsError ? (
+              <p className="lead">{apps.length === 0 ? "Пока нет заявок. Они появятся после отправки формы на сайте." : "На этом этапе пока нет заявок. Выберите другой этап или откройте все заявки."}</p>
             ) : (
               <ul className="admin-list">
-                {apps.map((app) => (
-                  <li key={app.id} className="admin-card">
+                {visibleApps.map((app) => (
+                  <li key={app.id} className="admin-card admin-application" data-status={app.status}>
                     <div className="admin-card-head">
                       <strong>
                         №{app.number} · {app.name}
                       </strong>
-                      <span className={app.status === "new" ? "admin-badge is-new" : "admin-badge"}>
-                        {app.status === "new" ? "Новая" : "Готово"}
+                      <span className="admin-badge admin-status-badge" data-status={app.status}>
+                        {applicationStatus(app.status).title}
                       </span>
                     </div>
                     {app.service ? (
@@ -269,25 +314,29 @@ export function AdminPage() {
                       <span className="admin-label">Задача:</span> {app.task}
                     </p>
                     <p className="admin-meta">{new Date(app.createdAt).toLocaleString("ru-RU")}</p>
+                    <label className="admin-status-field">
+                      <span>Этап работы</span>
+                      <select value={app.status} disabled={busyId !== null} onChange={(event) => changeStatus(app, event.target.value as ApplicationStatus)}>
+                        {applicationStatuses.map((status) => <option key={status.value} value={status.value}>{status.title}</option>)}
+                      </select>
+                      <small aria-live="polite">{busyId === app.id ? "Сохраняю…" : applicationStatus(app.status).description}</small>
+                    </label>
                     <div className="admin-card-actions">
                       <button
                         type="button"
                         className="button"
-                        onClick={async () => {
-                          const next = app.status === "new" ? "done" : "new";
-                          const result = await patchApplication(app.id, next);
-                          if (result.ok) await refreshApps();
-                        }}
-                      >
-                        {app.status === "new" ? "Отметить готовой" : "Вернуть в новые"}
-                      </button>
-                      <button
-                        type="button"
-                        className="button"
+                        disabled={busyId !== null}
                         onClick={async () => {
                           if (!window.confirm("Удалить эту заявку и её персональные данные с сервера? Отменить удаление нельзя. Копии в резервных архивах удаляются отдельно.")) return;
-                          const result = await removeApplication(app.id);
-                          if (result.ok) await refreshApps();
+                          setBusyId(app.id);
+                          setActionError("");
+                          try {
+                            const result = await removeApplication(app.id);
+                            if (result.ok) await refreshApps();
+                            else setActionError("Не удалось удалить заявку. Попробуйте ещё раз.");
+                          } finally {
+                            setBusyId(null);
+                          }
                         }}
                       >
                         Удалить

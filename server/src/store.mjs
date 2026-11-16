@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync, renameSync } from "
 import { join } from "node:path";
 import { randomUUID, createHash } from "node:crypto";
 import { serverRoot } from "./load-env.mjs";
+import { APPLICATION_STATUSES } from "./application-status.mjs";
 
 const dataDir = process.env.DATA_DIR || join(serverRoot, "data");
 const appsPath = join(dataDir, "applications.json");
@@ -73,8 +74,8 @@ export function updateApplication(id, patch) {
   const db = readDb();
   const index = db.items.findIndex((item) => item.id === id);
   if (index === -1) return null;
-  if (patch.status === "new" || patch.status === "done") {
-    db.items[index] = { ...db.items[index], status: patch.status };
+  if (APPLICATION_STATUSES.has(patch.status)) {
+    db.items[index] = { ...db.items[index], status: patch.status, updatedAt: new Date().toISOString() };
   }
   writeDb(db);
   return db.items[index];

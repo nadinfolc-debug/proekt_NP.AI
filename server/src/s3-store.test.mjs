@@ -49,6 +49,13 @@ test("private applications survive a new store instance, retries and pagination"
   const updated = await restarted.updateApplication(first.id, { status: "done", name: "tampered" });
   assert.equal(updated.status, "done");
   assert.equal(updated.name, "Тест");
+  for (const status of ["in_progress", "review", "done", "delivered", "new"]) {
+    await restarted.updateApplication(first.id, { status });
+    const saved = (await createS3Store(client, "test-bucket").listApplications()).find((item) => item.id === first.id);
+    assert.equal(saved.status, status);
+    assert.ok(saved.updatedAt);
+    assert.equal(saved.name, "Тест");
+  }
   assert.equal(await restarted.deleteApplication(first.id), true);
   assert.equal((await restarted.listApplications()).length, 1);
   const previousCount = commands.length;
