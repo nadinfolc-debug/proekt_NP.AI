@@ -2136,7 +2136,7 @@ section[id] {
 .footer {
   position: relative;
   overflow: hidden;
-  padding: 28px 0 36px;
+  padding: 14px 0 16px;
   border-top: 1px solid var(--line);
   background: var(--bg);
 }
@@ -2151,8 +2151,8 @@ section[id] {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 0.9fr;
-  gap: 28px 32px;
+  grid-template-columns: minmax(140px, 0.7fr) minmax(240px, 1.4fr) minmax(200px, 1fr);
+  gap: 12px 28px;
   align-items: start;
 }
 
@@ -2160,7 +2160,7 @@ section[id] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 6px;
   min-width: 0;
 }
 
@@ -2199,17 +2199,37 @@ section[id] {
 .footer-nav-docs a {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 0;
+  padding: 2px 0;
+  line-height: 1.35;
 }
 
 .footer-nav-docs a:hover {
   color: var(--accent-strong);
 }
 
+.footer-mail {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.footer-mail:hover {
+  color: var(--accent-strong);
+}
+
+.footer-requisites {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 .footer-social {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 32px;
   padding: 0 12px;
   border: 2px solid transparent;
   border-radius: 999px;
@@ -2280,7 +2300,7 @@ section[id] {
 }
 
 .page {
-  padding: calc(var(--header) + 40px) 0 80px;
+  padding: calc(var(--header) + 40px) 0 36px;
 }
 
 .page h1 {
@@ -4041,7 +4061,7 @@ html[data-theme="dark"] .section-backdrop::after {
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 14px;
   }
 
   .footer-nav {
@@ -4059,6 +4079,11 @@ html[data-theme="dark"] .section-backdrop::after {
   .footer-nav a {
     font-size: 13px;
     min-height: 40px;
+  }
+
+  .footer-nav-docs a {
+    min-height: 0;
+    padding: 4px 0;
   }
 
   .cta-channel {
