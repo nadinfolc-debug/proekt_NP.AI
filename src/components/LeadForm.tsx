@@ -43,6 +43,18 @@ export function LeadForm() {
       setError("Отметьте согласие на обработку персональных данных.");
       return;
     }
+    const fields = [
+      { name: "name", value: name.trim(), min: 2, max: 100, message: "Укажите имя — от 2 до 100 символов." },
+      { name: "contactHandle", value: contactHandle.trim(), min: 2, max: 200, message: "Укажите ник или ссылку для связи — от 2 до 200 символов." },
+      { name: "task", value: task.trim(), min: 5, max: 4000, message: "Опишите задачу — от 5 до 4000 символов. Например: «Нужен сайт для салона»." },
+    ];
+    const invalid = fields.find((field) => field.value.length < field.min || field.value.length > field.max);
+    if (invalid) {
+      setError(invalid.message);
+      const input = event.currentTarget.elements.namedItem(invalid.name);
+      if (input instanceof HTMLElement) input.focus();
+      return;
+    }
     if (!isApiConfigured()) {
       setError("Сервер заявок сейчас недоступен. Попробуйте ещё раз чуть позже.");
       return;
@@ -84,7 +96,7 @@ export function LeadForm() {
   }
 
   return (
-    <form className="cta-card cta-form" onSubmit={onSubmit} noValidate>
+    <form className="cta-card cta-form" onSubmit={onSubmit}>
       <div className="cta-fields-row">
         <label className="cta-field">
           <span className="cta-field-label">{ctaCopy.fields.name.label}</span>
@@ -168,7 +180,7 @@ export function LeadForm() {
       </label>
 
       <label className="cta-field">
-        <span className="cta-field-label">{ctaCopy.fields.task.label}</span>
+        <span className="cta-field-label">{ctaCopy.fields.task.label} (минимум 5 символов)</span>
         <span className="cta-input-wrap cta-input-wrap--area">
           <span className="cta-input-icon" aria-hidden="true">
             ▤
@@ -214,7 +226,7 @@ export function LeadForm() {
         </span>
       </label>
 
-      {error ? <p className="cta-form-error">{error}</p> : null}
+      {error ? <p className="cta-form-error" role="alert">{error}</p> : null}
 
       <button className="cta-submit" type="submit" disabled={!canSubmit}>
         <span>{status === "sending" ? "Отправка…" : ctaCopy.submit}</span>
