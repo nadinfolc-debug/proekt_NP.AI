@@ -4539,6 +4539,36 @@ html[data-theme="dark"] .section-backdrop::after {
   align-content: start;
 }
 
+html .cta-band.cta-band--sent,
+.flow-page .flow-cta.cta-band--sent {
+  min-height: 320px;
+  padding-block: clamp(64px, 10vh, 104px);
+  background: var(--bg);
+}
+
+.cta-success {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 680px);
+  margin-inline: auto;
+  text-align: center;
+  outline: none;
+}
+
+.cta-success h2 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.cta-success p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.5;
+}
+
 .cta-receipt-list {
   display: grid;
   gap: 12px;

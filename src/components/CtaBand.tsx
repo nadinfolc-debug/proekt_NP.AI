@@ -10,12 +10,25 @@ export function CtaBand({
   showFaqLink?: boolean;
 }) {
   const sectionId = useSectionId("discuss");
+  const [sent, setSent] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!sent) return;
+    successRef.current?.focus({ preventScroll: true });
+    successRef.current?.scrollIntoView({ block: "center", behavior: "auto" });
+  }, [sent]);
   const [titleMain, titleAccent = ""] = ctaCopy.title.split(" ");
 
   return (
-    <section className="cta-band flow-panel flow-cta" id={sectionId} aria-labelledby="cta-title">
-      <SectionBackdrop />
+    <section className={`cta-band flow-panel flow-cta${sent ? " cta-band--sent" : ""}`} id={sectionId} aria-labelledby="cta-title">
+      {!sent && <SectionBackdrop />}
       <div className="container">
+        {sent ? (
+          <div className="cta-success" role="status" tabIndex={-1} ref={successRef}>
+            <h2 id="cta-title">Заявка отправлена</h2>
+            <p>Спасибо! Отвечу в выбранном вами канале связи.</p>
+          </div>
+        ) : (
         <ScrollReveal className="cta-inner cta-inner--form" stagger={120} delay={40}>
           <div className="cta-copy">
             <p className="cta-eyebrow">Контакты</p>
@@ -33,10 +46,12 @@ export function CtaBand({
           </div>
 
           <div className="cta-side">
-            <LeadForm />
+            <LeadForm onSent={() => setSent(true)} />
           </div>
         </ScrollReveal>
+        )}
       </div>
     </section>
   );
 }
+import { useEffect, useRef, useState } from "react";

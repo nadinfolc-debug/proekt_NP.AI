@@ -20,7 +20,7 @@ const SERVICES = [
 
 type Status = "idle" | "sending" | "done";
 
-export function LeadForm() {
+export function LeadForm({ onSent }: { onSent?: () => void } = {}) {
   const [name, setName] = useState("");
   const [contactMethod, setContactMethod] = useState<(typeof CONTACT_METHODS)[number]>("Telegram");
   const [contactHandle, setContactHandle] = useState("");
@@ -84,6 +84,7 @@ export function LeadForm() {
     setTask("");
     setConsent(false);
     setWebsite("");
+    onSent?.();
   }
 
   if (status === "done") {
